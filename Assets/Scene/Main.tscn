@@ -1,7 +1,10 @@
-[gd_scene format=2]
+[gd_scene load_steps=2 format=2]
+
+[sub_resource type="AnimatedTexture" id=1]
 
 [node name="Main" type="Node2D"]
 
 [node name="TextureRect" type="TextureRect" parent="."]
 margin_right = 417.0
 margin_bottom = 233.0
+texture = SubResource( 1 )
