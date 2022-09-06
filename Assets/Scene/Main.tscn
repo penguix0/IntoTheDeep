@@ -6,8 +6,8 @@
 [node name="Main" type="Node2D"]
 
 [node name="TiltedTowers" type="Sprite" parent="."]
-position = Vector2( 5.00001, -12 )
-scale = Vector2( 0.340417, 0.394444 )
+position = Vector2( 554, 310.438 )
+scale = Vector2( 1.52667, 0.982407 )
 texture = ExtResource( 1 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
