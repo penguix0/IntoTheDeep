@@ -17,12 +17,14 @@ export(float) var gravity = 0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
 export(float) var JumpSpeed = 0
+export(float) var jumpTimeOffPlatform = 0.1
 
 var is_grounded
 var jumping
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
+onready var wasGroundedTimer = $wasGroundedTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -30,9 +32,14 @@ func _ready():
 	gravity = (2*JumpHeight)/pow(TimeToJumpPeak, 2)
 	JumpSpeed = gravity * TimeToJumpPeak
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
+	## If the player was on the ground and is not anymore
+	if is_grounded and not _check_is_grounded():
+		wasGroundedTimer.wait_time = jumpTimeOffPlatform
+		wasGroundedTimer.start()
+		
 	is_grounded = _check_is_grounded()
 	
 	if not is_grounded:
@@ -78,8 +85,11 @@ func _get_input():
 	
 	
 	
-	if Input.is_action_pressed(str(controller)+"_jump") and is_grounded:
-		jump()
+	if Input.is_action_pressed(str(controller)+"_jump"):
+		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping):
+			jump()
+		if is_grounded:
+			jump()
 	
 	## Stop the jump if jump is released and not already falling down
 	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0:
