@@ -8,8 +8,7 @@
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 1 )
-move_speed = 200
-jump_velocity = -400
+runMultiplier = 1.5
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -53,3 +52,9 @@ anims/jump = ExtResource( 3 )
 [node name="wasGroundedTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
+
+[node name="ProgressBar" type="ProgressBar" parent="."]
+margin_left = -36.0
+margin_top = -44.0
+margin_right = 35.0
+margin_bottom = -23.0
