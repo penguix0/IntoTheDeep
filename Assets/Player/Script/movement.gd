@@ -12,6 +12,7 @@ export var acceleration = 0.2
 export var gravity = 1200
 export var jump_velocity = -720
 var is_grounded
+onready var raycasts = $raycasts
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -26,11 +27,18 @@ func _process(delta):
 	
 	move_and_slide(velocity, UP, slope_stop)
 	
-	is_grounded = is_on_floor()
-	
-	
+	is_grounded = _check_is_grounded()
+
+
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
+	
+func _check_is_grounded():
+	for raycast in raycasts.get_children():
+		if raycast.is_colliding():
+			return true
+	
+	return false
 	
 func _input(event):
 	if event.is_action_pressed(str(controller)+"_jump") and is_grounded:
