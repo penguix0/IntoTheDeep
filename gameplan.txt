@@ -1,0 +1,54 @@
+bounty hunter samurai warrior
+
+bounty op het hoofd van legendarische warrior
+- heeft cyberpunk helemaal overgenomen en verwaarloosd
+- is gevestigd in een toren in het midden van de stad
+
+doel:
+
+map:
+-hoe dieper in de stad hoe meer robotslaven van de grote baas rondlopen om het gebied beschermen
+-langs de rand van de stad zijn nog een paar mensen(bij een verlaten bar, in steegjes die op af komen om je te waarschuwen)
+robot bases 
+
+scenery:
+- alle nodige gebouwen op voorgrond aan het pad waar player langsloopt
+- veel gebouwen op achtergrond om impressie van grote stad te creeëren
+- veel puin, trash
+? huizen waar licht brand interactable (op raam kloppen)
+? fast travel points ->taxi
+? door gebouwen heen die op de voorgrond staan
+? gebouw op achtergrond, balkon op voorgrond om overheen te lopen
+? sommige lantaarpalen, elektriciteitskabels interactable
+
+Combat:
+main = 		katana:
+		- swings, combo van 3, kan ook stoppen na elke swing
+		- charge, recht vooruit, meer range
+
+unlockable = 	gun1(kopen van weaponsmith):
+		- revolver(krijg je gratis omdat hij je courage respecteert)
+		-
+		gun2(kopen van weaponsmith):
+		- dual pistols()
+		- 
+		gun 3(raiden van robotbase):
+		- sniper(ligt in kamer in robotbase van waaruit iemand op jou snipte)
+		- lange range
+
+characters:
+- mannen in bar die informatie geven
+- oude vrouw die in steeg op achtergrond schuilt en naar voren komt om je te waarschuwen
+- weaponsmith
+- taxichauffeur, vliegende taxi
+
+enemies:
+- robot
+- robot bosses
+- final boss (bounty) 
+
+mechanics:
+? hangen en klimmen aan lantaarnpalen om te platformen
+- lopen
+- springen
+- sprinten
