@@ -26,9 +26,10 @@ tile_data = PoolIntArray( 327679, 1, 0, 262144, 1, 1, 262145, 1, 2, 262146, 1, 2
 [node name="StaticBody2D" type="StaticBody2D" parent="TileMap"]
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="TileMap/StaticBody2D"]
-polygon = PoolVector2Array( -7, 152, 341, 151, 342, 128, -6, 129 )
+polygon = PoolVector2Array( -8, 152, 344, 152, 344, 128, -8, 128 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
+gravity = 200
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
