@@ -23,11 +23,12 @@ func _ready():
 func _process(delta):
 	_get_input()
 	
-	_apply_gravity(delta) 
-	
 	move_and_slide(velocity, UP, slope_stop)
 	
 	is_grounded = _check_is_grounded()
+	
+	if not is_grounded:
+		_apply_gravity(delta) 
 
 
 func _apply_gravity(delta):
