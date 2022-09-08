@@ -84,12 +84,15 @@ func _get_input():
 			velocity.x = lerp(velocity.x, 0, decceleration)
 	
 	
-	
+	## Jump when jump is pressed
 	if Input.is_action_pressed(str(controller)+"_jump"):
+		## If the player was previously on a platform but not anymore:
 		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping):
 			jump()
-		if is_grounded:
+		## If the player is on the ground
+		elif is_grounded:
 			jump()
+
 	
 	## Stop the jump if jump is released and not already falling down
 	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0:
