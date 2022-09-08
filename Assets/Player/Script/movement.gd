@@ -37,7 +37,7 @@ func _check_is_grounded():
 	for raycast in raycasts.get_children():
 		if raycast.is_colliding():
 			return true
-	
+
 	return false
 	
 func _input(event):

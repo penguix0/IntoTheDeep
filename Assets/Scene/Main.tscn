@@ -118,15 +118,15 @@ tile_set = SubResource( 10 )
 cell_size = Vector2( 32, 32 )
 show_collision = true
 format = 1
-tile_data = PoolIntArray( 262139, 0, 0, 262140, 0, 1, 262141, 0, 1, 262142, 0, 1, 262143, 0, 1, 196608, 0, 1, 196609, 0, 1, 196610, 0, 1, 196611, 0, 1, 196612, 0, 1, 196613, 0, 1, 196614, 0, 2 )
+tile_data = PoolIntArray( 65538, 0, 0, 65539, 0, 1, 65540, 0, 1, 131073, 0, 1, 262139, 0, 0, 262140, 0, 1, 262141, 0, 1, 262142, 0, 1, 262143, 0, 1, 196608, 0, 1, 196609, 0, 1, 196610, 0, 1, 196611, 0, 1, 196612, 0, 1, 196613, 0, 1, 196614, 0, 2 )
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 move_speed = 200
-gravity = 200
-jump_velocity = -100
+jump_velocity = -400
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
 current = true
+smoothing_enabled = true
 script = ExtResource( 4 )
 
 [node name="Viewport" type="Viewport" parent="."]
