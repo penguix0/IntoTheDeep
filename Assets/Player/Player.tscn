@@ -1,10 +1,15 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
+[ext_resource path="res://Assets/Particles/walking_dust.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Assets/Player/Animations/Playerjump.tres" type="Animation" id=3]
+[ext_resource path="res://Assets/Player/Animations/PlayerIdle.tres" type="Animation" id=4]
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
 script = ExtResource( 1 )
+move_speed = 200
+jump_velocity = -400
 
 [node name="Sprite" type="Sprite" parent="."]
 
@@ -16,22 +21,31 @@ position = Vector2( -6.66667, -7.33333 )
 scale = Vector2( 1.66667, 1.36667 )
 polygon = PoolVector2Array( 10, 20, 10, -10, -2, -10, -2, 20 )
 
+[node name="dust" parent="." instance=ExtResource( 2 )]
+visible = false
+explosiveness = 0.0
+script = null
+
 [node name="raycasts" type="Node2D" parent="."]
 
 [node name="left" type="RayCast2D" parent="raycasts"]
 position = Vector2( -10, 20 )
 enabled = true
-cast_to = Vector2( 0, 16 )
+cast_to = Vector2( 0, 1 )
 collision_mask = 3
 
 [node name="middle" type="RayCast2D" parent="raycasts"]
 position = Vector2( 0, 20 )
 enabled = true
-cast_to = Vector2( 0, 16 )
+cast_to = Vector2( 0, 1 )
 collision_mask = 3
 
 [node name="right" type="RayCast2D" parent="raycasts"]
 position = Vector2( 10, 20 )
 enabled = true
-cast_to = Vector2( 0, 16 )
+cast_to = Vector2( 0, 1 )
 collision_mask = 3
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/Idle = ExtResource( 4 )
+anims/jump = ExtResource( 3 )
