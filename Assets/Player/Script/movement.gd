@@ -9,23 +9,23 @@ export(int) var slope_stop = 64
 var velocity = Vector2()
 export(int) var moveSpeed = 200
 var currentMoveSpeed = moveSpeed
-export(float) var runMultiplier = 2
+export(float) var runMultiplier = 2.0
 export(float) var acceleration = 0.5
 export(float) var decceleration = 0.7
 export(float) var decceleration_air = 0.1
 export(float) var walkingThreshold = 0.2
 
-export(float) var stamina = 100
-export(float) var staminaDrainRunning = 25
-export(float) var staminaRegenerationFactor = 10
-export(float) var staminaRegenerationFactorWithTimeOut = 5
+export(float) var stamina = 100.0
+export(float) var staminaDrainRunning = 25.0
+export(float) var staminaRegenerationFactor = 10.0
+export(float) var staminaRegenerationFactorWithTimeOut = 5.0
 var currentStamina = stamina
 var staminaTimeOut = false
 
-export(float) var gravity = 0
+export(float) var gravity = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
-export(float) var JumpSpeed = 0
+export(float) var JumpSpeed = 0.0
 export(float) var jumpTimeOffPlatform = 0.1
 
 var is_grounded
@@ -38,7 +38,7 @@ onready var wasGroundedTimer = $wasGroundedTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	AnimPlayer.play("idle")
+	##AnimPlayer.play("idle")
 	gravity = (2*JumpHeight)/pow(TimeToJumpPeak, 2)
 	JumpSpeed = gravity * TimeToJumpPeak
 
@@ -60,7 +60,8 @@ func _process(delta):
 	move_and_slide(velocity, UP, slope_stop)
 	
 	if is_grounded and velocity.x > -0.2 and velocity.x < 0.2:
-		AnimPlayer.play("Idle")
+		pass
+		##AnimPlayer.play("Idle")
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -127,7 +128,7 @@ func _get_input(delta):
 	if currentStamina > stamina:
 		currentStamina = stamina
 	
-	$ProgressBar.value = currentStamina
+	$staminaBar.value = currentStamina
 	
 	
 	### Jumping

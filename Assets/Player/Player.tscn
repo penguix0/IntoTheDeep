@@ -1,10 +1,13 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Particles/walking_dust.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Player/Animations/Playerjump.tres" type="Animation" id=3]
 [ext_resource path="res://Assets/Player/Animations/PlayerIdle.tres" type="Animation" id=4]
 [ext_resource path="res://Assets/Player/Sprite/staminabar.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Player/Animations/staminaBar_appear.tres" type="Animation" id=6]
+[ext_resource path="res://Assets/Player/Animations/PlayerstaminaBar_disappear.tres" type="Animation" id=7]
+[ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
@@ -49,12 +52,15 @@ collision_mask = 3
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 anims/Idle = ExtResource( 4 )
 anims/jump = ExtResource( 3 )
+anims/staminaBar_appear = ExtResource( 6 )
+anims/staminaBar_disappear = ExtResource( 7 )
 
 [node name="wasGroundedTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
 
 [node name="staminaBar" type="TextureProgress" parent="."]
+modulate = Color( 1, 1, 1, 0 )
 margin_left = -25.0
 margin_top = -44.0
 margin_right = 75.0
@@ -62,3 +68,6 @@ margin_bottom = -4.0
 rect_scale = Vector2( 0.5, 0.5 )
 value = 100.0
 texture_progress = ExtResource( 5 )
+script = ExtResource( 8 )
+
+[connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
