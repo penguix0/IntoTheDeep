@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Particles/walking_dust.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Player/Animations/Playerjump.tres" type="Animation" id=3]
 [ext_resource path="res://Assets/Player/Animations/PlayerIdle.tres" type="Animation" id=4]
+[ext_resource path="res://Assets/Player/Sprite/staminabar.png" type="Texture" id=5]
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
@@ -53,8 +54,11 @@ anims/jump = ExtResource( 3 )
 wait_time = 0.1
 one_shot = true
 
-[node name="ProgressBar" type="ProgressBar" parent="."]
-margin_left = -36.0
+[node name="staminaBar" type="TextureProgress" parent="."]
+margin_left = -25.0
 margin_top = -44.0
-margin_right = 35.0
-margin_bottom = -23.0
+margin_right = 75.0
+margin_bottom = -4.0
+rect_scale = Vector2( 0.5, 0.5 )
+value = 100.0
+texture_progress = ExtResource( 5 )
