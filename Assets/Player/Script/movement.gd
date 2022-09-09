@@ -94,9 +94,9 @@ func _get_input(delta):
 	
 	### Sprinting
 	
-	if Input.is_action_pressed(str(controller)+"_run") and velocity.x != 0 and currentStamina > 0 and not staminaTimeOut:
+	if Input.is_action_pressed(str(controller)+"_run") and move_direction != 0 and currentStamina > 0 and not staminaTimeOut:
 		running = true
-	elif Input.is_action_just_released(str(controller)+"_run") and running or (velocity.x < moveSpeed and velocity.x > moveSpeed):
+	elif Input.is_action_just_released(str(controller)+"_run") and running or move_direction == 0:
 		running = false
 	
 	if running:
