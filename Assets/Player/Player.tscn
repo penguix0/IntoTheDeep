@@ -1,13 +1,25 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Particles/walking_dust.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Player/Animations/Playerjump.tres" type="Animation" id=3]
 [ext_resource path="res://Assets/Player/Animations/PlayerIdle.tres" type="Animation" id=4]
 [ext_resource path="res://Assets/Player/Sprite/staminabar.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Player/Animations/staminaBar_appear.tres" type="Animation" id=6]
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Player/Animations/squeeze_in.tres" type="Animation" id=9]
+[ext_resource path="res://Assets/Player/Animations/squeeze_out.tres" type="Animation" id=10]
+[ext_resource path="res://Assets/Player/Sprite/running.png" type="Texture" id=11]
+
+[sub_resource type="ParticlesMaterial" id=1]
+lifetime_randomness = 0.22
+emission_shape = 2
+emission_box_extents = Vector3( 1, 10, 1 )
+flag_disable_z = true
+spread = 1.0
+gravity = Vector3( 98, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
@@ -23,11 +35,6 @@ polygon = PoolVector2Array( 10, 20, 10, -21, -10, -21, -10, 20 )
 position = Vector2( -6.66667, -7.33333 )
 scale = Vector2( 1.66667, 1.36667 )
 polygon = PoolVector2Array( 10, 20, 10, -10, -2, -10, -2, 20 )
-
-[node name="dust" parent="." instance=ExtResource( 2 )]
-visible = false
-explosiveness = 0.0
-script = null
 
 [node name="raycasts" type="Node2D" parent="."]
 
@@ -53,6 +60,10 @@ collision_mask = 3
 anims/Idle = ExtResource( 4 )
 anims/jump = ExtResource( 3 )
 
+[node name="squeezePlayer" type="AnimationPlayer" parent="."]
+anims/squeeze_in = ExtResource( 9 )
+anims/squeeze_out = ExtResource( 10 )
+
 [node name="wasGroundedTimer" type="Timer" parent="."]
 wait_time = 0.1
 one_shot = true
@@ -71,5 +82,12 @@ script = ExtResource( 8 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="staminaBar"]
 anims/staminaBar_appear = ExtResource( 6 )
 anims/staminaBar_disappear = ExtResource( 7 )
+
+[node name="runParticles" type="Particles2D" parent="."]
+modulate = Color( 0.596078, 0.596078, 0.596078, 1 )
+show_behind_parent = true
+amount = 3
+process_material = SubResource( 1 )
+texture = ExtResource( 11 )
 
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]

@@ -45,10 +45,14 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	## If the player was on the ground and is not anymore
+	var wasJumping = jumping
 	if is_grounded and not _check_is_grounded():
 		jumping = false
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
 		wasGroundedTimer.start()
+
+	if wasJumping and not jumping and not $squeezePlayer.is_playing():
+		$squeezePlayer.play("squeeze_out")	
 		
 	is_grounded = _check_is_grounded()
 	
@@ -56,13 +60,15 @@ func _process(delta):
 		_apply_gravity(delta) 
 	
 	_get_input(delta)
-	
+		
 	move_and_slide(velocity, UP, slope_stop)
-	
-	if is_grounded and velocity.x > -0.2 and velocity.x < 0.2:
-		pass
-		##AnimPlayer.play("Idle")
 
+	if running:
+		$runParticles.process_material.gravity.x = -((velocity.x/(moveSpeed*runMultiplier)) * 100)
+		$runParticles.emitting = true
+	else:
+		$runParticles.emitting = false
+	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
 	
@@ -75,7 +81,7 @@ func _check_is_grounded():
 func jump():
 	velocity.y = -JumpSpeed
 	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
-		AnimPlayer.play("jump")
+		$squeezePlayer.play("squeeze_in")	
 	jumping = true
 	
 func _get_input(delta):
