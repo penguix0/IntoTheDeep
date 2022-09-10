@@ -35,6 +35,7 @@ var running
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
 onready var wasGroundedTimer = $wasGroundedTimer
+onready var runParticles = $runParticles
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -64,12 +65,12 @@ func _process(delta):
 	move_and_slide(velocity, UP, slope_stop)
 
 	if running:
-		$runParticles.process_material.gravity.x = -((velocity.x/(moveSpeed*runMultiplier)) * 100)
-		$runParticles.emitting = true
+		runParticles.process_material.gravity.x = -((velocity.x/(moveSpeed*runMultiplier)) * 100)
+		runParticles.emitting = true
 		if velocity.x < 100 and velocity.x > -100:
-			$runParticles.restart()
+			runParticles.restart()
 	else:
-		$runParticles.emitting = false
+		runParticles.emitting = false
 	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
