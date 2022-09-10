@@ -1,12 +1,14 @@
-[gd_scene load_steps=21 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Assets/Image/Tilted Towers.png" type="Texture" id=1]
 [ext_resource path="res://Assets/Player/Player.tscn" type="PackedScene" id=2]
-[ext_resource path="res://Assets/Script/viewportCamera.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Script/playerCamera.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Tileset/oak_woods_tileset.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Image/sky.jpeg" type="Texture" id=6]
 [ext_resource path="res://Assets/Sprite/Parallex/building 1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Sprite/Mast/tree.png" type="Texture" id=8]
+[ext_resource path="res://Assets/Sprite/Mast/top.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Sprite/Mast/support.png" type="Texture" id=11]
 
 [sub_resource type="RectangleShape2D" id=11]
 extents = Vector2( 29.5, 230.25 )
@@ -116,9 +118,6 @@ gradient = SubResource( 12 )
 width = 84
 height = 2000
 
-[sub_resource type="ViewportTexture" id=1]
-viewport_path = NodePath("Viewport")
-
 [node name="Main" type="Node2D"]
 
 [node name="TiltedTowers" type="Sprite" parent="."]
@@ -141,6 +140,101 @@ position = Vector2( -672, -119 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Invisible wall"]
 shape = SubResource( 11 )
 
+[node name="electricity" type="Node2D" parent="."]
+visible = false
+position = Vector2( 0, 45.973 )
+
+[node name="Tree" type="Sprite" parent="electricity"]
+position = Vector2( -192, 89 )
+texture = ExtResource( 8 )
+
+[node name="Tree2" type="Sprite" parent="electricity"]
+position = Vector2( -192, 73 )
+texture = ExtResource( 8 )
+
+[node name="Tree3" type="Sprite" parent="electricity"]
+position = Vector2( -192, 57 )
+texture = ExtResource( 8 )
+
+[node name="Tree4" type="Sprite" parent="electricity"]
+position = Vector2( -192, 41 )
+texture = ExtResource( 8 )
+
+[node name="Tree5" type="Sprite" parent="electricity"]
+position = Vector2( -192, 25 )
+texture = ExtResource( 8 )
+
+[node name="Tree6" type="Sprite" parent="electricity"]
+position = Vector2( -192, 9 )
+texture = ExtResource( 8 )
+
+[node name="Tree7" type="Sprite" parent="electricity"]
+position = Vector2( -192, -7 )
+texture = ExtResource( 8 )
+
+[node name="Support" type="Sprite" parent="electricity"]
+position = Vector2( -176, -7 )
+texture = ExtResource( 11 )
+
+[node name="Support2" type="Sprite" parent="electricity"]
+position = Vector2( -208, -7 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 11 )
+
+[node name="Top" type="Sprite" parent="electricity"]
+position = Vector2( -192, -19 )
+scale = Vector2( 1, 0.5 )
+texture = ExtResource( 9 )
+
+[node name="electricity2" type="Node2D" parent="."]
+visible = false
+position = Vector2( 197.513, 6.473 )
+scale = Vector2( 1.5, 1.5 )
+
+[node name="Tree" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 89 )
+texture = ExtResource( 8 )
+
+[node name="Tree2" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 73 )
+texture = ExtResource( 8 )
+
+[node name="Tree3" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 57 )
+texture = ExtResource( 8 )
+
+[node name="Tree4" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 41 )
+texture = ExtResource( 8 )
+
+[node name="Tree5" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 25 )
+texture = ExtResource( 8 )
+
+[node name="Tree6" type="Sprite" parent="electricity2"]
+position = Vector2( -192, 9 )
+texture = ExtResource( 8 )
+
+[node name="Tree7" type="Sprite" parent="electricity2"]
+position = Vector2( -192, -7 )
+texture = ExtResource( 8 )
+
+[node name="Support" type="Sprite" parent="electricity2"]
+position = Vector2( -176, -7 )
+texture = ExtResource( 11 )
+
+[node name="Support2" type="Sprite" parent="electricity2"]
+position = Vector2( -208, -7 )
+rotation = 3.14159
+scale = Vector2( 1, -1 )
+texture = ExtResource( 11 )
+
+[node name="Top" type="Sprite" parent="electricity2"]
+position = Vector2( -192, -19 )
+scale = Vector2( 1, 0.5 )
+texture = ExtResource( 9 )
+
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource( 10 )
 cell_size = Vector2( 32, 32 )
@@ -150,6 +244,7 @@ tile_data = PoolIntArray( 65538, 0, 0, 65539, 0, 1, 65540, 0, 1, 65541, 0, 2, 13
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
 [node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color( 0.290196, 0.290196, 0.290196, 1 )
 motion_scale = Vector2( 0.1, 0.1 )
 
 [node name="Sky" type="Sprite" parent="ParallaxBackground/sky"]
@@ -184,30 +279,9 @@ scale = Vector2( 1, 1.23438 )
 texture = ExtResource( 7 )
 
 [node name="TextureRect" type="TextureRect" parent="ParallaxBackground/building"]
-margin_left = -1111.0
-margin_top = 154.0
-margin_right = -923.0
-margin_bottom = 2154.0
+margin_left = -1113.0
+margin_top = 155.0
+margin_right = -925.0
+margin_bottom = 2155.0
 rect_rotation = 270.0
 texture = SubResource( 13 )
-
-[node name="Viewport" type="Viewport" parent="."]
-size = Vector2( 320, 180 )
-transparent_bg = true
-render_target_v_flip = true
-__meta__ = {
-"_editor_description_": "https://www.youtube.com/watch?v=-thErjVmDiE&t=215s
-
-Alles wat lage resolutie moet zijn zit hierin"
-}
-
-[node name="viewportCamera" type="Camera2D" parent="Viewport"]
-current = true
-script = ExtResource( 3 )
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="viewportTexture" type="TextureRect" parent="CanvasLayer"]
-margin_right = 320.0
-margin_bottom = 180.0
-texture = SubResource( 1 )
