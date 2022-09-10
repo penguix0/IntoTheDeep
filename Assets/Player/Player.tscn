@@ -16,8 +16,9 @@ lifetime_randomness = 0.22
 emission_shape = 2
 emission_box_extents = Vector3( 1, 10, 1 )
 flag_disable_z = true
+direction = Vector3( 0, 0, 0 )
 spread = 1.0
-gravity = Vector3( 98, 0, 0 )
+gravity = Vector3( 0, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 0.2
@@ -88,7 +89,9 @@ anims/staminaBar_disappear = ExtResource( 7 )
 [node name="runParticles" type="Particles2D" parent="."]
 modulate = Color( 0.596078, 0.596078, 0.596078, 1 )
 show_behind_parent = true
-amount = 4
+amount = 10
+lifetime = 0.5
+local_coords = false
 process_material = SubResource( 1 )
 texture = ExtResource( 11 )
 
