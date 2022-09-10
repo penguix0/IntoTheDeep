@@ -28,15 +28,18 @@ export(int) var JumpHeight = 70
 export(float) var JumpSpeed = 0.0
 export(float) var jumpTimeOffPlatform = 0.1
 
-var is_grounded
-var jumping
-var running
+var is_grounded : bool
+var jumping : bool
+var running : bool
+var landing : bool
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
 onready var wasGroundedTimer = $wasGroundedTimer
 onready var runParticles = $runParticles
 onready var squeezePlayer = $squeezePlayer
+onready var dustParticles = $dustParticles
+onready var staminaBar = $staminaBar
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -46,33 +49,32 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	
 	## If the player was on the ground and is not anymore
-	var wasJumping = jumping
 	if is_grounded and not _check_is_grounded():
-		jumping = false
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
 		wasGroundedTimer.start()
-
-	if wasJumping and not jumping and not squeezePlayer.is_playing():
-		squeezePlayer.play("squeeze_out")
-		
+	
 	is_grounded = _check_is_grounded()
+
+	if is_grounded:
+		if landing:
+			squeezePlayer.play("squeeze_out")
+			dustParticles.emitting = true
+			landing = false
+	else:
+		if !landing:
+			landing = true
 	
 	if not is_grounded:
 		_apply_gravity(delta) 
+	else:
+		jumping = false
 	
-	_get_input(delta)
+	_apply_input(_get_input(), delta)
 		
 	move_and_slide(velocity, UP, slope_stop)
 
-	if running:
-		runParticles.process_material.gravity.x = -((velocity.x/(moveSpeed*runMultiplier)) * 100)
-		runParticles.emitting = true
-		if velocity.x < 100 and velocity.x > -100:
-			runParticles.restart()
-	else:
-		runParticles.emitting = false
-	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
 	
@@ -88,15 +90,18 @@ func jump():
 		squeezePlayer.play("squeeze_in")	
 	jumping = true
 	
-func _get_input(delta):
+func _get_input():
 	var left = int(Input.is_action_pressed(str(controller)+"_left"))
 	var right = int(Input.is_action_pressed(str(controller)+"_right"))
 
 	var move_direction = -(left-right)
 	
+	return move_direction
+	
+func _apply_input(moveDirection, delta):
 	## The Lerp function smooths out the velocity, this prevents instand acceleration
-	if move_direction != 0:
-		velocity.x = lerp(velocity.x, move_direction * currentMoveSpeed, acceleration)
+	if moveDirection != 0:
+		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
 	else:
 		if not is_grounded:
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
@@ -105,9 +110,9 @@ func _get_input(delta):
 	
 	### Sprinting
 	
-	if Input.is_action_pressed(str(controller)+"_run") and move_direction != 0 and currentStamina > 0 and not staminaTimeOut:
+	if Input.is_action_pressed(str(controller)+"_run") and moveDirection != 0 and currentStamina > 0 and not staminaTimeOut:
 		running = true
-	elif Input.is_action_just_released(str(controller)+"_run") and running or move_direction == 0:
+	elif Input.is_action_just_released(str(controller)+"_run") and running or moveDirection == 0:
 		running = false
 	
 	if running:
@@ -115,8 +120,11 @@ func _get_input(delta):
 		currentMoveSpeed = moveSpeed * runMultiplier
 		## Drain stamina when moving
 		currentStamina -= delta * staminaDrainRunning
+		
+		runParticles.emitting = true
 	else:
 		currentMoveSpeed = moveSpeed
+		runParticles.emitting = false
 	
 	
 	## Stamina
@@ -138,7 +146,7 @@ func _get_input(delta):
 	if currentStamina > stamina:
 		currentStamina = stamina
 	
-	$staminaBar.value = currentStamina
+	staminaBar.value = currentStamina
 	
 	
 	### Jumping
