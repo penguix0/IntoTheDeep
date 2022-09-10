@@ -20,6 +20,8 @@ spread = 1.0
 gravity = Vector3( 98, 0, 0 )
 orbit_velocity = 0.0
 orbit_velocity_random = 0.0
+scale = 0.2
+scale_random = 0.2
 
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 0
@@ -86,7 +88,7 @@ anims/staminaBar_disappear = ExtResource( 7 )
 [node name="runParticles" type="Particles2D" parent="."]
 modulate = Color( 0.596078, 0.596078, 0.596078, 1 )
 show_behind_parent = true
-amount = 3
+amount = 4
 process_material = SubResource( 1 )
 texture = ExtResource( 11 )
 

@@ -66,6 +66,8 @@ func _process(delta):
 	if running:
 		$runParticles.process_material.gravity.x = -((velocity.x/(moveSpeed*runMultiplier)) * 100)
 		$runParticles.emitting = true
+		if velocity.x < 100 and velocity.x > -100:
+			$runParticles.restart()
 	else:
 		$runParticles.emitting = false
 	
