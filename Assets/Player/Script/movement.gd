@@ -36,6 +36,7 @@ onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
 onready var wasGroundedTimer = $wasGroundedTimer
 onready var runParticles = $runParticles
+onready var squeezePlayer = $squeezePlayer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -52,8 +53,8 @@ func _process(delta):
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
 		wasGroundedTimer.start()
 
-	if wasJumping and not jumping and not $squeezePlayer.is_playing():
-		$squeezePlayer.play("squeeze_out")	
+	if wasJumping and not jumping and not squeezePlayer.is_playing():
+		squeezePlayer.play("squeeze_out")
 		
 	is_grounded = _check_is_grounded()
 	
@@ -84,7 +85,7 @@ func _check_is_grounded():
 func jump():
 	velocity.y = -JumpSpeed
 	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
-		$squeezePlayer.play("squeeze_in")	
+		squeezePlayer.play("squeeze_in")	
 	jumping = true
 	
 func _get_input(delta):
