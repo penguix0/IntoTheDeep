@@ -36,7 +36,6 @@ var landing : bool
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
 onready var wasGroundedTimer = $wasGroundedTimer
-onready var runParticles = $runParticles
 onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
@@ -126,12 +125,9 @@ func _apply_input(moveDirection, delta):
 		currentMoveSpeed = moveSpeed * runMultiplier
 		## Drain stamina when moving
 		currentStamina -= delta * staminaDrainRunning
-		
-		runParticles.emitting = true
+	
 	else:
 		currentMoveSpeed = moveSpeed
-		runParticles.emitting = false
-	
 	
 	## Stamina
 	## If stamina is empty activate low stamina mode

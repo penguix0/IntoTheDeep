@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -10,7 +10,7 @@
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/squeeze_in.tres" type="Animation" id=9]
 [ext_resource path="res://Assets/Player/Animations/squeeze_out.tres" type="Animation" id=10]
-[ext_resource path="res://Assets/Player/Sprite/running.png" type="Texture" id=11]
+[ext_resource path="res://Assets/Player/Animations/spriteFrames.tres" type="SpriteFrames" id=11]
 
 [sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 1
@@ -21,19 +21,6 @@ orbit_velocity = 0.0
 orbit_velocity_random = 0.0
 scale = 2.0
 scale_random = 1.0
-
-[sub_resource type="ParticlesMaterial" id=1]
-lifetime_randomness = 0.22
-emission_shape = 2
-emission_box_extents = Vector3( 1, 10, 1 )
-flag_disable_z = true
-direction = Vector3( 0, 0, 0 )
-spread = 1.0
-gravity = Vector3( 0, 0, 0 )
-orbit_velocity = 0.0
-orbit_velocity_random = 0.0
-scale = 0.2
-scale_random = 0.2
 
 [sub_resource type="Curve" id=2]
 min_value = -200.0
@@ -72,11 +59,19 @@ runMultiplier = 1.5
 [node name="body" type="Node2D" parent="."]
 
 [node name="Polygon2D" type="Polygon2D" parent="body"]
+visible = false
 position = Vector2( -6.66667, -7.33333 )
 scale = Vector2( 1.66667, 1.36667 )
 polygon = PoolVector2Array( 10, 20, 10, -10, -2, -10, -2, 20 )
 
+[node name="AnimatedSprite" type="AnimatedSprite" parent="body"]
+frames = ExtResource( 11 )
+animation = "die"
+speed_scale = 0.5
+playing = true
+
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+visible = false
 polygon = PoolVector2Array( 10, 20, 10, -21, -10, -21, -10, 20 )
 
 [node name="raycasts" type="Node2D" parent="."]
@@ -130,20 +125,11 @@ anims/staminaBar_disappear = ExtResource( 7 )
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
 show_behind_parent = true
 position = Vector2( 0, 20 )
+emitting = false
 amount = 4
 lifetime = 0.5
 local_coords = false
 process_material = SubResource( 5 )
-
-[node name="runParticles" type="Particles2D" parent="."]
-visible = false
-modulate = Color( 0.596078, 0.596078, 0.596078, 1 )
-show_behind_parent = true
-amount = 3
-lifetime = 0.4
-local_coords = false
-process_material = SubResource( 1 )
-texture = ExtResource( 11 )
 
 [node name="dustParticles" type="Particles2D" parent="."]
 position = Vector2( 0, 19.785 )
