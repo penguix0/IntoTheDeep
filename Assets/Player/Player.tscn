@@ -67,7 +67,7 @@ polygon = PoolVector2Array( 10, 20, 10, -10, -2, -10, -2, 20 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="body"]
 frames = ExtResource( 11 )
 animation = "hurt"
-frame = 1
+frame = 2
 speed_scale = 0.5
 playing = true
 
@@ -114,11 +114,11 @@ one_shot = true
 
 [node name="staminaBar" type="TextureProgress" parent="."]
 modulate = Color( 1, 1, 1, 0 )
-margin_left = -25.0
-margin_top = -44.0
-margin_right = 75.0
-margin_bottom = -4.0
-rect_scale = Vector2( 0.5, 0.5 )
+margin_left = -17.5
+margin_top = -26.773
+margin_right = 82.5
+margin_bottom = 13.227
+rect_scale = Vector2( 0.35, 0.5 )
 value = 100.0
 texture_progress = ExtResource( 5 )
 script = ExtResource( 8 )
