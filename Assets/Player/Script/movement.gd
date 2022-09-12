@@ -33,6 +33,7 @@ var jumping : bool
 var running : bool
 var landing : bool
 var walking : bool
+var crouching : bool
 var sword_out : bool = false
 var was_sword_out : bool = false
 
@@ -83,9 +84,6 @@ func _process(delta):
 	
 	_apply_input(_get_input(), delta)
 	
-	if not is_grounded:
-		walkingDust.emitting = false
-	
 	_play_animations(_get_input())
 	
 	move_and_slide(velocity, UP, slope_stop)
@@ -120,8 +118,14 @@ func _play_animations(moveDirection):
 		$"body/AnimatedSprite".play("run")
 		$"body/AnimatedSprite".speed_scale = walk_sc
 		
-		walkingDust.emitting = true	
+		walkingDust.emitting = true
+		
+	## Only if crouching
+	elif crouching and not jumping:
+		$"body/AnimatedSprite".play("crouch")
+		
 	else:
+		## Play the sword out animation
 		if sword_out and not was_sword_out:
 			$"body/AnimatedSprite".play("sword_out")
 			$"body/AnimatedSprite".speed_scale = sword_out_sc
@@ -158,6 +162,10 @@ func _get_input():
 			swordOutTimer.start()
 		else:
 			sword_out = not sword_out
+	
+	crouching = false
+	if Input.is_action_pressed(str(controller)+"_crouch"):
+		crouching = true
 
 	var move_direction = -(left-right)
 	
@@ -181,15 +189,21 @@ func _apply_input(moveDirection, delta):
 	if Input.is_action_pressed(str(controller)+"_run") and moveDirection != 0 and currentStamina > 0 and not staminaTimeOut:
 		running = true
 		walking = false
+		crouching = false
 	elif Input.is_action_just_released(str(controller)+"_run") and running or moveDirection == 0:
 		running = false
 		walking = false
-	
+		crouching = false
+		
 	if running:
 		## Multiply the moveSpeed
 		currentMoveSpeed = moveSpeed * runMultiplier
 		## Drain stamina when moving
 		currentStamina -= delta * staminaDrainRunning
+	elif crouching:
+		running = false
+		walking = false
+		currentMoveSpeed = 0
 	else:
 		currentMoveSpeed = moveSpeed
 	
