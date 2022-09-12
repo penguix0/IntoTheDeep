@@ -95,13 +95,15 @@ func _on_land():
 	#dustParticles.emitting = true
 
 func _play_animations(moveDirection):
-	if not is_grounded:
-		walkingDust.emitting = false
+	walkingDust.emitting = false
 
 	## Only if running
 	if running and not jumping:	
 		$"body/AnimatedSprite".play("run")
 		$"body/AnimatedSprite".speed_scale = run_sc
+		
+		walkingDust.emitting = true
+		
 		if moveDirection > 0:
 			$"body/AnimatedSprite".flip_h = false
 		else:
@@ -116,6 +118,9 @@ func _play_animations(moveDirection):
 	elif walking and not running and not jumping:
 		$"body/AnimatedSprite".play("run")
 		$"body/AnimatedSprite".speed_scale = walk_sc
+		
+		walkingDust.emitting = true
+		
 		if moveDirection > 0:
 			$"body/AnimatedSprite".flip_h = false
 		else:
@@ -133,11 +138,6 @@ func _play_animations(moveDirection):
 			$"body/AnimatedSprite".speed_scale = idle_sc
 
 	was_sword_out = sword_out
-		
-	if walking or running:
-		walkingDust.emitting = true
-	else:
-		walkingDust.emitting = false
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta

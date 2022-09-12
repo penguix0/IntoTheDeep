@@ -130,7 +130,7 @@ anims/staminaBar_disappear = ExtResource( 7 )
 [node name="walkingParticles" type="Particles2D" parent="."]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
 show_behind_parent = true
-position = Vector2( 0, 20 )
+position = Vector2( 0, 17 )
 emitting = false
 amount = 4
 lifetime = 0.5
