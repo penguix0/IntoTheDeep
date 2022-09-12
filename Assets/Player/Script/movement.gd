@@ -29,6 +29,7 @@ export(float) var JumpSpeed = 0.0
 export(float) var jumpTimeOffPlatform = 0.1
 
 var is_grounded : bool
+var on_ceiling : bool
 var jumping : bool
 var running : bool
 var landing : bool
@@ -50,8 +51,9 @@ onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
 onready var walkingDust = $walkingParticles
-onready var animSprite = $"body/AnimatedSprite"
+onready var animSprite = $body/AnimatedSprite
 onready var swordOutTimer = $swordOutTimer
+onready var raycastUp = $raycastUp
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -68,6 +70,7 @@ func _process(delta):
 		wasGroundedTimer.start()
 	
 	is_grounded = _check_is_grounded()
+	on_ceiling = _check_hit_ceiling()
 
 	if is_grounded:
 		if landing:
@@ -77,7 +80,7 @@ func _process(delta):
 		if !landing:
 			landing = true
 	
-	if not is_grounded:
+	if not is_grounded or on_ceiling:
 		_apply_gravity(delta) 
 	else:
 		jumping = false
@@ -148,6 +151,12 @@ func _check_is_grounded():
 			return true
 	return false
 	
+func _check_hit_ceiling():
+	for raycast in raycastUp.get_children():
+		if raycast.is_colliding():
+			return true
+	return false
+
 func jump():
 	velocity.y = -JumpSpeed
 	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
