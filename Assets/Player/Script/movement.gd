@@ -97,20 +97,21 @@ func _on_land():
 func _play_animations(moveDirection):
 	walkingDust.emitting = false
 
+	## Flip the sprite if going left
+	if moveDirection > 0:
+		$"body/AnimatedSprite".flip_h = false
+	elif moveDirection < 0:
+		$"body/AnimatedSprite".flip_h = true
+
 	## Only if running
 	if running and not jumping:	
 		$"body/AnimatedSprite".play("run")
 		$"body/AnimatedSprite".speed_scale = run_sc
 		
 		walkingDust.emitting = true
-		
-		if moveDirection > 0:
-			$"body/AnimatedSprite".flip_h = false
-		else:
-			$"body/AnimatedSprite".flip_h = true
 	
 	## Only if jumping
-	elif jumping and not running:
+	elif jumping:
 		$"body/AnimatedSprite".play("jump")
 		$"body/AnimatedSprite".speed_scale = jump_sc
 	
@@ -119,13 +120,7 @@ func _play_animations(moveDirection):
 		$"body/AnimatedSprite".play("run")
 		$"body/AnimatedSprite".speed_scale = walk_sc
 		
-		walkingDust.emitting = true
-		
-		if moveDirection > 0:
-			$"body/AnimatedSprite".flip_h = false
-		else:
-			$"body/AnimatedSprite".flip_h = true
-	
+		walkingDust.emitting = true	
 	else:
 		if sword_out and not was_sword_out:
 			$"body/AnimatedSprite".play("sword_out")
