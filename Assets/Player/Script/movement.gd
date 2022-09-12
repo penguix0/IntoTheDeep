@@ -32,6 +32,15 @@ var is_grounded : bool
 var jumping : bool
 var running : bool
 var landing : bool
+var walking : bool
+var sword_out : bool = false
+var was_sword_out : bool = false
+
+var idle_sc : float  = 0.5 ## Idle speed scale animationplayer
+var jump_sc : float = 0.5
+var walk_sc : float = 1.3
+var run_sc : float = walk_sc * runMultiplier
+var sword_out_sc : float = 0.5
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
@@ -40,6 +49,8 @@ onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
 onready var walkingDust = $walkingParticles
+onready var animSprite = $"body/AnimatedSprite"
+onready var swordOutTimer = $swordOutTimer
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -59,8 +70,7 @@ func _process(delta):
 
 	if is_grounded:
 		if landing:
-			squeezePlayer.play("squeeze_out")
-			dustParticles.emitting = true
+			_on_land()
 			landing = false
 	else:
 		if !landing:
@@ -75,8 +85,59 @@ func _process(delta):
 	
 	if not is_grounded:
 		walkingDust.emitting = false
-		
+	
+	_play_animations(_get_input())
+	
 	move_and_slide(velocity, UP, slope_stop)
+
+func _on_land():
+	squeezePlayer.play("squeeze_out")
+	#dustParticles.emitting = true
+
+func _play_animations(moveDirection):
+	if not is_grounded:
+		walkingDust.emitting = false
+
+	## Only if running
+	if running and not jumping:	
+		$"body/AnimatedSprite".play("run")
+		$"body/AnimatedSprite".speed_scale = run_sc
+		if moveDirection > 0:
+			$"body/AnimatedSprite".flip_h = false
+		else:
+			$"body/AnimatedSprite".flip_h = true
+	
+	## Only if jumping
+	elif jumping and not running:
+		$"body/AnimatedSprite".play("jump")
+		$"body/AnimatedSprite".speed_scale = jump_sc
+	
+	## Only if walking
+	elif walking and not running and not jumping:
+		$"body/AnimatedSprite".play("run")
+		$"body/AnimatedSprite".speed_scale = walk_sc
+		if moveDirection > 0:
+			$"body/AnimatedSprite".flip_h = false
+		else:
+			$"body/AnimatedSprite".flip_h = true
+	
+	else:
+		if sword_out and not was_sword_out:
+			$"body/AnimatedSprite".play("sword_out")
+			$"body/AnimatedSprite".speed_scale = sword_out_sc
+		elif sword_out and was_sword_out:
+			$"body/AnimatedSprite".play("idle2")
+			$"body/AnimatedSprite".speed_scale = idle_sc
+		else:
+			$"body/AnimatedSprite".play("idle1")
+			$"body/AnimatedSprite".speed_scale = idle_sc
+
+	was_sword_out = sword_out
+		
+	if walking or running:
+		walkingDust.emitting = true
+	else:
+		walkingDust.emitting = false
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -96,6 +157,12 @@ func jump():
 func _get_input():
 	var left = int(Input.is_action_pressed(str(controller)+"_left"))
 	var right = int(Input.is_action_pressed(str(controller)+"_right"))
+	
+	if Input.is_action_pressed(str(controller)+"_sword"):
+		if not swordOutTimer.time_left > 0:
+			swordOutTimer.start()
+		else:
+			sword_out = not sword_out
 
 	var move_direction = -(left-right)
 	
@@ -105,9 +172,10 @@ func _apply_input(moveDirection, delta):
 	## The Lerp function smooths out the velocity, this prevents instand acceleration
 	if moveDirection != 0:
 		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
-		walkingDust.emitting = true
+		walking = true
 	else:
-		walkingDust.emitting = false
+		walking = false
+		running = false
 		if not is_grounded:
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
 		else:
@@ -117,15 +185,16 @@ func _apply_input(moveDirection, delta):
 	
 	if Input.is_action_pressed(str(controller)+"_run") and moveDirection != 0 and currentStamina > 0 and not staminaTimeOut:
 		running = true
+		walking = false
 	elif Input.is_action_just_released(str(controller)+"_run") and running or moveDirection == 0:
 		running = false
+		walking = false
 	
 	if running:
 		## Multiply the moveSpeed
 		currentMoveSpeed = moveSpeed * runMultiplier
 		## Drain stamina when moving
 		currentStamina -= delta * staminaDrainRunning
-	
 	else:
 		currentMoveSpeed = moveSpeed
 	
