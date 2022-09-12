@@ -309,13 +309,14 @@ speed_scale = 2.0
 process_material = SubResource( 14 )
 
 [node name="rainCPU" type="CPUParticles2D" parent="."]
+visible = false
 position = Vector2( 0, -300 )
 amount = 900
 lifetime = 4.5
-speed_scale = 2.0
+speed_scale = 3.0
 emission_shape = 2
 emission_rect_extents = Vector2( 600, 1 )
 gravity = Vector2( -25, 98 )
-scale_amount = 3.0
+scale_amount = 2.0
 scale_amount_random = 0.17
 color = Color( 0.356863, 0.658824, 0.890196, 1 )

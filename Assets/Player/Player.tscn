@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -11,6 +11,16 @@
 [ext_resource path="res://Assets/Player/Animations/squeeze_in.tres" type="Animation" id=9]
 [ext_resource path="res://Assets/Player/Animations/squeeze_out.tres" type="Animation" id=10]
 [ext_resource path="res://Assets/Player/Sprite/running.png" type="Texture" id=11]
+
+[sub_resource type="ParticlesMaterial" id=5]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+gravity = Vector3( 0, 0, 0 )
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 2.0
+scale_random = 1.0
 
 [sub_resource type="ParticlesMaterial" id=1]
 lifetime_randomness = 0.22
@@ -116,10 +126,20 @@ script = ExtResource( 8 )
 anims/staminaBar_appear = ExtResource( 6 )
 anims/staminaBar_disappear = ExtResource( 7 )
 
+[node name="walkingParticles" type="Particles2D" parent="."]
+modulate = Color( 0.501961, 0.501961, 0.501961, 1 )
+show_behind_parent = true
+position = Vector2( 0, 20 )
+amount = 4
+lifetime = 0.5
+local_coords = false
+process_material = SubResource( 5 )
+
 [node name="runParticles" type="Particles2D" parent="."]
+visible = false
 modulate = Color( 0.596078, 0.596078, 0.596078, 1 )
 show_behind_parent = true
-amount = 5
+amount = 3
 lifetime = 0.4
 local_coords = false
 process_material = SubResource( 1 )

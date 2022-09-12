@@ -40,6 +40,7 @@ onready var runParticles = $runParticles
 onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
+onready var walkingDust = $walkingParticles
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -72,6 +73,9 @@ func _process(delta):
 		jumping = false
 	
 	_apply_input(_get_input(), delta)
+	
+	if not is_grounded:
+		walkingDust.emitting = false
 		
 	move_and_slide(velocity, UP, slope_stop)
 
@@ -102,7 +106,9 @@ func _apply_input(moveDirection, delta):
 	## The Lerp function smooths out the velocity, this prevents instand acceleration
 	if moveDirection != 0:
 		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
+		walkingDust.emitting = true
 	else:
+		walkingDust.emitting = false
 		if not is_grounded:
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
 		else:
