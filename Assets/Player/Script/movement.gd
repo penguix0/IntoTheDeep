@@ -41,7 +41,7 @@ var idle_sc : float  = 0.5 ## Idle speed scale animationplayer
 var jump_sc : float = 0.5
 var walk_sc : float = 1.3
 var run_sc : float = walk_sc * runMultiplier
-var sword_out_sc : float = 0.5
+var sword_out_sc : float = 2
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
@@ -90,7 +90,6 @@ func _process(delta):
 
 func _on_land():
 	squeezePlayer.play("squeeze_out")
-	#dustParticles.emitting = true
 
 func _play_animations(moveDirection):
 	walkingDust.emitting = false
@@ -130,8 +129,10 @@ func _play_animations(moveDirection):
 			$"body/AnimatedSprite".play("sword_out")
 			$"body/AnimatedSprite".speed_scale = sword_out_sc
 		elif sword_out and was_sword_out:
-			$"body/AnimatedSprite".play("idle2")
-			$"body/AnimatedSprite".speed_scale = idle_sc
+			## Prevents the idle animation from playing while the sword_out animation is still active
+			if $body/AnimatedSprite.animation == "sword_out" and $body/AnimatedSprite.frame == 2:
+				$"body/AnimatedSprite".play("idle2")
+				$"body/AnimatedSprite".speed_scale = idle_sc
 		else:
 			$"body/AnimatedSprite".play("idle1")
 			$"body/AnimatedSprite".speed_scale = idle_sc
@@ -172,40 +173,40 @@ func _get_input():
 	return move_direction
 	
 func _apply_input(moveDirection, delta):
-	## The Lerp function smooths out the velocity, this prevents instand acceleration
-	if moveDirection != 0:
-		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
-		walking = true
-	else:
-		walking = false
-		running = false
-		if not is_grounded:
-			velocity.x = lerp(velocity.x, 0, decceleration_air)
-		else:
-			velocity.x = lerp(velocity.x, 0, decceleration)
+	walking = false
+	running = false
 	
-	### Sprinting
+	### Running
 	
 	if Input.is_action_pressed(str(controller)+"_run") and moveDirection != 0 and currentStamina > 0 and not staminaTimeOut:
 		running = true
-		walking = false
-		crouching = false
 	elif Input.is_action_just_released(str(controller)+"_run") and running or moveDirection == 0:
 		running = false
-		walking = false
-		crouching = false
 		
 	if running:
 		## Multiply the moveSpeed
 		currentMoveSpeed = moveSpeed * runMultiplier
 		## Drain stamina when moving
 		currentStamina -= delta * staminaDrainRunning
+		
+		walking = false
+		crouching = false
 	elif crouching:
 		running = false
 		walking = false
-		currentMoveSpeed = 0
+		moveDirection = 0
 	else:
 		currentMoveSpeed = moveSpeed
+	
+	## The Lerp function smooths out the velocity, this prevents instand acceleration
+	if moveDirection != 0:
+		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
+		walking = true
+	else:
+		if not is_grounded:
+			velocity.x = lerp(velocity.x, 0, decceleration_air)
+		else:
+			velocity.x = lerp(velocity.x, 0, decceleration)
 	
 	## Stamina
 	## If stamina is empty activate low stamina mode

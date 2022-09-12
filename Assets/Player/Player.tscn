@@ -66,8 +66,8 @@ polygon = PoolVector2Array( 10, 20, 10, -10, -2, -10, -2, 20 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="body"]
 frames = ExtResource( 11 )
-animation = "sword_out"
-frame = 2
+animation = "hurt"
+frame = 1
 speed_scale = 0.5
 playing = true
 
