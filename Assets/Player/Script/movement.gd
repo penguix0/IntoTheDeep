@@ -36,7 +36,7 @@ var landing : bool
 var walking : bool
 var crouching : bool
 var sword_out : bool = false
-var was_sword_out : bool = false
+var sword_out_animation_played : bool = false
 
 var idle_sc : float  = 0.5 ## Idle speed scale animationplayer
 var jump_sc : float = 0.5
@@ -102,7 +102,22 @@ func _play_animations(moveDirection):
 		$"body/AnimatedSprite".flip_h = false
 	elif moveDirection < 0:
 		$"body/AnimatedSprite".flip_h = true
-
+	else:
+		if sword_out:
+			## Play the sword out animation if the sword was not already out
+			if sword_out and not $body/AnimatedSprite.animation == "sword_out" and not sword_out_animation_played:
+				$"body/AnimatedSprite".play("sword_out")
+				$"body/AnimatedSprite".speed_scale = sword_out_sc
+			elif $body/AnimatedSprite.animation == "sword_out" and $body/AnimatedSprite.frame == 2:
+				sword_out_animation_played = true
+			
+			elif sword_out_animation_played and sword_out:
+				$"body/AnimatedSprite".play("idle2")
+				$"body/AnimatedSprite".speed_scale = idle_sc
+		else:
+			$"body/AnimatedSprite".play("idle1")
+			$"body/AnimatedSprite".speed_scale = idle_sc
+	
 	## Only if running
 	if running and not jumping:	
 		$"body/AnimatedSprite".play("run")
@@ -125,22 +140,6 @@ func _play_animations(moveDirection):
 	## Only if crouching
 	elif crouching and not jumping:
 		$"body/AnimatedSprite".play("crouch")
-		
-	else:
-		## Play the sword out animation
-		if sword_out and not was_sword_out:
-			$"body/AnimatedSprite".play("sword_out")
-			$"body/AnimatedSprite".speed_scale = sword_out_sc
-		elif sword_out and was_sword_out:
-			## Prevents the idle animation from playing while the sword_out animation is still active
-			if $body/AnimatedSprite.animation == "sword_out" and $body/AnimatedSprite.frame == 2:
-				$"body/AnimatedSprite".play("idle2")
-				$"body/AnimatedSprite".speed_scale = idle_sc
-		else:
-			$"body/AnimatedSprite".play("idle1")
-			$"body/AnimatedSprite".speed_scale = idle_sc
-
-	was_sword_out = sword_out
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
