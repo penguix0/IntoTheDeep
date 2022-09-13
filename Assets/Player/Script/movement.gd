@@ -22,10 +22,10 @@ export(float) var staminaRegenerationFactorWithTimeOut = 5.0
 var currentStamina = stamina
 var staminaTimeOut = false
 
-export(float) var gravity = 0.0
+var gravity : float = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
-export(float) var JumpSpeed = 0.0
+var JumpSpeed : float = 0.0
 export(float) var jumpTimeOffPlatform = 0.1
 
 var is_grounded : bool
@@ -108,13 +108,17 @@ func _play_animations(moveDirection):
 			if sword_out and not $body/AnimatedSprite.animation == "sword_out" and not sword_out_animation_played:
 				$"body/AnimatedSprite".play("sword_out")
 				$"body/AnimatedSprite".speed_scale = sword_out_sc
+				
+			## If the sword out animation has finished playing
 			elif $body/AnimatedSprite.animation == "sword_out" and $body/AnimatedSprite.frame == 2:
 				sword_out_animation_played = true
 			
+			## If the sword out animation has finished playing, play the right idle animation
 			elif sword_out_animation_played and sword_out:
 				$"body/AnimatedSprite".play("idle2")
 				$"body/AnimatedSprite".speed_scale = idle_sc
 		else:
+			sword_out_animation_played = false
 			$"body/AnimatedSprite".play("idle1")
 			$"body/AnimatedSprite".speed_scale = idle_sc
 	
