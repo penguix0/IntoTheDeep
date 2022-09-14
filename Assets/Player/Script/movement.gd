@@ -37,6 +37,7 @@ var walking : bool
 var crouching : bool
 var sword_out : bool = false
 var attack_request : bool = false
+export var allow_jump_break : bool = false
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
@@ -247,7 +248,7 @@ func _apply_input(moveDirection, delta):
 			jump()
 
 	## Stop the jump if jump is released and not already falling down
-	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0:
+	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0 and allow_jump_break:
 		velocity.y = 0
 		jumping = false
 		

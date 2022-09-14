@@ -1,4 +1,4 @@
-[gd_scene load_steps=59 format=2]
+[gd_scene load_steps=61 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -98,6 +98,10 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=45]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=46]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=47]
+
 [sub_resource type="AnimationNodeStateMachine" id=6]
 states/crouch/node = SubResource( 8 )
 states/crouch/position = Vector2( 637, 257 )
@@ -119,8 +123,13 @@ states/sword_out/node = SubResource( 13 )
 states/sword_out/position = Vector2( 517, 5 )
 states/walk/node = SubResource( 14 )
 states/walk/position = Vector2( 218, 257 )
+<<<<<<< Updated upstream
 transitions = [ "idle_normal", "sword_out", SubResource( 15 ), "idle_normal", "crouch", SubResource( 16 ), "idle_normal", "run", SubResource( 17 ), "idle_normal", "walk", SubResource( 18 ), "idle_normal", "jump", SubResource( 19 ), "sword_out", "idle_sword", SubResource( 22 ), "jump", "jump_mid_air", SubResource( 23 ), "idle_sword", "sword_in", SubResource( 24 ), "sword_in", "idle_normal", SubResource( 25 ), "run", "idle_normal", SubResource( 26 ), "walk", "idle_normal", SubResource( 27 ), "crouch", "idle_normal", SubResource( 28 ), "run", "crouch", SubResource( 31 ), "crouch", "run", SubResource( 32 ), "walk", "run", SubResource( 33 ), "run", "walk", SubResource( 34 ), "idle_sword", "jump", SubResource( 39 ), "jump_mid_air", "jump_fall", SubResource( 41 ), "jump_fall", "idle_normal", SubResource( 42 ), "idle_normal", "jump_fall", SubResource( 43 ), "idle_sword", "crouch", SubResource( 44 ), "idle_sword", "walk", SubResource( 45 ) ]
 graph_offset = Vector2( -505.39, -25.73 )
+=======
+transitions = [ "idle_normal", "sword_out", SubResource( 15 ), "idle_normal", "crouch", SubResource( 16 ), "idle_normal", "run", SubResource( 17 ), "idle_normal", "walk", SubResource( 18 ), "idle_normal", "jump", SubResource( 19 ), "sword_out", "idle_sword", SubResource( 22 ), "jump", "jump_mid_air", SubResource( 23 ), "idle_sword", "sword_in", SubResource( 24 ), "sword_in", "idle_normal", SubResource( 25 ), "run", "idle_normal", SubResource( 26 ), "walk", "idle_normal", SubResource( 27 ), "crouch", "idle_normal", SubResource( 28 ), "run", "crouch", SubResource( 31 ), "crouch", "run", SubResource( 32 ), "walk", "run", SubResource( 33 ), "run", "walk", SubResource( 34 ), "idle_sword", "jump", SubResource( 39 ), "jump_mid_air", "jump_fall", SubResource( 41 ), "jump_fall", "idle_normal", SubResource( 42 ), "idle_normal", "jump_fall", SubResource( 43 ), "idle_sword", "crouch", SubResource( 44 ), "idle_sword", "walk", SubResource( 45 ), "walk", "idle_sword", SubResource( 46 ), "crouch", "idle_sword", SubResource( 47 ) ]
+graph_offset = Vector2( -237, -220 )
+>>>>>>> Stashed changes
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
@@ -180,7 +189,10 @@ parameters/playback = SubResource( 7 )
 visible = false
 frames = ExtResource( 11 )
 animation = "crouch"
+<<<<<<< Updated upstream
 frame = 1
+=======
+>>>>>>> Stashed changes
 playing = true
 
 [node name="Sprite" type="Sprite" parent="body"]
