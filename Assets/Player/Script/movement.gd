@@ -55,9 +55,12 @@ func _ready():
 	##AnimPlayer.play("idle")
 	gravity = (2*JumpHeight)/pow(TimeToJumpPeak, 2)
 	JumpSpeed = gravity * TimeToJumpPeak
+	Global.gravity = gravity
+	
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
 	stateMachine.start("idle_normal")
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
