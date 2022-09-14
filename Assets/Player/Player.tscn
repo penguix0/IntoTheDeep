@@ -1,9 +1,9 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=59 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
-[ext_resource path="res://Assets/Player/Animations/Playerjump.tres" type="Animation" id=3]
-[ext_resource path="res://Assets/Player/Animations/PlayerIdle.tres" type="Animation" id=4]
+[ext_resource path="res://Assets/Player/Animations/jump.tres" type="Animation" id=3]
+[ext_resource path="res://Assets/Player/Animations/idle_normal.tres" type="Animation" id=4]
 [ext_resource path="res://Assets/Player/Sprite/staminabar.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Player/Animations/staminaBar_appear.tres" type="Animation" id=6]
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
@@ -11,6 +11,118 @@
 [ext_resource path="res://Assets/Player/Animations/squeeze_in.tres" type="Animation" id=9]
 [ext_resource path="res://Assets/Player/Animations/squeeze_out.tres" type="Animation" id=10]
 [ext_resource path="res://Assets/Player/Animations/spriteFrames.tres" type="SpriteFrames" id=11]
+[ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
+[ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
+[ext_resource path="res://Assets/Player/Animations/run.tres" type="Animation" id=14]
+[ext_resource path="res://Assets/Player/Animations/crouch.tres" type="Animation" id=15]
+[ext_resource path="res://Assets/Player/Animations/sword_in.tres" type="Animation" id=16]
+[ext_resource path="res://Assets/Player/Animations/sword_out.tres" type="Animation" id=17]
+[ext_resource path="res://Assets/Player/Animations/jump_mid_air.tres" type="Animation" id=18]
+[ext_resource path="res://Assets/Player/Animations/jump_fall.tres" type="Animation" id=19]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-03.png" type="Texture" id=20]
+
+[sub_resource type="AnimationNodeAnimation" id=8]
+animation = "crouch"
+
+[sub_resource type="AnimationNodeAnimation" id=9]
+animation = "idle_normal"
+
+[sub_resource type="AnimationNodeAnimation" id=10]
+animation = "idle_sword"
+
+[sub_resource type="AnimationNodeAnimation" id=11]
+animation = "jump"
+
+[sub_resource type="AnimationNodeAnimation" id=40]
+animation = "jump_fall"
+
+[sub_resource type="AnimationNodeAnimation" id=20]
+animation = "jump_mid_air"
+
+[sub_resource type="AnimationNodeAnimation" id=12]
+animation = "run"
+
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "sword_in"
+
+[sub_resource type="AnimationNodeAnimation" id=13]
+animation = "sword_out"
+
+[sub_resource type="AnimationNodeAnimation" id=14]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=15]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=16]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=17]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=18]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=19]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=22]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=23]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=24]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=25]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=26]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=27]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=28]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=31]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=32]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=33]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=34]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=39]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=41]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=42]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=43]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=44]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=45]
+
+[sub_resource type="AnimationNodeStateMachine" id=6]
+states/crouch/node = SubResource( 8 )
+states/crouch/position = Vector2( 637, 257 )
+states/idle_normal/node = SubResource( 9 )
+states/idle_normal/position = Vector2( 439, 99 )
+states/idle_sword/node = SubResource( 10 )
+states/idle_sword/position = Vector2( 439, -120 )
+states/jump/node = SubResource( 11 )
+states/jump/position = Vector2( -63, 70 )
+states/jump_fall/node = SubResource( 40 )
+states/jump_fall/position = Vector2( -322, 204 )
+states/jump_mid_air/node = SubResource( 20 )
+states/jump_mid_air/position = Vector2( -349, 82 )
+states/run/node = SubResource( 12 )
+states/run/position = Vector2( 439, 257 )
+states/sword_in/node = SubResource( 21 )
+states/sword_in/position = Vector2( 369, 5 )
+states/sword_out/node = SubResource( 13 )
+states/sword_out/position = Vector2( 517, 5 )
+states/walk/node = SubResource( 14 )
+states/walk/position = Vector2( 218, 257 )
+transitions = [ "idle_normal", "sword_out", SubResource( 15 ), "idle_normal", "crouch", SubResource( 16 ), "idle_normal", "run", SubResource( 17 ), "idle_normal", "walk", SubResource( 18 ), "idle_normal", "jump", SubResource( 19 ), "sword_out", "idle_sword", SubResource( 22 ), "jump", "jump_mid_air", SubResource( 23 ), "idle_sword", "sword_in", SubResource( 24 ), "sword_in", "idle_normal", SubResource( 25 ), "run", "idle_normal", SubResource( 26 ), "walk", "idle_normal", SubResource( 27 ), "crouch", "idle_normal", SubResource( 28 ), "run", "crouch", SubResource( 31 ), "crouch", "run", SubResource( 32 ), "walk", "run", SubResource( 33 ), "run", "walk", SubResource( 34 ), "idle_sword", "jump", SubResource( 39 ), "jump_mid_air", "jump_fall", SubResource( 41 ), "jump_fall", "idle_normal", SubResource( 42 ), "idle_normal", "jump_fall", SubResource( 43 ), "idle_sword", "crouch", SubResource( 44 ), "idle_sword", "walk", SubResource( 45 ) ]
+graph_offset = Vector2( -268, -179 )
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
 [sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 1
@@ -56,12 +168,23 @@ collision_layer = 0
 script = ExtResource( 1 )
 runMultiplier = 1.5
 
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource( 6 )
+anim_player = NodePath("../AnimationPlayer")
+active = true
+parameters/playback = SubResource( 7 )
+
 [node name="body" type="Node2D" parent="."]
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="body"]
+visible = false
 frames = ExtResource( 11 )
-animation = "idle1"
-speed_scale = 0.5
+animation = "crouch"
+frame = 2
+playing = true
+
+[node name="Sprite" type="Sprite" parent="body"]
+texture = ExtResource( 20 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
 polygon = PoolVector2Array( 6, 10, 9, 6, 7, 0, 4, -7, -2, -8, -5, -6, -12, 5, -5, 17, 7.21576, 17 )
@@ -96,8 +219,17 @@ enabled = true
 cast_to = Vector2( 0, -1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-anims/Idle = ExtResource( 4 )
+playback_speed = 2.0
+anims/crouch = ExtResource( 15 )
+anims/idle_normal = ExtResource( 4 )
+anims/idle_sword = ExtResource( 12 )
 anims/jump = ExtResource( 3 )
+anims/jump_fall = ExtResource( 19 )
+anims/jump_mid_air = ExtResource( 18 )
+anims/run = ExtResource( 14 )
+anims/sword_in = ExtResource( 16 )
+anims/sword_out = ExtResource( 17 )
+anims/walk = ExtResource( 13 )
 
 [node name="squeezePlayer" type="AnimationPlayer" parent="."]
 anims/squeeze_in = ExtResource( 9 )

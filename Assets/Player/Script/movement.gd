@@ -36,13 +36,7 @@ var landing : bool
 var walking : bool
 var crouching : bool
 var sword_out : bool = false
-var sword_out_animation_played : bool = false
-
-var idle_sc : float  = 0.5 ## Idle speed scale animationplayer
-var jump_sc : float = 0.5
-var walk_sc : float = 1.3
-var run_sc : float = walk_sc * runMultiplier
-var sword_out_sc : float = 2
+var attack_request : bool = false
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
@@ -51,15 +45,19 @@ onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
 onready var walkingDust = $walkingParticles
-onready var animSprite = $body/AnimatedSprite
 onready var swordOutTimer = $swordOutTimer
 onready var raycastUp = $raycastUp
+onready var body = $body
+var stateMachine
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	##AnimPlayer.play("idle")
 	gravity = (2*JumpHeight)/pow(TimeToJumpPeak, 2)
 	JumpSpeed = gravity * TimeToJumpPeak
+	
+	stateMachine = $AnimationTree.get("parameters/playback")
+	stateMachine.start("idle_normal")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -99,51 +97,37 @@ func _play_animations(moveDirection):
 
 	## Flip the sprite if going left
 	if moveDirection > 0:
-		$"body/AnimatedSprite".flip_h = false
+		body.scale.x = abs(body.scale.x)
 	elif moveDirection < 0:
-		$"body/AnimatedSprite".flip_h = true
+		body.scale.x = -abs(body.scale.x)
 	else:
 		if sword_out:
-			## Play the sword out animation if the sword was not already out
-			if sword_out and not $body/AnimatedSprite.animation == "sword_out" and not sword_out_animation_played:
-				$"body/AnimatedSprite".play("sword_out")
-				$"body/AnimatedSprite".speed_scale = sword_out_sc
-				
-			## If the sword out animation has finished playing
-			elif $body/AnimatedSprite.animation == "sword_out" and $body/AnimatedSprite.frame == 2:
-				sword_out_animation_played = true
-			
-			## If the sword out animation has finished playing, play the right idle animation
-			elif sword_out_animation_played and sword_out:
-				$"body/AnimatedSprite".play("idle2")
-				$"body/AnimatedSprite".speed_scale = idle_sc
-		else:
-			sword_out_animation_played = false
-			$"body/AnimatedSprite".play("idle1")
-			$"body/AnimatedSprite".speed_scale = idle_sc
+			stateMachine.travel("idle_sword")
+		else:		
+			stateMachine.travel("idle_normal")
 	
 	## Only if running
 	if running and not jumping:	
-		$"body/AnimatedSprite".play("run")
-		$"body/AnimatedSprite".speed_scale = run_sc
+		stateMachine.travel("run")
 		
 		walkingDust.emitting = true
 	
 	## Only if jumping
 	elif jumping:
-		$"body/AnimatedSprite".play("jump")
-		$"body/AnimatedSprite".speed_scale = jump_sc
+		if velocity.y < 0:
+			stateMachine.travel("jump_mid_air")
+		else:
+			stateMachine.travel("jump_fall")
 	
 	## Only if walking
 	elif walking and not running and not jumping:
-		$"body/AnimatedSprite".play("run")
-		$"body/AnimatedSprite".speed_scale = walk_sc
+		stateMachine.travel("walk")
 		
 		walkingDust.emitting = true
 		
 	## Only if crouching
 	elif crouching and not jumping:
-		$"body/AnimatedSprite".play("crouch")
+		stateMachine.travel("crouch")
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -176,9 +160,15 @@ func _get_input():
 		else:
 			sword_out = not sword_out
 	
+	## Get input for crouching	
 	crouching = false
 	if Input.is_action_pressed(str(controller)+"_crouch"):
 		crouching = true
+
+	## Get input for attacking
+	attack_request = false
+	if Input.is_action_pressed(str(controller)+"_attack"):
+		attack_request = true
 
 	var move_direction = -(left-right)
 	
