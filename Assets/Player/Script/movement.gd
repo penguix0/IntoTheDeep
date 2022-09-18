@@ -31,12 +31,14 @@ export(float) var jumpTimeOffPlatform = 0.1
 var is_grounded : bool
 var on_ceiling : bool
 var jumping : bool
+var allow_stop_jump : bool = false
 var running : bool
 var landing : bool
 var walking : bool
 var crouching : bool
 var sword_out : bool = false
 var attack_request : bool = false
+var lastMoveDirection : int = 1
 
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
@@ -104,6 +106,11 @@ func _play_animations(moveDirection):
 	elif moveDirection < 0:
 		body.scale.x = -abs(body.scale.x)
 	else:
+		if lastMoveDirection > 0:
+			body.scale.x = abs(body.scale.x)
+		else:
+			body.scale.x = -abs(body.scale.x)
+		
 		if sword_out:
 			stateMachine.travel("idle_sword")
 		else:		
@@ -113,24 +120,23 @@ func _play_animations(moveDirection):
 	if running and not jumping:	
 		stateMachine.travel("run")
 		
-		walkingDust.emitting = true
+		if is_grounded: walkingDust.emitting = true
 	
 	## Only if jumping
 	elif jumping:
-		if velocity.y < 0:
-			stateMachine.travel("jump_mid_air")
-		else:
-			stateMachine.travel("jump_fall")
+		stateMachine.travel("jump_mid_air")
 	
 	## Only if walking
 	elif walking and not running and not jumping:
 		stateMachine.travel("walk")
 		
-		walkingDust.emitting = true
+		if is_grounded: walkingDust.emitting = true
 		
 	## Only if crouching
 	elif crouching and not jumping:
 		stateMachine.travel("crouch")
+		
+	if moveDirection != 0: lastMoveDirection = moveDirection
 
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -247,7 +253,7 @@ func _apply_input(moveDirection, delta):
 			jump()
 
 	## Stop the jump if jump is released and not already falling down
-	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0:
+	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0 and allow_stop_jump:
 		velocity.y = 0
 		jumping = false
 		
