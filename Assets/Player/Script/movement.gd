@@ -38,6 +38,7 @@ var walking : bool
 var crouching : bool
 var sword_out : bool = false
 var attack_request : bool = false
+var attacking : bool = false
 var lastMoveDirection : int = 1
 
 onready var raycasts = $raycasts
@@ -136,6 +137,8 @@ func _play_animations(moveDirection):
 	elif crouching and not jumping:
 		stateMachine.travel("crouch")
 		
+	if attacking:
+		stateMachine.travel("attack")
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
 func _apply_gravity(delta):
@@ -218,6 +221,12 @@ func _apply_input(moveDirection, delta):
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
 		else:
 			velocity.x = lerp(velocity.x, 0, decceleration)
+	
+	
+	if sword_out and attack_request:
+		attack_request = false
+		attacking = true
+
 	
 	## Stamina
 	## If stamina is empty activate low stamina mode
