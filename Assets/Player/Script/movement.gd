@@ -15,13 +15,6 @@ export(float) var decceleration = 0.7
 export(float) var decceleration_air = 0.1
 export(float) var walkingThreshold = 0.2
 
-export(float) var stamina = 100.0
-export(float) var staminaDrainRunning = 25.0
-export(float) var staminaRegenerationFactor = 10.0
-export(float) var staminaRegenerationFactorWithTimeOut = 5.0
-var currentStamina = stamina
-var staminaTimeOut = false
-
 var gravity : float = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
@@ -37,8 +30,19 @@ var landing : bool
 var walking : bool
 var crouching : bool
 var sword_out : bool = false
+
 var attack_request : bool = false
 var attacking : bool = false
+var attack_1_dur : float = 0.4
+var attack_2_dur : float = 0.4
+var attack_3_dur : float = 0.4
+
+var attack_1_dash_speed : float = 300
+
+var attack_1_stamina : float = 10
+var attack_2_stamina : float = 20
+var attack_3_stamina : float = 30
+
 var lastMoveDirection : int = 1
 
 onready var raycasts = $raycasts
@@ -51,6 +55,7 @@ onready var walkingDust = $walkingParticles
 onready var swordOutTimer = $swordOutTimer
 onready var raycastUp = $raycastUp
 onready var body = $body
+onready var attackTimer = $attackTimer
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -92,6 +97,8 @@ func _process(delta):
 	_apply_input(_get_input(), delta)
 	
 	_play_animations(_get_input())
+	
+	_walk(_get_input())
 	
 	move_and_slide(velocity, UP, slope_stop)
 
@@ -138,7 +145,8 @@ func _play_animations(moveDirection):
 		stateMachine.travel("crouch")
 		
 	if attacking:
-		stateMachine.travel("attack")
+		stateMachine.travel("sword_1")
+
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
 func _apply_gravity(delta):
@@ -190,66 +198,36 @@ func _apply_input(moveDirection, delta):
 	walking = false
 	running = false
 	
-	### Running
-	
-	if Input.is_action_pressed(str(controller)+"_run") and moveDirection != 0 and currentStamina > 0 and not staminaTimeOut:
-		running = true
-	elif Input.is_action_just_released(str(controller)+"_run") and running or moveDirection == 0:
-		running = false
-		
-	if running:
-		## Multiply the moveSpeed
-		currentMoveSpeed = moveSpeed * runMultiplier
-		## Drain stamina when moving
-		currentStamina -= delta * staminaDrainRunning
-		
-		walking = false
-		crouching = false
-	elif crouching:
-		running = false
-		walking = false
-		moveDirection = 0
-	else:
-		currentMoveSpeed = moveSpeed
-	
-	## The Lerp function smooths out the velocity, this prevents instand acceleration
 	if moveDirection != 0:
-		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
-		walking = true
-	else:
-		if not is_grounded:
-			velocity.x = lerp(velocity.x, 0, decceleration_air)
+		if Input.is_action_pressed(str(controller)+"_run") and staminaBar.currentStamina > 0 and not staminaBar.staminaTimeOut:
+			running = true
 		else:
-			velocity.x = lerp(velocity.x, 0, decceleration)
+			walking = true
 	
+	if not crouching:	
+		if running:
+			## Multiply the moveSpeed
+			currentMoveSpeed = moveSpeed * runMultiplier
+			## Drain stamina when moving
+			staminaBar.drain_stamina_running(delta)
+		if walking:
+			currentMoveSpeed = moveSpeed
+	else:
+		moveDirection = 0
 	
+
 	if sword_out and attack_request:
 		attack_request = false
 		attacking = true
+		
+		velocity.x = lerp(velocity.x, 3000 * lastMoveDirection, acceleration)
+		
+		attackTimer.wait_time = attack_1_dur
+		if not attackTimer.started:
+			attackTimer.start()
+			attackTimer.started = true 
+		## Dash forward and drain stamina
 
-	
-	## Stamina
-	## If stamina is empty activate low stamina mode
-	if currentStamina < 1:
-		staminaTimeOut = true
-		running = false
-	## Regenerate stamina slower when there's almost none left
-	if currentStamina < 0.1*stamina and staminaTimeOut:
-		currentStamina += delta * staminaRegenerationFactorWithTimeOut
-	if currentStamina > 0.1*stamina and staminaTimeOut:
-		staminaTimeOut = false
-			
-	## If stamina is not the maximum regenerate stamina
-	if currentStamina <= stamina and not running and not staminaTimeOut:
-		currentStamina += delta * staminaRegenerationFactor
-	
-	## If the currentStamina value reaches above the original set value: reset it
-	if currentStamina > stamina:
-		currentStamina = stamina
-	
-	staminaBar.value = currentStamina
-	
-	
 	### Jumping
 	
 	## Jump when jump is pressed
@@ -270,3 +248,18 @@ func _apply_input(moveDirection, delta):
 	if velocity.y > gravity:
 		velocity.y = gravity
 	
+func _walk(moveDirection):
+	## The Lerp function smooths out the velocity, this prevents instand acceleration
+	if moveDirection != 0:
+		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
+	else:
+		## Deccelerate
+		if not is_grounded:
+			velocity.x = lerp(velocity.x, 0, decceleration_air)
+		else:
+			velocity.x = lerp(velocity.x, 0, decceleration)
+	
+func _on_attackTimer_timeout():
+	attackTimer.started = false
+	attacking = false
+	attack_request = false
