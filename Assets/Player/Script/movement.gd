@@ -216,18 +216,18 @@ func _apply_input(moveDirection, delta):
 		moveDirection = 0
 	
 
-	if sword_out and attack_request:
+	if sword_out and attack_request: 
 		attack_request = false
-		attacking = true
 		
-		velocity.x = lerp(velocity.x, 3000 * lastMoveDirection, acceleration)
-		
-		attackTimer.wait_time = attack_1_dur
 		if not attackTimer.started:
-			attackTimer.start()
-			attackTimer.started = true 
+			attackTimer.start_timer(attack_1_dur)
+		else:
+			attacking = true
 		## Dash forward and drain stamina
 
+	if attacking:
+		velocity.x = lerp(velocity.x, 500 * lastMoveDirection, acceleration)
+		
 	### Jumping
 	
 	## Jump when jump is pressed
@@ -260,6 +260,4 @@ func _walk(moveDirection):
 			velocity.x = lerp(velocity.x, 0, decceleration)
 	
 func _on_attackTimer_timeout():
-	attackTimer.started = false
 	attacking = false
-	attack_request = false

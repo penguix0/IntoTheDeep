@@ -314,8 +314,14 @@ process_material = SubResource( 4 )
 texture = ExtResource( 2 )
 
 [node name="attackTimer" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 script = ExtResource( 22 )
 
+[node name="timeOut" type="Timer" parent="attackTimer"]
+wait_time = 0.2
+one_shot = true
+
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
 [connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
+[connection signal="timeout" from="attackTimer" to="attackTimer" method="_on_attackTimer_timeout"]
