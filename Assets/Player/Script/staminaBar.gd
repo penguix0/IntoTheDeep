@@ -4,6 +4,7 @@ var active = false
 
 export(float) var stamina = 100.0
 export(float) var staminaDrainRunning = 25.0
+export(float) var staminaDrainAttack = 50
 export(float) var staminaRegenerationFactor = 10.0
 export(float) var staminaRegenerationFactorWithTimeOut = 5.0
 var currentStamina = stamina
@@ -42,10 +43,21 @@ func _process(delta):
 	if currentStamina > stamina:
 		currentStamina = stamina
 	
+	if currentStamina < 0:
+		currentStamina = 2
+	
 	self.value = currentStamina
+	
+	
 	
 	
 func drain_stamina_running(delta):
 	currentStamina -= delta * staminaDrainRunning
 	
-
+func drain_stamina_attack(delta, attackType):
+	if attackType == 1:
+		currentStamina -= delta * staminaDrainAttack
+	elif attackType == 2:
+		currentStamina -= delta * staminaDrainAttack
+	elif attackType == 3:
+		currentStamina -= delta * staminaDrainAttack	

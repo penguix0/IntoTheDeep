@@ -43,6 +43,8 @@ var attack_1_stamina : float = 10
 var attack_2_stamina : float = 20
 var attack_3_stamina : float = 30
 
+var currentAttack : int = 1
+
 var lastMoveDirection : int = 1
 
 onready var raycasts = $raycasts
@@ -145,7 +147,12 @@ func _play_animations(moveDirection):
 		stateMachine.travel("crouch")
 		
 	if attacking:
-		stateMachine.travel("sword_1")
+		if currentAttack == 1:
+			stateMachine.travel("sword_1")
+		elif currentAttack == 2:
+			stateMachine.travel("sword_2")
+		elif currentAttack == 3:
+			stateMachine.travel("sword_3")
 
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
@@ -177,9 +184,8 @@ func _get_input():
 	if Input.is_action_pressed(str(controller)+"_sword"):
 		if not swordOutTimer.time_left > 0:
 			swordOutTimer.start()
-		else:
 			sword_out = not sword_out
-	
+
 	## Get input for crouching	
 	crouching = false
 	if Input.is_action_pressed(str(controller)+"_crouch"):
@@ -215,19 +221,34 @@ func _apply_input(moveDirection, delta):
 	else:
 		moveDirection = 0
 	
-
+	
 	if sword_out and attack_request: 
 		attack_request = false
 		
+		## Timer to prevent the player from doing one big ass attack
 		if not attackTimer.started:
 			attackTimer.start_timer(attack_1_dur)
+			currentAttack += 1
+			if currentAttack > 3: currentAttack = 1
 		else:
 			attacking = true
 		## Dash forward and drain stamina
 
 	if attacking:
-		velocity.x = lerp(velocity.x, 500 * lastMoveDirection, acceleration)
-		
+		if currentAttack == 1:
+			velocity.x = lerp(velocity.x, 500 * lastMoveDirection, acceleration)
+			staminaBar.drain_stamina_attack(delta, 1)
+		## the player doesn't move with this attack
+		## If the player is walking or running skip this attack
+		elif currentAttack == 2:
+			if not walking or running:
+				staminaBar.drain_stamina_attack(delta, 2)
+			else:
+				currentAttack = 3
+		elif currentAttack == 3:
+			staminaBar.drain_stamina_attack(delta, 3)
+			velocity.x = lerp(velocity.x, 200 * lastMoveDirection, acceleration)
+
 	### Jumping
 	
 	## Jump when jump is pressed

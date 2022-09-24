@@ -18,5 +18,5 @@ func _ready():
 
 
 func _on_RespawnZone_body_entered(body):
-	print ("deze kleurplaat")
-	body.position = respawnPoint
+	if body.name == "Player":
+		body.position = respawnPoint
