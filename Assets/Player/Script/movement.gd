@@ -69,7 +69,8 @@ func _ready():
 	
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
-	stateMachine.start("idle_normal")
+	print ($AnimationTree.get("parameters/playback"))
+	stateMachine.start("idle")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

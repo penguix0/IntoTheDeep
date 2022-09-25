@@ -1,4 +1,4 @@
-[gd_scene load_steps=98 format=2]
+[gd_scene load_steps=127 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -19,14 +19,92 @@
 [ext_resource path="res://Assets/Player/Animations/sword_out.tres" type="Animation" id=17]
 [ext_resource path="res://Assets/Player/Animations/jump_mid_air.tres" type="Animation" id=18]
 [ext_resource path="res://Assets/Player/Animations/jump_fall.tres" type="Animation" id=19]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-attack2-00.png" type="Texture" id=20]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-03.png" type="Texture" id=20]
 [ext_resource path="res://Assets/Player/Animations/sword_1.tres" type="Animation" id=21]
 [ext_resource path="res://Assets/Player/attackTimer.gd" type="Script" id=22]
 [ext_resource path="res://Assets/Player/Animations/sword_2.tres" type="Animation" id=23]
 [ext_resource path="res://Assets/Player/Animations/sword_3.tres" type="Animation" id=24]
 
+[sub_resource type="AnimationNodeAnimation" id=103]
+animation = "sword_1"
+
+[sub_resource type="AnimationNodeAnimation" id=104]
+animation = "sword_2"
+
+[sub_resource type="AnimationNodeAnimation" id=105]
+animation = "sword_3"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=106]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=107]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=108]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=109]
+
+[sub_resource type="AnimationNodeStateMachine" id=81]
+states/sword_1/node = SubResource( 103 )
+states/sword_1/position = Vector2( 646, 67 )
+states/sword_2/node = SubResource( 104 )
+states/sword_2/position = Vector2( 840, 67 )
+states/sword_3/node = SubResource( 105 )
+states/sword_3/position = Vector2( 1037, 67 )
+transitions = [ "sword_1", "sword_2", SubResource( 106 ), "sword_2", "sword_3", SubResource( 107 ), "sword_3", "sword_2", SubResource( 108 ), "sword_2", "sword_1", SubResource( 109 ) ]
+
 [sub_resource type="AnimationNodeAnimation" id=8]
 animation = "crouch"
+
+[sub_resource type="AnimationNodeAnimation" id=82]
+animation = "run"
+
+[sub_resource type="AnimationNodeAnimation" id=83]
+animation = "walk"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=84]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=85]
+
+[sub_resource type="AnimationNodeStateMachine" id=86]
+states/run/node = SubResource( 82 )
+states/run/position = Vector2( 482, 264 )
+states/walk/node = SubResource( 83 )
+states/walk/position = Vector2( 683, 264 )
+transitions = [ "run", "walk", SubResource( 84 ), "walk", "run", SubResource( 85 ) ]
+graph_offset = Vector2( 41, 73 )
+
+[sub_resource type="AnimationNodeAnimation" id=87]
+animation = "idle_normal"
+
+[sub_resource type="AnimationNodeAnimation" id=88]
+animation = "idle_sword"
+
+[sub_resource type="AnimationNodeAnimation" id=89]
+animation = "sword_in"
+
+[sub_resource type="AnimationNodeAnimation" id=90]
+animation = "sword_out"
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=91]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=92]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=93]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=94]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachine" id=95]
+states/idle_normal/node = SubResource( 87 )
+states/idle_normal/position = Vector2( 420, 85 )
+states/idle_sword/node = SubResource( 88 )
+states/idle_sword/position = Vector2( 780, 85 )
+states/sword_in/node = SubResource( 89 )
+states/sword_in/position = Vector2( 604, 2 )
+states/sword_out/node = SubResource( 90 )
+states/sword_out/position = Vector2( 604, 172 )
+transitions = [ "idle_normal", "sword_out", SubResource( 91 ), "idle_sword", "sword_in", SubResource( 92 ), "sword_out", "idle_sword", SubResource( 93 ), "sword_in", "idle_normal", SubResource( 94 ) ]
+graph_offset = Vector2( 8, -46 )
 
 [sub_resource type="AnimationNodeAnimation" id=9]
 animation = "idle_normal"
@@ -185,9 +263,24 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=80]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=96]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=97]
+switch_mode = 2
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=98]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=99]
+
 [sub_resource type="AnimationNodeStateMachine" id=6]
+states/attacking/node = SubResource( 81 )
+states/attacking/position = Vector2( 2378.33, 284.015 )
 states/crouch/node = SubResource( 8 )
 states/crouch/position = Vector2( 858, 597 )
+states/horizontalMovement/node = SubResource( 86 )
+states/horizontalMovement/position = Vector2( 2032.33, 466 )
+states/idle/node = SubResource( 95 )
+states/idle/position = Vector2( 2032.33, 284.015 )
 states/idle_normal/node = SubResource( 9 )
 states/idle_normal/position = Vector2( 516, 51 )
 states/idle_sword/node = SubResource( 10 )
@@ -212,11 +305,17 @@ states/sword_out/node = SubResource( 13 )
 states/sword_out/position = Vector2( 850, -68 )
 states/walk/node = SubResource( 14 )
 states/walk/position = Vector2( -104, 466 )
-transitions = [ "idle_normal", "sword_out", SubResource( 15 ), "idle_normal", "crouch", SubResource( 16 ), "idle_normal", "run", SubResource( 17 ), "idle_normal", "walk", SubResource( 18 ), "idle_normal", "jump", SubResource( 19 ), "sword_out", "idle_sword", SubResource( 22 ), "jump", "jump_mid_air", SubResource( 23 ), "idle_sword", "sword_in", SubResource( 24 ), "sword_in", "idle_normal", SubResource( 25 ), "run", "idle_normal", SubResource( 26 ), "walk", "idle_normal", SubResource( 27 ), "crouch", "idle_normal", SubResource( 28 ), "run", "crouch", SubResource( 31 ), "crouch", "run", SubResource( 32 ), "walk", "run", SubResource( 33 ), "run", "walk", SubResource( 34 ), "idle_sword", "jump", SubResource( 39 ), "jump_mid_air", "jump_fall", SubResource( 41 ), "jump_fall", "idle_normal", SubResource( 42 ), "idle_normal", "jump_fall", SubResource( 43 ), "idle_sword", "crouch", SubResource( 44 ), "idle_sword", "walk", SubResource( 45 ), "walk", "idle_sword", SubResource( 46 ), "crouch", "idle_sword", SubResource( 47 ), "run", "idle_sword", SubResource( 49 ), "idle_sword", "run", SubResource( 50 ), "sword_1", "idle_normal", SubResource( 52 ), "idle_normal", "sword_1", SubResource( 53 ), "crouch", "sword_1", SubResource( 54 ), "run", "sword_1", SubResource( 55 ), "walk", "sword_1", SubResource( 56 ), "idle_sword", "sword_1", SubResource( 57 ), "sword_1", "idle_sword", SubResource( 58 ), "idle_sword", "sword_2", SubResource( 60 ), "idle_normal", "sword_2", SubResource( 61 ), "crouch", "sword_2", SubResource( 62 ), "run", "sword_2", SubResource( 63 ), "walk", "sword_2", SubResource( 64 ), "sword_2", "idle_sword", SubResource( 65 ), "sword_2", "idle_normal", SubResource( 66 ), "sword_2", "crouch", SubResource( 67 ), "sword_2", "run", SubResource( 68 ), "sword_2", "walk", SubResource( 69 ), "sword_3", "crouch", SubResource( 71 ), "sword_3", "run", SubResource( 72 ), "sword_3", "walk", SubResource( 73 ), "sword_3", "idle_normal", SubResource( 74 ), "sword_3", "idle_sword", SubResource( 75 ), "idle_sword", "sword_3", SubResource( 76 ), "idle_normal", "sword_3", SubResource( 77 ), "crouch", "sword_3", SubResource( 78 ), "run", "sword_3", SubResource( 79 ), "walk", "sword_3", SubResource( 80 ) ]
-start_node = "idle_normal"
-graph_offset = Vector2( 713.33, -90.985 )
+transitions = [ "idle_normal", "sword_out", SubResource( 15 ), "idle_normal", "crouch", SubResource( 16 ), "idle_normal", "run", SubResource( 17 ), "idle_normal", "walk", SubResource( 18 ), "idle_normal", "jump", SubResource( 19 ), "sword_out", "idle_sword", SubResource( 22 ), "jump", "jump_mid_air", SubResource( 23 ), "idle_sword", "sword_in", SubResource( 24 ), "sword_in", "idle_normal", SubResource( 25 ), "run", "idle_normal", SubResource( 26 ), "walk", "idle_normal", SubResource( 27 ), "crouch", "idle_normal", SubResource( 28 ), "run", "crouch", SubResource( 31 ), "crouch", "run", SubResource( 32 ), "walk", "run", SubResource( 33 ), "run", "walk", SubResource( 34 ), "idle_sword", "jump", SubResource( 39 ), "jump_mid_air", "jump_fall", SubResource( 41 ), "jump_fall", "idle_normal", SubResource( 42 ), "idle_normal", "jump_fall", SubResource( 43 ), "idle_sword", "crouch", SubResource( 44 ), "idle_sword", "walk", SubResource( 45 ), "walk", "idle_sword", SubResource( 46 ), "crouch", "idle_sword", SubResource( 47 ), "run", "idle_sword", SubResource( 49 ), "idle_sword", "run", SubResource( 50 ), "sword_1", "idle_normal", SubResource( 52 ), "idle_normal", "sword_1", SubResource( 53 ), "crouch", "sword_1", SubResource( 54 ), "run", "sword_1", SubResource( 55 ), "walk", "sword_1", SubResource( 56 ), "idle_sword", "sword_1", SubResource( 57 ), "sword_1", "idle_sword", SubResource( 58 ), "idle_sword", "sword_2", SubResource( 60 ), "idle_normal", "sword_2", SubResource( 61 ), "crouch", "sword_2", SubResource( 62 ), "run", "sword_2", SubResource( 63 ), "walk", "sword_2", SubResource( 64 ), "sword_2", "idle_sword", SubResource( 65 ), "sword_2", "idle_normal", SubResource( 66 ), "sword_2", "crouch", SubResource( 67 ), "sword_2", "run", SubResource( 68 ), "sword_2", "walk", SubResource( 69 ), "sword_3", "crouch", SubResource( 71 ), "sword_3", "run", SubResource( 72 ), "sword_3", "walk", SubResource( 73 ), "sword_3", "idle_normal", SubResource( 74 ), "sword_3", "idle_sword", SubResource( 75 ), "idle_sword", "sword_3", SubResource( 76 ), "idle_normal", "sword_3", SubResource( 77 ), "crouch", "sword_3", SubResource( 78 ), "run", "sword_3", SubResource( 79 ), "walk", "sword_3", SubResource( 80 ), "idle", "attacking", SubResource( 96 ), "attacking", "idle", SubResource( 97 ), "horizontalMovement", "idle", SubResource( 98 ), "idle", "horizontalMovement", SubResource( 99 ) ]
+start_node = "idle"
+graph_offset = Vector2( 1552.33, 264.015 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=100]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=101]
+
+[sub_resource type="AnimationNodeStateMachinePlayback" id=102]
 
 [sub_resource type="CapsuleShape2D" id=48]
 radius = 5.0
@@ -272,6 +371,9 @@ tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 7 )
+parameters/attacking/playback = SubResource( 100 )
+parameters/horizontalMovement/playback = SubResource( 101 )
+parameters/idle/playback = SubResource( 102 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
