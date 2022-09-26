@@ -30,6 +30,7 @@ var landing : bool
 var walking : bool
 var crouching : bool
 var sword_out : bool = false
+var was_sword_out : bool = sword_out
 
 var attack_request : bool = false
 var attacking : bool = false
@@ -69,9 +70,8 @@ func _ready():
 	
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
-	print ($AnimationTree.get("parameters/playback"))
-	stateMachine.start("idle")
 
+	stateMachine.start("idle_normal")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -122,11 +122,15 @@ func _play_animations(moveDirection):
 		else:
 			body.scale.x = -abs(body.scale.x)
 		
-		if sword_out:
+		if sword_out and not was_sword_out:
+			stateMachine.travel("sword_out")
+		elif sword_out and was_sword_out:
 			stateMachine.travel("idle_sword")
-		else:		
+		elif not sword_out and was_sword_out:
+			stateMachine.travel("sword_in")
+		elif not sword_out and not was_sword_out:
 			stateMachine.travel("idle_normal")
-	
+
 	## Only if running
 	if running and not jumping:	
 		stateMachine.travel("run")
@@ -140,6 +144,7 @@ func _play_animations(moveDirection):
 	## Only if walking
 	elif walking and not running and not jumping:
 		stateMachine.travel("walk")
+
 		
 		if is_grounded: walkingDust.emitting = true
 		
@@ -149,14 +154,15 @@ func _play_animations(moveDirection):
 		
 	if attacking:
 		if currentAttack == 1:
-			stateMachine.travel("sword_1")
+			stateMachine.travel("attack_1")
 		elif currentAttack == 2:
-			stateMachine.travel("sword_2")
+			stateMachine.travel("attack_2")
 		elif currentAttack == 3:
-			stateMachine.travel("sword_3")
+			stateMachine.travel("attack_3")
 
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
+	was_sword_out = sword_out
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
 	
