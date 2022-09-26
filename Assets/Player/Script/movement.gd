@@ -25,18 +25,26 @@ var is_grounded : bool
 var on_ceiling : bool
 var jumping : bool
 var allow_stop_jump : bool = false
+
+var up : bool
+var down: bool
+
 var running : bool
 var landing : bool
 var walking : bool
 var crouching : bool
+
 var sword_out : bool = false
 var was_sword_out : bool = sword_out
 
 var attack_request : bool = false
 var attacking : bool = false
 var attack_1_dur : float = 0.4
-var attack_2_dur : float = 0.4
-var attack_3_dur : float = 0.4
+var attack_2_dur : float = 0.6
+var attack_3_dur : float = 0.6
+var attack_1_air_dur : float = 0.4
+var attack_2_air_dur : float = 0.3
+var attack_3_air_stop : bool = false
 
 var attack_1_dash_speed : float = 300
 
@@ -44,7 +52,7 @@ var attack_1_stamina : float = 10
 var attack_2_stamina : float = 20
 var attack_3_stamina : float = 30
 
-var currentAttack : int = 1
+var currentAttack = ""
 
 var lastMoveDirection : int = 1
 
@@ -59,6 +67,7 @@ onready var swordOutTimer = $swordOutTimer
 onready var raycastUp = $raycastUp
 onready var body = $body
 onready var attackTimer = $attackTimer
+onready var comboTimer = $comboTimer
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -70,7 +79,6 @@ func _ready():
 	
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
-
 	stateMachine.start("idle_normal")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -145,24 +153,28 @@ func _play_animations(moveDirection):
 	elif walking and not running and not jumping:
 		stateMachine.travel("walk")
 
-		
-		if is_grounded: walkingDust.emitting = true
+		if is_grounded: 
+			walkingDust.emitting = true
 		
 	## Only if crouching
 	elif crouching and not jumping:
 		stateMachine.travel("crouch")
 		
 	if attacking:
-		if currentAttack == 1:
-			stateMachine.travel("attack_1")
-		elif currentAttack == 2:
-			stateMachine.travel("attack_2")
-		elif currentAttack == 3:
-			stateMachine.travel("attack_3")
+		print (attacking)
+		if currentAttack == "air_sword_3":
+			stateMachine.travel("air_sword_3_loop")
 
+			if is_grounded:
+				attackTimer.stop_timer()
+				stateMachine.travel("air_sword_3_end")
+		else:
+			stateMachine.travel(currentAttack)
+			
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
 	was_sword_out = sword_out
+	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
 	
@@ -180,6 +192,7 @@ func _check_hit_ceiling():
 
 func jump():
 	velocity.y = -JumpSpeed
+	## If not moving horizontally
 	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
 		squeezePlayer.play("squeeze_in")	
 	jumping = true
@@ -203,6 +216,14 @@ func _get_input():
 	if Input.is_action_pressed(str(controller)+"_attack"):
 		attack_request = true
 
+	up = false
+	if Input.is_action_pressed(str(controller)+"_up"):
+		up = true
+	
+	down = false
+	if Input.is_action_pressed(str(controller)+"_down"):
+		down = true
+
 	var move_direction = -(left-right)
 	
 	return move_direction
@@ -212,6 +233,9 @@ func _apply_input(moveDirection, delta):
 	running = false
 	
 	if moveDirection != 0:
+		## if the player is moving and presses the run key check te follwoing:
+		## - is there enough stamina left to run
+		## - is there no staminaTimout
 		if Input.is_action_pressed(str(controller)+"_run") and staminaBar.currentStamina > 0 and not staminaBar.staminaTimeOut:
 			running = true
 		else:
@@ -226,38 +250,74 @@ func _apply_input(moveDirection, delta):
 		if walking:
 			currentMoveSpeed = moveSpeed
 	else:
+		## Prevents the player from walking while crouching
 		moveDirection = 0
-	
-	
-	if sword_out and attack_request: 
-		attack_request = false
-		
-		## Timer to prevent the player from doing one big ass attack
-		if not attackTimer.started:
-			attackTimer.start_timer(attack_1_dur)
-			currentAttack += 1
-			if currentAttack > 3: currentAttack = 1
-		else:
-			attacking = true
-		## Dash forward and drain stamina
 
-	if attacking:
-		if currentAttack == 1:
-			velocity.x = lerp(velocity.x, 500 * lastMoveDirection, acceleration)
-			staminaBar.drain_stamina_attack(delta, 1)
-		## the player doesn't move with this attack
-		## If the player is walking or running skip this attack
-		elif currentAttack == 2:
-			if not walking or running:
-				staminaBar.drain_stamina_attack(delta, 2)
+	if sword_out and attack_request and (not attackTimer.started):
+		_attack(delta, moveDirection)
+	
+	if attackTimer.started:
+		attacking = true
+	else:
+		attacking = false
+	
+	_jump_after_leaving_platform()
+	
+	_limit_gravity()
+	
+func _attack(delta, moveDirection):
+	## Check wether the player is in the air:
+	if is_grounded:
+		## Start combo
+		## If up and attack are pressed at the same time
+		if up:
+			currentAttack = "air_sword_2"
+			
+			if not attackTimer.started:
+				attackTimer.start_timer(attack_2_dur)
+				
+			staminaBar.drain_stamina_attack(delta, 2)
+			
+			jump()
+			
+		## if the player is not moving
+		elif moveDirection == 0:
+			if comboTimer.time_left > 0:
+				## Change the current attack
+				currentAttack = "sword_3"
+				if not attackTimer.started:
+					attackTimer.start_timer(attack_3_dur)
+				
+				staminaBar.drain_stamina_attack(delta, 3)	
 			else:
-				currentAttack = 3
-		elif currentAttack == 3:
-			staminaBar.drain_stamina_attack(delta, 3)
-			velocity.x = lerp(velocity.x, 200 * lastMoveDirection, acceleration)
+				currentAttack = "sword_2"
+				if not attackTimer.started:
+					attackTimer.start_timer(attack_2_dur)
+				
+				staminaBar.drain_stamina_attack(delta, 2)
+		## If the player is moving
+		else:
+			## Change the current attack
+			currentAttack = "sword_1"
+			if not attackTimer.started:
+				attackTimer.start_timer(attack_1_dur)
+				
+			staminaBar.drain_stamina_attack(delta, 1)
 
-	### Jumping
-	
+	## If the player is in the air
+	else:
+		if down:
+			currentAttack = "air_sword_3"
+			if not attackTimer.started:
+				attackTimer.start_timer(60)
+			
+			attack_3_air_stop = false
+		else:
+			currentAttack = "air_sword_1"
+			if not attackTimer.started:
+				attackTimer.start_timer(attack_1_air_dur)
+
+func _jump_after_leaving_platform():
 	## Jump when jump is pressed
 	if Input.is_action_pressed(str(controller)+"_jump"):
 		## If the player was previously on a platform but not anymore:
@@ -266,12 +326,8 @@ func _apply_input(moveDirection, delta):
 		## If the player is on the ground
 		elif is_grounded:
 			jump()
-
-	## Stop the jump if jump is released and not already falling down
-	if jumping and Input.is_action_just_released(str(controller)+"_jump") and velocity.y < 0 and allow_stop_jump:
-		velocity.y = 0
-		jumping = false
-		
+	
+func _limit_gravity():		
 	## Check if the velocity on the y-axis is not bigger than it should be
 	if velocity.y > gravity:
 		velocity.y = gravity
@@ -286,6 +342,3 @@ func _walk(moveDirection):
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
 		else:
 			velocity.x = lerp(velocity.x, 0, decceleration)
-	
-func _on_attackTimer_timeout():
-	attacking = false
