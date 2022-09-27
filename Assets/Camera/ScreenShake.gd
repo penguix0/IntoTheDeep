@@ -26,12 +26,15 @@ func _new_shake():
 	rand.x = rand_range(-amplitude, amplitude)
 	rand.y = rand_range(-amplitude, amplitude)
 
+	$ShakeTween.set_active(true)
 	$ShakeTween.interpolate_property(camera, "offset", camera.offset, rand, $Frequency.wait_time, TRANS, EASE)
 	$ShakeTween.start()
 
 func _reset():
 	$ShakeTween.interpolate_property(camera, "offset", camera.offset, Vector2(), $Frequency.wait_time, TRANS, EASE)
 	$ShakeTween.start()
+
+	$ShakeTween.set_active(false)
 
 	priority = 0
 
