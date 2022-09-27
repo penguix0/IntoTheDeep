@@ -363,10 +363,12 @@ wait_time = 0.2
 one_shot = true
 
 [node name="comboTimer" type="Timer" parent="."]
-wait_time = 0.6
+wait_time = 0.4
+one_shot = true
+
+[node name="jumpTimeOut" type="Timer" parent="."]
 one_shot = true
 
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
-[connection signal="timeout" from="attackTimer" to="." method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="attackTimer" to="attackTimer" method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="attackTimer/timeOut" to="attackTimer" method="_on_timeOut_timeout"]

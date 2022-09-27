@@ -24,7 +24,7 @@ export(float) var jumpTimeOffPlatform = 0.1
 var is_grounded : bool
 var on_ceiling : bool
 var jumping : bool
-var allow_stop_jump : bool = false
+export(float) var jump_time_out = TimeToJumpPeak + 0.3
 
 var up : bool
 var down: bool
@@ -69,6 +69,7 @@ onready var body = $body
 onready var attackTimer = $attackTimer
 onready var comboTimer = $comboTimer
 onready var camera = $Camera2D
+onready var jumpTimeOut = $jumpTimeOut
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -173,10 +174,11 @@ func _play_animations(moveDirection):
 				
 				## add impact by shaking the screen
 				## Duration, frequency, amplitude, priority
-				camera.ScreenShake.start(0.1, 15, 4, 0)
+				camera.ScreenShake.start(0.3, 15, 10, 1)
 				
 		else:
 			stateMachine.travel(currentAttack)
+			##camera.ScreenShake.start(0.1, 5, 2, 0, 0.01)
 			
 	if moveDirection != 0: lastMoveDirection = moveDirection
 
@@ -203,6 +205,10 @@ func jump():
 	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
 		squeezePlayer.play("squeeze_in")	
 	jumping = true
+	
+	## Prevents the player from jumping every 0 seconds
+	jumpTimeOut.wait_time = jump_time_out
+	jumpTimeOut.start()
 	
 func _get_input():
 	var left = int(Input.is_action_pressed(str(controller)+"_left"))
@@ -249,7 +255,7 @@ func _apply_input(moveDirection, delta):
 			walking = true
 	
 	if not crouching:	
-		if running:
+		if running and is_grounded:
 			## Multiply the moveSpeed
 			currentMoveSpeed = moveSpeed * runMultiplier
 			## Drain stamina when moving
@@ -328,10 +334,10 @@ func _jump_after_leaving_platform():
 	## Jump when jump is pressed
 	if Input.is_action_pressed(str(controller)+"_jump"):
 		## If the player was previously on a platform but not anymore:
-		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping):
+		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping) and jumpTimeOut.time_left == 0:
 			jump()
 		## If the player is on the ground
-		elif is_grounded:
+		elif is_grounded and jumpTimeOut.time_left == 0:
 			jump()
 	
 func _limit_gravity():		

@@ -21,5 +21,9 @@ script = ExtResource( 2 )
 
 [node name="Duration" type="Timer" parent="ScreenShake"]
 
+[node name="Delay" type="Timer" parent="ScreenShake"]
+one_shot = true
+
 [connection signal="timeout" from="ScreenShake/Frequency" to="ScreenShake" method="_on_Frequency_timeout"]
 [connection signal="timeout" from="ScreenShake/Duration" to="ScreenShake" method="_on_Duration_timeout"]
+[connection signal="timeout" from="ScreenShake/Delay" to="ScreenShake" method="_on_Delay_timeout"]
