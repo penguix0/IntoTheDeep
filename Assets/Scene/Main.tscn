@@ -141,7 +141,6 @@ z_index = 10
 JumpHeight = 30
 
 [node name="Camera2D" parent="Player" instance=ExtResource( 4 )]
-smoothing_speed = 10.0
 
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( 300, -100 )

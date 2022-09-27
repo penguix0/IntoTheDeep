@@ -89,15 +89,7 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=63]
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=64]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=65]
-
 [sub_resource type="AnimationNodeStateMachineTransition" id=66]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=67]
-
-[sub_resource type="AnimationNodeStateMachineTransition" id=68]
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=72]
 
@@ -150,6 +142,16 @@ switch_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id=102]
 
+[sub_resource type="AnimationNodeStateMachineTransition" id=103]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=104]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=105]
+switch_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=106]
+switch_mode = 1
+
 [sub_resource type="AnimationNodeStateMachine" id=6]
 states/air_sword_1/node = SubResource( 91 )
 states/air_sword_1/position = Vector2( -1223.69, 440.38 )
@@ -160,7 +162,7 @@ states/air_sword_3_end/position = Vector2( -1162.69, -82.62 )
 states/air_sword_3_loop/node = SubResource( 94 )
 states/air_sword_3_loop/position = Vector2( -1162.69, 62.38 )
 states/crouch/node = SubResource( 69 )
-states/crouch/position = Vector2( -341.687, 289.115 )
+states/crouch/position = Vector2( -209.687, 289.115 )
 states/idle_normal/node = SubResource( 49 )
 states/idle_normal/position = Vector2( -528.35, 518.115 )
 states/idle_sword/node = SubResource( 58 )
@@ -170,7 +172,7 @@ states/jump/position = Vector2( -686.687, 289.115 )
 states/jump_mid_air/node = SubResource( 71 )
 states/jump_mid_air/position = Vector2( -870.687, 289.115 )
 states/run/node = SubResource( 59 )
-states/run/position = Vector2( -528.35, 229.17 )
+states/run/position = Vector2( -402.35, 289.115 )
 states/sword_1/node = SubResource( 80 )
 states/sword_1/position = Vector2( -736.35, -99.62 )
 states/sword_2/node = SubResource( 81 )
@@ -182,9 +184,9 @@ states/sword_in/position = Vector2( 782.65, 289.115 )
 states/sword_out/node = SubResource( 53 )
 states/sword_out/position = Vector2( -1786.35, 289.115 )
 states/walk/node = SubResource( 60 )
-states/walk/position = Vector2( -528.35, 346.17 )
-transitions = [ "idle_normal", "sword_out", SubResource( 55 ), "sword_in", "idle_normal", SubResource( 57 ), "sword_out", "idle_sword", SubResource( 61 ), "idle_sword", "sword_in", SubResource( 62 ), "idle_normal", "walk", SubResource( 63 ), "walk", "run", SubResource( 64 ), "run", "walk", SubResource( 65 ), "walk", "idle_normal", SubResource( 66 ), "idle_sword", "run", SubResource( 67 ), "run", "idle_sword", SubResource( 68 ), "idle_sword", "crouch", SubResource( 72 ), "crouch", "idle_sword", SubResource( 73 ), "crouch", "idle_normal", SubResource( 74 ), "idle_normal", "crouch", SubResource( 75 ), "idle_sword", "jump", SubResource( 76 ), "idle_normal", "jump", SubResource( 77 ), "jump_mid_air", "idle_normal", SubResource( 78 ), "jump_mid_air", "idle_sword", SubResource( 79 ), "idle_sword", "sword_1", SubResource( 83 ), "idle_sword", "sword_2", SubResource( 84 ), "idle_sword", "sword_3", SubResource( 85 ), "jump", "jump_mid_air", SubResource( 86 ), "sword_1", "idle_sword", SubResource( 87 ), "sword_2", "idle_sword", SubResource( 88 ), "sword_3", "idle_sword", SubResource( 89 ), "air_sword_3_loop", "air_sword_3_end", SubResource( 95 ), "jump_mid_air", "air_sword_2", SubResource( 97 ), "jump_mid_air", "air_sword_1", SubResource( 98 ), "air_sword_3_end", "idle_sword", SubResource( 99 ), "air_sword_2", "idle_sword", SubResource( 100 ), "air_sword_1", "idle_sword", SubResource( 101 ), "jump_mid_air", "air_sword_3_loop", SubResource( 102 ) ]
-graph_offset = Vector2( -1488.69, -62.62 )
+states/walk/position = Vector2( -567.35, 289.115 )
+transitions = [ "idle_normal", "sword_out", SubResource( 55 ), "sword_in", "idle_normal", SubResource( 57 ), "sword_out", "idle_sword", SubResource( 61 ), "idle_sword", "sword_in", SubResource( 62 ), "idle_normal", "walk", SubResource( 63 ), "walk", "idle_normal", SubResource( 66 ), "idle_sword", "crouch", SubResource( 72 ), "crouch", "idle_sword", SubResource( 73 ), "crouch", "idle_normal", SubResource( 74 ), "idle_normal", "crouch", SubResource( 75 ), "idle_sword", "jump", SubResource( 76 ), "idle_normal", "jump", SubResource( 77 ), "jump_mid_air", "idle_normal", SubResource( 78 ), "jump_mid_air", "idle_sword", SubResource( 79 ), "idle_sword", "sword_1", SubResource( 83 ), "idle_sword", "sword_2", SubResource( 84 ), "idle_sword", "sword_3", SubResource( 85 ), "jump", "jump_mid_air", SubResource( 86 ), "sword_1", "idle_sword", SubResource( 87 ), "sword_2", "idle_sword", SubResource( 88 ), "sword_3", "idle_sword", SubResource( 89 ), "air_sword_3_loop", "air_sword_3_end", SubResource( 95 ), "jump_mid_air", "air_sword_2", SubResource( 97 ), "jump_mid_air", "air_sword_1", SubResource( 98 ), "air_sword_3_end", "idle_sword", SubResource( 99 ), "air_sword_2", "idle_sword", SubResource( 100 ), "air_sword_1", "idle_sword", SubResource( 101 ), "jump_mid_air", "air_sword_3_loop", SubResource( 102 ), "idle_sword", "walk", SubResource( 103 ), "walk", "idle_sword", SubResource( 104 ), "walk", "run", SubResource( 105 ), "run", "walk", SubResource( 106 ) ]
+graph_offset = Vector2( -916.69, -5.62 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 

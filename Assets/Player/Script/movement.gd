@@ -126,6 +126,7 @@ func _play_animations(moveDirection):
 	elif moveDirection < 0:
 		body.scale.x = -abs(body.scale.x)
 	else:
+		## Keeps the player facing direction in idle animations
 		if lastMoveDirection > 0:
 			body.scale.x = abs(body.scale.x)
 		else:
