@@ -68,6 +68,7 @@ onready var raycastUp = $raycastUp
 onready var body = $body
 onready var attackTimer = $attackTimer
 onready var comboTimer = $comboTimer
+onready var camera = $Camera2D
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -161,13 +162,18 @@ func _play_animations(moveDirection):
 		stateMachine.travel("crouch")
 		
 	if attacking:
-		print (attacking)
 		if currentAttack == "air_sword_3":
 			stateMachine.travel("air_sword_3_loop")
 
+			## When hitting the ground
 			if is_grounded:
 				attackTimer.stop_timer()
 				stateMachine.travel("air_sword_3_end")
+				
+				## add impact by shaking the screen
+				## Duration, frequency, amplitude, priority
+				camera.ScreenShake.start(0.1, 15, 4, 0)
+				
 		else:
 			stateMachine.travel(currentAttack)
 			
