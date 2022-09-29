@@ -70,6 +70,11 @@ onready var attackTimer = $attackTimer
 onready var comboTimer = $comboTimer
 onready var camera = $Camera2D
 onready var jumpTimeOut = $jumpTimeOut
+onready var ghostTimer = $ghosts/ghostTimer
+
+var emitGhost : bool = false
+var ghost
+
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -82,6 +87,8 @@ func _ready():
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
 	stateMachine.start("idle_normal")
+	
+	ghost = preload("res://Assets/Player/ghost.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
@@ -166,7 +173,11 @@ func _play_animations(moveDirection):
 	if attacking:
 		if currentAttack == "air_sword_3":
 			stateMachine.travel("air_sword_3_loop")
-
+			
+			## Start to emit ghosts
+			##emitGhost = true
+			##ghostTimer.start()
+			
 			## When hitting the ground
 			if is_grounded:
 				attackTimer.stop_timer()
@@ -177,6 +188,7 @@ func _play_animations(moveDirection):
 				camera.ScreenShake.start(0.3, 15, 10, 1)
 				
 		else:
+			emitGhost = false
 			stateMachine.travel(currentAttack)
 			##camera.ScreenShake.start(0.1, 5, 2, 0, 0.01)
 			
@@ -355,3 +367,15 @@ func _walk(moveDirection):
 			velocity.x = lerp(velocity.x, 0, decceleration_air)
 		else:
 			velocity.x = lerp(velocity.x, 0, decceleration)
+
+
+func _on_ghostTimer_timeout():
+	if emitGhost:
+		ghostTimer.start()
+	
+	var instance = ghost.instance()
+	instance.scale.x = body.scale.x
+	instance.texture = $body/Sprite.texture
+	instance.position = self.position
+	
+	get_parent().add_child(instance)
