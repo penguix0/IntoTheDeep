@@ -2,15 +2,15 @@
 
 importer="texture"
 type="StreamTexture"
-path="res://.import/oak_woods_tileset.png-8bce8f91508ad2ba03df50b874dcdcd1.stex"
+path="res://.import/background2.png-c3388fcb48cda48ffd1f1cf100ae96e7.stex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Tileset/oak_woods_tileset.png"
-dest_files=[ "res://.import/oak_woods_tileset.png-8bce8f91508ad2ba03df50b874dcdcd1.stex" ]
+source_file="res://Assets/Tileset/background2.png"
+dest_files=[ "res://.import/background2.png-c3388fcb48cda48ffd1f1cf100ae96e7.stex" ]
 
 [params]
 
@@ -20,7 +20,7 @@ compress/hdr_mode=0
 compress/bptc_ldr=0
 compress/normal_map=0
 flags/repeat=0
-flags/filter=false
+flags/filter=true
 flags/mipmaps=false
 flags/anisotropic=false
 flags/srgb=2
