@@ -130,7 +130,7 @@ func _process(delta):
 func slope(slides: int):
 	for slide in slides:
 		var touched = get_slide_collision(slide)
-		if is_grounded and touched.normal.y < 1.0 and not velocity.x == 0:
+		if is_grounded and touched.normal.y < 1.0 and not velocity.x == 0 and not is_on_wall():
 			velocity.y = touched.normal.y
 			
 func _on_land():
