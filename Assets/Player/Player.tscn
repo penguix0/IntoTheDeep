@@ -1,4 +1,4 @@
-[gd_scene load_steps=84 format=2]
+[gd_scene load_steps=85 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -190,6 +190,10 @@ graph_offset = Vector2( -1219.49, 326.465 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
+[sub_resource type="CapsuleShape2D" id=107]
+radius = 4.0
+height = 16.0
+
 [sub_resource type="CapsuleShape2D" id=48]
 radius = 5.0
 height = 14.0
@@ -244,6 +248,11 @@ tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 7 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 5 )
+rotation = 1.5708
+shape = SubResource( 107 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
