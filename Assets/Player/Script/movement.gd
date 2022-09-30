@@ -4,7 +4,7 @@ extends KinematicBody2D
 export var controller = 0
 
 const UP = Vector2(0, 1)
-export(int) var slope_stop = 100
+export(int) var slope_stop = 45
 
 var velocity = Vector2()
 export(int) var moveSpeed = 200
@@ -120,8 +120,19 @@ func _process(delta):
 	
 	_walk(_get_input())
 	
-	move_and_slide(velocity, UP, slope_stop)
+	_limit_gravity()
+	
+	var currVel = move_and_slide(velocity, UP, slope_stop)
+	var slides = get_slide_count()
+	if slides:
+		slope(slides)
 
+func slope(slides: int):
+	for slide in slides:
+		var touched = get_slide_collision(slide)
+		if is_grounded and touched.normal.y < 1.0 and not velocity.x == 0:
+			velocity.y = touched.normal.y
+			
 func _on_land():
 	squeezePlayer.play("squeeze_out")
 
@@ -300,8 +311,6 @@ func _apply_input(moveDirection, delta):
 	
 	_jump_after_leaving_platform()
 	
-	_limit_gravity()
-	
 func _attack(delta, moveDirection):
 	## Check wether the player is in the air:
 	if is_grounded:
@@ -366,9 +375,9 @@ func _jump_after_leaving_platform():
 	
 func _limit_gravity():		
 	## Check if the velocity on the y-axis is not bigger than it should be
-	if velocity.y > gravity:
-		velocity.y = gravity
-	
+	if velocity.y > 0.5*gravity:
+		velocity.y = 0.5*gravity
+
 func _walk(moveDirection):
 	## The Lerp function smooths out the velocity, this prevents instand acceleration
 	if moveDirection != 0:
