@@ -24,7 +24,7 @@ export(float) var jumpTimeOffPlatform = 0.1
 var is_grounded : bool
 var on_ceiling : bool
 var jumping : bool
-export(float) var jump_time_out = TimeToJumpPeak + 0.3
+export(float) var jump_time_out = 0.5
 
 var up : bool
 var down: bool
@@ -70,7 +70,7 @@ onready var attackTimer = $attackTimer
 onready var comboTimer = $comboTimer
 onready var camera = $Camera2D
 onready var jumpTimeOut = $jumpTimeOut
-onready var ghostTimer = $ghosts/ghostTimer
+onready var ghostTimer = $ghostTimer
 
 var emitGhost : bool = false
 var ghost
@@ -175,11 +175,18 @@ func _play_animations(moveDirection):
 			stateMachine.travel("air_sword_3_loop")
 			
 			## Start to emit ghosts
-			##emitGhost = true
-			##ghostTimer.start()
+			emitGhost = true
+			ghostTimer.start()
+			 
+			print (velocity.y)
+			## If the player is doing a downwards attack he can't go up:
+			if velocity.y < 0:
+				velocity.y = 0
 			
 			## When hitting the ground
 			if is_grounded:
+				emitGhost = false
+				
 				attackTimer.stop_timer()
 				stateMachine.travel("air_sword_3_end")
 				
@@ -187,8 +194,14 @@ func _play_animations(moveDirection):
 				## Duration, frequency, amplitude, priority
 				camera.ScreenShake.start(0.3, 15, 10, 1)
 				
+				## Prevents the player from jumping while the end animation is still playing
+				jumpTimeOut.wait_time = jump_time_out
+				jumpTimeOut.start()
+				
+				velocity.y = 0
+				velocity.x = 0
+				
 		else:
-			emitGhost = false
 			stateMachine.travel(currentAttack)
 			##camera.ScreenShake.start(0.1, 5, 2, 0, 0.01)
 			

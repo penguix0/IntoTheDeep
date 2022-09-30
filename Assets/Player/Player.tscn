@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-air-attack2-02.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-air-attack3-rdy-00.png" type="Texture" id=28]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"
@@ -249,11 +249,8 @@ parameters/playback = SubResource( 7 )
 position = Vector2( 0, 5 )
 shape = SubResource( 48 )
 
-[node name="ghosts" type="Node2D" parent="."]
-scale = Vector2( 0.9, 1 )
-
-[node name="ghostTimer" type="Timer" parent="ghosts"]
-wait_time = 0.2
+[node name="ghostTimer" type="Timer" parent="."]
+wait_time = 0.015
 one_shot = true
 
 [node name="body" type="Node2D" parent="."]
@@ -376,7 +373,7 @@ one_shot = true
 [node name="jumpTimeOut" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="ghosts/ghostTimer" to="." method="_on_ghostTimer_timeout"]
+[connection signal="timeout" from="ghostTimer" to="." method="_on_ghostTimer_timeout"]
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
 [connection signal="timeout" from="attackTimer" to="attackTimer" method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="attackTimer/timeOut" to="attackTimer" method="_on_timeOut_timeout"]
