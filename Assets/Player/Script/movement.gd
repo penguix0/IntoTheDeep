@@ -4,7 +4,7 @@ extends KinematicBody2D
 export var controller = 0
 
 const UP = Vector2(0, 1)
-export(int) var slope_stop = 64
+export(int) var slope_stop = 100
 
 var velocity = Vector2()
 export(int) var moveSpeed = 200
