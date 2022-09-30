@@ -178,7 +178,6 @@ func _play_animations(moveDirection):
 			emitGhost = true
 			ghostTimer.start()
 			 
-			print (velocity.y)
 			## If the player is doing a downwards attack he can't go up:
 			if velocity.y < 0:
 				velocity.y = 0
