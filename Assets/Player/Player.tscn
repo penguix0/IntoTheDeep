@@ -190,9 +190,7 @@ graph_offset = Vector2( -1219.49, 326.465 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
-[sub_resource type="CapsuleShape2D" id=107]
-radius = 4.0
-height = 16.0
+[sub_resource type="CircleShape2D" id=107]
 
 [sub_resource type="CapsuleShape2D" id=48]
 radius = 5.0
