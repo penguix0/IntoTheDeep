@@ -36,7 +36,7 @@ color = Color( 0.192157, 0.356863, 0.482353, 1 )
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 160, -150 )
 z_index = 10
-JumpHeight = 30
+JumpHeight = 35
 
 [node name="Camera2D" parent="Player" instance=ExtResource( 4 )]
 

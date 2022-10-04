@@ -1,8 +1,5 @@
 extends KinematicBody2D
 
-## export makes the variable show along the node properties
-export var controller = 0
-
 const UP = Vector2(0, 1)
 export(int) var slope_stop = 45
 
@@ -34,10 +31,6 @@ var landing : bool
 var walking : bool
 var crouching : bool
 
-var sword_out : bool = false
-var was_sword_out : bool = sword_out
-
-var attack_request : bool = false
 var attacking : bool = false
 var attack_1_dur : float = 0.4
 var attack_2_dur : float = 0.6
@@ -59,7 +52,6 @@ var lastMoveDirection : int = 1
 onready var raycasts = $raycasts
 onready var AnimPlayer = $AnimationPlayer
 onready var wasGroundedTimer = $wasGroundedTimer
-onready var squeezePlayer = $squeezePlayer
 onready var dustParticles = $dustParticles
 onready var staminaBar = $staminaBar
 onready var walkingDust = $walkingParticles
@@ -71,6 +63,7 @@ onready var comboTimer = $comboTimer
 onready var camera = $Camera2D
 onready var jumpTimeOut = $jumpTimeOut
 onready var ghostTimer = $ghostTimer
+onready var gatherInput = $gatherInput
 
 var emitGhost : bool = false
 var ghost
@@ -92,33 +85,23 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	
 	## If the player was on the ground and is not anymore
-	if is_grounded and not _check_is_grounded():
+	if is_grounded and not raycasts.is_grounded:
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
 		wasGroundedTimer.start()
 	
-	is_grounded = _check_is_grounded()
+	is_grounded = raycasts.is_grounded
 	on_ceiling = _check_hit_ceiling()
-
-	if is_grounded:
-		if landing:
-			_on_land()
-			landing = false
-	else:
-		if !landing:
-			landing = true
 	
 	if not is_grounded or on_ceiling:
 		_apply_gravity(delta) 
-	else:
+
+	if raycasts.landing:
 		jumping = false
 	
-	_apply_input(_get_input(), delta)
+	_apply_input(gatherInput.move_direction, delta)
 	
-	_play_animations(_get_input())
-	
-	_walk(_get_input())
+	_walk(gatherInput.move_direction)
 	
 	_limit_gravity()
 	
@@ -133,101 +116,9 @@ func slope(slides: int):
 		var touched = get_slide_collision(slide)
 		if is_grounded and touched.normal.y < 1.0 and not velocity.x == 0 and not is_on_wall():
 			velocity.y = touched.normal.y
-			
-func _on_land():
-	squeezePlayer.play("squeeze_out")
-
-func _play_animations(moveDirection):
-	walkingDust.emitting = false
-
-	## Flip the sprite if going left
-	if moveDirection > 0:
-		body.scale.x = abs(body.scale.x)
-	elif moveDirection < 0:
-		body.scale.x = -abs(body.scale.x)
-	else:
-		## Keeps the player facing direction in idle animations
-		if lastMoveDirection > 0:
-			body.scale.x = abs(body.scale.x)
-		else:
-			body.scale.x = -abs(body.scale.x)
-		
-		if sword_out and not was_sword_out:
-			stateMachine.travel("sword_out")
-		elif sword_out and was_sword_out:
-			stateMachine.travel("idle_sword")
-		elif not sword_out and was_sword_out:
-			stateMachine.travel("sword_in")
-		elif not sword_out and not was_sword_out:
-			stateMachine.travel("idle_normal")
-
-	## Only if running
-	if running and not jumping:	
-		stateMachine.travel("run")
-		
-		if is_grounded: walkingDust.emitting = true
-	
-	## Only if jumping
-	elif jumping:
-		stateMachine.travel("jump_mid_air")
-	
-	## Only if walking
-	elif walking and not running and not jumping:
-		stateMachine.travel("walk")
-
-		if is_grounded: 
-			walkingDust.emitting = true
-		
-	## Only if crouching
-	elif crouching and not jumping:
-		stateMachine.travel("crouch")
-		
-	if attacking:
-		if currentAttack == "air_sword_3":
-			stateMachine.travel("air_sword_3_loop")
-			
-			## Start to emit ghosts
-			emitGhost = true
-			ghostTimer.start()
-			 
-			## If the player is doing a downwards attack he can't go up:
-			if velocity.y < 0:
-				velocity.y = 0
-			
-			## When hitting the ground
-			if is_grounded:
-				emitGhost = false
-				
-				attackTimer.stop_timer()
-				stateMachine.travel("air_sword_3_end")
-				
-				## add impact by shaking the screen
-				## Duration, frequency, amplitude, priority
-				camera.ScreenShake.start(0.3, 15, 10, 1)
-				
-				## Prevents the player from jumping while the end animation is still playing
-				jumpTimeOut.wait_time = jump_time_out
-				jumpTimeOut.start()
-				
-				velocity.y = 0
-				velocity.x = 0
-				
-		else:
-			stateMachine.travel(currentAttack)
-			##camera.ScreenShake.start(0.1, 5, 2, 0, 0.01)
-			
-	if moveDirection != 0: lastMoveDirection = moveDirection
-
-	was_sword_out = sword_out
 	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
-	
-func _check_is_grounded():
-	for raycast in raycasts.get_children():
-		if raycast.is_colliding():
-			return true
-	return false
 	
 func _check_hit_ceiling():
 	for raycast in raycastUp.get_children():
@@ -237,55 +128,22 @@ func _check_hit_ceiling():
 
 func jump():
 	velocity.y = -JumpSpeed
-	## If not moving horizontally
-	if velocity.x > -walkingThreshold and velocity.x < walkingThreshold:
-		squeezePlayer.play("squeeze_in")	
+	
 	jumping = true
 	
 	## Prevents the player from jumping every 0 seconds
 	jumpTimeOut.wait_time = jump_time_out
 	jumpTimeOut.start()
 	
-func _get_input():
-	var left = int(Input.is_action_pressed(str(controller)+"_left"))
-	var right = int(Input.is_action_pressed(str(controller)+"_right"))
-	
-	if Input.is_action_pressed(str(controller)+"_sword"):
-		if not swordOutTimer.time_left > 0:
-			swordOutTimer.start()
-			sword_out = not sword_out
-
-	## Get input for crouching	
-	crouching = false
-	if Input.is_action_pressed(str(controller)+"_crouch"):
-		crouching = true
-
-	## Get input for attacking
-	attack_request = false
-	if Input.is_action_pressed(str(controller)+"_attack"):
-		attack_request = true
-
-	up = false
-	if Input.is_action_pressed(str(controller)+"_up"):
-		up = true
-	
-	down = false
-	if Input.is_action_pressed(str(controller)+"_down"):
-		down = true
-
-	var move_direction = -(left-right)
-	
-	return move_direction
-	
 func _apply_input(moveDirection, delta):
 	walking = false
 	running = false
 	
 	if moveDirection != 0:
-		## if the player is moving and presses the run key check te follwoing:
+		## if the player is moving and presses the run key, check te follwoing:
 		## - is there enough stamina left to run
 		## - is there no staminaTimout
-		if Input.is_action_pressed(str(controller)+"_run") and staminaBar.currentStamina > 0 and not staminaBar.staminaTimeOut:
+		if gatherInput.running and staminaBar.currentStamina > 0 and not staminaBar.staminaTimeOut:
 			running = true
 		else:
 			walking = true
@@ -298,11 +156,8 @@ func _apply_input(moveDirection, delta):
 			staminaBar.drain_stamina_running(delta)
 		if walking:
 			currentMoveSpeed = moveSpeed
-	else:
-		## Prevents the player from walking while crouching
-		moveDirection = 0
 
-	if sword_out and attack_request and (not attackTimer.started):
+	if gatherInput.sword_out and gatherInput.attack_request and (not attackTimer.started):
 		_attack(delta, moveDirection)
 	
 	if attackTimer.started:
@@ -317,7 +172,7 @@ func _attack(delta, moveDirection):
 	if is_grounded:
 		## Start combo
 		## If up and attack are pressed at the same time
-		if up:
+		if gatherInput.up:
 			currentAttack = "air_sword_2"
 			
 			if not attackTimer.started:
@@ -353,12 +208,16 @@ func _attack(delta, moveDirection):
 
 	## If the player is in the air
 	else:
-		if down:
+		if gatherInput.down:
 			currentAttack = "air_sword_3"
 			if not attackTimer.started:
 				attackTimer.start_timer(60)
 			
 			attack_3_air_stop = false
+			
+			# If the player is doing a downwards attack he can't go up:
+			if velocity.y < 0:
+				velocity.y = 0
 		else:
 			currentAttack = "air_sword_1"
 			if not attackTimer.started:
@@ -366,7 +225,7 @@ func _attack(delta, moveDirection):
 
 func _jump_after_leaving_platform():
 	## Jump when jump is pressed
-	if Input.is_action_pressed(str(controller)+"_jump"):
+	if gatherInput.jump:
 		## If the player was previously on a platform but not anymore:
 		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping) and jumpTimeOut.time_left == 0:
 			jump()
@@ -390,14 +249,3 @@ func _walk(moveDirection):
 		else:
 			velocity.x = lerp(velocity.x, 0, decceleration)
 
-
-func _on_ghostTimer_timeout():
-	if emitGhost:
-		ghostTimer.start()
-	
-	var instance = ghost.instance()
-	instance.scale.x = body.scale.x
-	instance.texture = $body/Sprite.texture
-	instance.position = self.position
-	
-	get_parent().add_child(instance)

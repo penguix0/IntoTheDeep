@@ -1,4 +1,4 @@
-[gd_scene load_steps=85 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -27,7 +27,10 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-air-attack3-rdy-00.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-02.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
+[ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
+[ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"
@@ -186,15 +189,34 @@ states/sword_out/position = Vector2( -1786.35, 289.115 )
 states/walk/node = SubResource( 60 )
 states/walk/position = Vector2( -567.35, 289.115 )
 transitions = [ "idle_normal", "sword_out", SubResource( 55 ), "sword_in", "idle_normal", SubResource( 57 ), "sword_out", "idle_sword", SubResource( 61 ), "idle_sword", "sword_in", SubResource( 62 ), "idle_normal", "walk", SubResource( 63 ), "walk", "idle_normal", SubResource( 66 ), "idle_sword", "crouch", SubResource( 72 ), "crouch", "idle_sword", SubResource( 73 ), "crouch", "idle_normal", SubResource( 74 ), "idle_normal", "crouch", SubResource( 75 ), "idle_sword", "jump", SubResource( 76 ), "idle_normal", "jump", SubResource( 77 ), "jump_mid_air", "idle_normal", SubResource( 78 ), "jump_mid_air", "idle_sword", SubResource( 79 ), "idle_sword", "sword_1", SubResource( 83 ), "idle_sword", "sword_2", SubResource( 84 ), "idle_sword", "sword_3", SubResource( 85 ), "jump", "jump_mid_air", SubResource( 86 ), "sword_1", "idle_sword", SubResource( 87 ), "sword_2", "idle_sword", SubResource( 88 ), "sword_3", "idle_sword", SubResource( 89 ), "air_sword_3_loop", "air_sword_3_end", SubResource( 95 ), "jump_mid_air", "air_sword_2", SubResource( 97 ), "jump_mid_air", "air_sword_1", SubResource( 98 ), "air_sword_3_end", "idle_sword", SubResource( 99 ), "air_sword_2", "idle_sword", SubResource( 100 ), "air_sword_1", "idle_sword", SubResource( 101 ), "jump_mid_air", "air_sword_3_loop", SubResource( 102 ), "idle_sword", "walk", SubResource( 103 ), "walk", "idle_sword", SubResource( 104 ), "walk", "run", SubResource( 105 ), "run", "walk", SubResource( 106 ) ]
-graph_offset = Vector2( -1219.49, 326.465 )
+graph_offset = Vector2( -1224.49, 298.465 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
 [sub_resource type="CircleShape2D" id=107]
 
-[sub_resource type="CapsuleShape2D" id=48]
+[sub_resource type="CircleShape2D" id=108]
+
+[sub_resource type="RectangleShape2D" id=109]
+extents = Vector2( 10, 5 )
+
+[sub_resource type="CircleShape2D" id=110]
 radius = 5.0
-height = 14.0
+
+[sub_resource type="Animation" id=111]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/path = NodePath("CollisionLength1:shape:points")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ PoolVector2Array(  ) ]
+}
 
 [sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 1
@@ -246,15 +268,35 @@ tree_root = SubResource( 6 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 7 )
+script = ExtResource( 31 )
 
-[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+[node name="CollisionWidth" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
 rotation = 1.5708
 shape = SubResource( 107 )
+disabled = true
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 5 )
-shape = SubResource( 48 )
+[node name="collisionJump" type="CollisionShape2D" parent="."]
+position = Vector2( 2, -2 )
+shape = SubResource( 108 )
+
+[node name="CollisionLength2" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 2 )
+rotation = -1.5708
+shape = SubResource( 109 )
+one_way_collision = true
+
+[node name="CollisionLength1" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 11.5 )
+rotation = -1.5708
+shape = SubResource( 110 )
+one_way_collision = true
+
+[node name="CollisionLength3" type="CollisionShape2D" parent="."]
+position = Vector2( 0, -8 )
+rotation = -1.5708
+shape = SubResource( 110 )
+one_way_collision = true
 
 [node name="ghostTimer" type="Timer" parent="."]
 wait_time = 0.015
@@ -268,8 +310,9 @@ texture = ExtResource( 28 )
 script = ExtResource( 11 )
 
 [node name="raycasts" type="Node2D" parent="."]
-position = Vector2( 0, -3 )
+position = Vector2( 0, -3.5 )
 scale = Vector2( 0.494, 1 )
+script = ExtResource( 29 )
 
 [node name="left" type="RayCast2D" parent="raycasts"]
 position = Vector2( -10, 20 )
@@ -289,6 +332,10 @@ enabled = true
 cast_to = Vector2( 0, 1 )
 collision_mask = 3
 
+[node name="upperMiddle" type="RayCast2D" parent="raycasts"]
+position = Vector2( 2, 11 )
+cast_to = Vector2( 0, 1 )
+
 [node name="raycastUp" type="Node2D" parent="."]
 
 [node name="RayCast2D" type="RayCast2D" parent="raycastUp"]
@@ -297,6 +344,9 @@ enabled = true
 cast_to = Vector2( 0, -1 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+playback_speed = 0.3
+anims/RESET = SubResource( 111 )
 anims/air_sword_1 = ExtResource( 25 )
 anims/air_sword_2 = ExtResource( 27 )
 anims/air_sword_3_end = ExtResource( 20 )
@@ -380,7 +430,10 @@ one_shot = true
 [node name="jumpTimeOut" type="Timer" parent="."]
 one_shot = true
 
-[connection signal="timeout" from="ghostTimer" to="." method="_on_ghostTimer_timeout"]
+[node name="gatherInput" type="Node" parent="."]
+script = ExtResource( 30 )
+
+[connection signal="timeout" from="ghostTimer" to="AnimationTree" method="_on_ghostTimer_timeout"]
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
 [connection signal="timeout" from="attackTimer" to="attackTimer" method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="attackTimer/timeOut" to="attackTimer" method="_on_timeOut_timeout"]
