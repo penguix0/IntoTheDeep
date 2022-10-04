@@ -131,6 +131,4 @@ func _on_ghostTimer_timeout():
 	instance.texture = $"../body/Sprite".texture
 	instance.position = player.position
 	
-	print ("spawn")
-	
 	player.get_parent().add_child(instance)
