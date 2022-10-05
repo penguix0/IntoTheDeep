@@ -1,4 +1,4 @@
-[gd_scene load_steps=91 format=2]
+[gd_scene load_steps=90 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-03.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-04.png" type="Texture" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
@@ -195,8 +195,6 @@ graph_offset = Vector2( -1093.27, 171.19 )
 
 [sub_resource type="CircleShape2D" id=107]
 
-[sub_resource type="CircleShape2D" id=108]
-
 [sub_resource type="RectangleShape2D" id=109]
 extents = Vector2( 10, 5 )
 
@@ -275,10 +273,6 @@ position = Vector2( 0, 5 )
 rotation = 1.5708
 shape = SubResource( 107 )
 disabled = true
-
-[node name="collisionJump" type="CollisionShape2D" parent="."]
-position = Vector2( 2, -2 )
-shape = SubResource( 108 )
 
 [node name="CollisionLength2" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
