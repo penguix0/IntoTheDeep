@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-02.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-03.png" type="Texture" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
@@ -189,7 +189,7 @@ states/sword_out/position = Vector2( -1786.35, 289.115 )
 states/walk/node = SubResource( 60 )
 states/walk/position = Vector2( -567.35, 289.115 )
 transitions = [ "idle_normal", "sword_out", SubResource( 55 ), "sword_in", "idle_normal", SubResource( 57 ), "sword_out", "idle_sword", SubResource( 61 ), "idle_sword", "sword_in", SubResource( 62 ), "idle_normal", "walk", SubResource( 63 ), "walk", "idle_normal", SubResource( 66 ), "idle_sword", "crouch", SubResource( 72 ), "crouch", "idle_sword", SubResource( 73 ), "crouch", "idle_normal", SubResource( 74 ), "idle_normal", "crouch", SubResource( 75 ), "idle_sword", "jump", SubResource( 76 ), "idle_normal", "jump", SubResource( 77 ), "jump_mid_air", "idle_normal", SubResource( 78 ), "jump_mid_air", "idle_sword", SubResource( 79 ), "idle_sword", "sword_1", SubResource( 83 ), "idle_sword", "sword_2", SubResource( 84 ), "idle_sword", "sword_3", SubResource( 85 ), "jump", "jump_mid_air", SubResource( 86 ), "sword_1", "idle_sword", SubResource( 87 ), "sword_2", "idle_sword", SubResource( 88 ), "sword_3", "idle_sword", SubResource( 89 ), "air_sword_3_loop", "air_sword_3_end", SubResource( 95 ), "jump_mid_air", "air_sword_2", SubResource( 97 ), "jump_mid_air", "air_sword_1", SubResource( 98 ), "air_sword_3_end", "idle_sword", SubResource( 99 ), "air_sword_2", "idle_sword", SubResource( 100 ), "air_sword_1", "idle_sword", SubResource( 101 ), "jump_mid_air", "air_sword_3_loop", SubResource( 102 ), "idle_sword", "walk", SubResource( 103 ), "walk", "idle_sword", SubResource( 104 ), "walk", "run", SubResource( 105 ), "run", "walk", SubResource( 106 ) ]
-graph_offset = Vector2( -1224.49, 298.465 )
+graph_offset = Vector2( -1093.27, 171.19 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
 
@@ -334,6 +334,7 @@ collision_mask = 3
 
 [node name="upperMiddle" type="RayCast2D" parent="raycasts"]
 position = Vector2( 2, 11 )
+enabled = true
 cast_to = Vector2( 0, 1 )
 
 [node name="raycastUp" type="Node2D" parent="."]
