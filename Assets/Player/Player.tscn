@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-04.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-03.png" type="Texture" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
