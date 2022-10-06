@@ -130,11 +130,7 @@ func jump():
 	velocity.y = -JumpSpeed
 	
 	jumping = true
-	
-	## Prevents the player from jumping every 0 seconds
-	jumpTimeOut.wait_time = jump_time_out
-	jumpTimeOut.start()
-	
+
 func _apply_input(moveDirection, delta):
 	walking = false
 	running = false
