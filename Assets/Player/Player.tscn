@@ -311,7 +311,7 @@ script = ExtResource( 29 )
 [node name="left" type="RayCast2D" parent="raycasts"]
 position = Vector2( -10, 20 )
 enabled = true
-cast_to = Vector2( 0, 1 )
+cast_to = Vector2( 0, 4 )
 collision_mask = 3
 
 [node name="middle" type="RayCast2D" parent="raycasts"]
@@ -323,7 +323,7 @@ collision_mask = 3
 [node name="right" type="RayCast2D" parent="raycasts"]
 position = Vector2( 10, 20 )
 enabled = true
-cast_to = Vector2( 0, 1 )
+cast_to = Vector2( 0, 4 )
 collision_mask = 3
 
 [node name="upperMiddle" type="RayCast2D" parent="raycasts"]
