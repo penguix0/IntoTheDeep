@@ -1,4 +1,4 @@
 extends Node
 
 var camera
-var gravity
+var gravity : float = 0

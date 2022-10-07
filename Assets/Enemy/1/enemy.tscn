@@ -1,0 +1,46 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Assets/Enemy/1/Sprite/spriteframes_1.tres" type="SpriteFrames" id=1]
+[ext_resource path="res://Assets/Enemy/1/Script/isGrounded.gd" type="Script" id=2]
+[ext_resource path="res://Assets/Enemy/1/Script/movement.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 12.5, 17.5 )
+
+[node name="enemy" type="KinematicBody2D"]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 8.5, 0.5 )
+shape = SubResource( 1 )
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = ExtResource( 1 )
+animation = "idle"
+frame = 2
+playing = true
+
+[node name="raycasts" type="Node2D" parent="."]
+position = Vector2( 0, 18 )
+script = ExtResource( 2 )
+
+[node name="left" type="RayCast2D" parent="raycasts"]
+enabled = true
+cast_to = Vector2( 0, 2 )
+
+[node name="middle" type="RayCast2D" parent="raycasts"]
+position = Vector2( 9, 0 )
+enabled = true
+cast_to = Vector2( 0, 1 )
+
+[node name="right" type="RayCast2D" parent="raycasts"]
+position = Vector2( 18, 0 )
+enabled = true
+cast_to = Vector2( 0, 2 )
+
+[node name="walkTimer" type="Timer" parent="."]
+wait_time = 4.0
+one_shot = true
+autostart = true
+
+[connection signal="timeout" from="walkTimer" to="." method="_on_walkTimer_timeout"]

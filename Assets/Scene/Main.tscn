@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=13 format=2]
 
 [ext_resource path="res://Assets/Tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Assets/Player/Player.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Light/Player/default_env.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Image/sky.jpeg" type="Texture" id=6]
 [ext_resource path="res://Assets/Sprite/Parallex/building 1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 11, 48 )
@@ -135,5 +136,8 @@ gravity = Vector2( -25, 98 )
 scale_amount = 2.0
 scale_amount_random = 0.17
 color = Color( 0.356863, 0.658824, 0.890196, 1 )
+
+[node name="enemy" parent="." instance=ExtResource( 8 )]
+position = Vector2( 400, -154 )
 
 [connection signal="body_entered" from="RespawnZone" to="RespawnZone" method="_on_RespawnZone_body_entered"]
