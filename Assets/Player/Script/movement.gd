@@ -16,7 +16,7 @@ var gravity : float = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
 var JumpSpeed : float = 0.0
-export(float) var jumpTimeOffPlatform = 0.1
+export(float) var jumpTimeOffPlatform = 0.2
 
 var is_grounded : bool
 var on_ceiling : bool
@@ -226,7 +226,7 @@ func _jump_after_leaving_platform():
 		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping) and jumpTimeOut.time_left == 0:
 			jump()
 		## If the player is on the ground
-		elif is_grounded and jumpTimeOut.time_left == 0:
+		elif is_grounded:
 			jump()
 	
 func _limit_gravity():		
