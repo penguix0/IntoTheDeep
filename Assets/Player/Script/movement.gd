@@ -16,7 +16,7 @@ var gravity : float = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
 var JumpSpeed : float = 0.0
-export(float) var jumpTimeOffPlatform = 0.2
+export(float) var jumpTimeOffPlatform = 0.1
 
 var is_grounded : bool
 var on_ceiling : bool
