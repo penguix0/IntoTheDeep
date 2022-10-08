@@ -10,7 +10,7 @@
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
 
 [sub_resource type="RectangleShape2D" id=15]
-extents = Vector2( 13.655, 48 )
+extents = Vector2( 10.3, 63.5 )
 
 [sub_resource type="Gradient" id=12]
 offsets = PoolRealArray( 0.407821, 0.988827 )
@@ -59,12 +59,31 @@ __meta__ = {
 respawnPoint = Vector2( 300, -150 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RespawnZone"]
-position = Vector2( 531, 70 )
+position = Vector2( -56, 70 )
 scale = Vector2( 200, 1 )
 shape = SubResource( 15 )
 
 [node name="RespawnPoint" type="Sprite" parent="RespawnZone"]
 position = Vector2( 660, -340 )
+scale = Vector2( 0.3, 0.3 )
+texture = ExtResource( 5 )
+
+[node name="RespawnZone2" type="Area2D" parent="."]
+position = Vector2( 1600, 60 )
+scale = Vector2( 0.5, 0.5 )
+script = ExtResource( 3 )
+__meta__ = {
+"_editor_description_": ""
+}
+respawnPoint = Vector2( 300, -150 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RespawnZone2"]
+position = Vector2( -56, 70 )
+scale = Vector2( 100, 1 )
+shape = SubResource( 15 )
+
+[node name="RespawnPoint" type="Sprite" parent="RespawnZone2"]
+position = Vector2( -1576, -356 )
 scale = Vector2( 0.3, 0.3 )
 texture = ExtResource( 5 )
 
@@ -141,3 +160,4 @@ color = Color( 0.356863, 0.658824, 0.890196, 1 )
 position = Vector2( 400, -154 )
 
 [connection signal="body_entered" from="RespawnZone" to="RespawnZone" method="_on_RespawnZone_body_entered"]
+[connection signal="body_entered" from="RespawnZone2" to="RespawnZone2" method="_on_RespawnZone_body_entered"]
