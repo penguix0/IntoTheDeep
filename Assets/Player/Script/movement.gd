@@ -16,7 +16,7 @@ var gravity : float = 0.0
 export(float) var TimeToJumpPeak = 0.3
 export(int) var JumpHeight = 70
 var JumpSpeed : float = 0.0
-export(float) var jumpTimeOffPlatform = 0.1
+export(float) var jumpTimeOffPlatform = 0.15
 
 var is_grounded : bool
 var on_ceiling : bool
@@ -91,12 +91,12 @@ func _process(delta):
 		wasGroundedTimer.start()
 	
 	is_grounded = raycasts.is_grounded
-	on_ceiling = _check_hit_ceiling()
+	on_ceiling = raycastUp.on_ceiling
 	
 	if not is_grounded or on_ceiling:
 		_apply_gravity(delta) 
 
-	if raycasts.landing:
+	if raycasts.landing or on_ceiling:
 		jumping = false
 	
 	_apply_input(gatherInput.move_direction, delta)
@@ -120,12 +120,6 @@ func slope(slides: int):
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
 	
-func _check_hit_ceiling():
-	for raycast in raycastUp.get_children():
-		if raycast.is_colliding():
-			return true
-	return false
-
 func jump():
 	velocity.y = -JumpSpeed
 	

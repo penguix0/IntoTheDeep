@@ -1,4 +1,4 @@
-[gd_scene load_steps=90 format=2]
+[gd_scene load_steps=91 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -31,6 +31,7 @@
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
+[ext_resource path="res://Assets/Player/Script/onCeiling.gd" type="Script" id=32]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"
@@ -327,9 +328,10 @@ cast_to = Vector2( 0, 4 )
 collision_mask = 3
 
 [node name="raycastUp" type="Node2D" parent="."]
+script = ExtResource( 32 )
 
-[node name="RayCast2D" type="RayCast2D" parent="raycastUp"]
-position = Vector2( -2.022, -8.012 )
+[node name="middle" type="RayCast2D" parent="raycastUp"]
+position = Vector2( 0, -13 )
 enabled = true
 cast_to = Vector2( 0, -1 )
 

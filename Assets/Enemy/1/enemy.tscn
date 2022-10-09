@@ -17,7 +17,6 @@ shape = SubResource( 1 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 frames = ExtResource( 1 )
 animation = "idle"
-frame = 2
 playing = true
 
 [node name="raycasts" type="Node2D" parent="."]

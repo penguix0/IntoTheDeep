@@ -41,6 +41,9 @@ JumpHeight = 35
 
 [node name="Camera2D" parent="Player" instance=ExtResource( 4 )]
 
+[node name="enemy" parent="." instance=ExtResource( 8 )]
+position = Vector2( 400, -154 )
+
 [node name="TileMap" type="TileMap" parent="."]
 position = Vector2( 300, -100 )
 scale = Vector2( 0.5, 0.5 )
@@ -155,9 +158,6 @@ gravity = Vector2( -25, 98 )
 scale_amount = 2.0
 scale_amount_random = 0.17
 color = Color( 0.356863, 0.658824, 0.890196, 1 )
-
-[node name="enemy" parent="." instance=ExtResource( 8 )]
-position = Vector2( 400, -154 )
 
 [connection signal="body_entered" from="RespawnZone" to="RespawnZone" method="_on_RespawnZone_body_entered"]
 [connection signal="body_entered" from="RespawnZone2" to="RespawnZone2" method="_on_RespawnZone_body_entered"]

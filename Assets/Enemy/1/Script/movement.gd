@@ -54,13 +54,7 @@ func _process(delta):
 	
 	if direction == 0:
 		animatedSprite.play("idle")
-	if direction < 0:
-		animatedSprite.flip_h = false
-		collider.position.x = -abs(collider.position.x)
-	elif direction > 0:
-		animatedSprite.flip_h = true
-		collider.position.x = abs(collider.position.x)
-	
+		
 	var currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
 	if slides:
@@ -91,4 +85,4 @@ func _on_walkTimer_timeout():
 	walkTimer.wait_time = random.randi_range(minWalkTime, maxWalkTime)
 	walkTimer.start()
 	
-	direction = random.randi_range(-1, 1)
+	#direction = random.randi_range(-1, 1)
