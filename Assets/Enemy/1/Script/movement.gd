@@ -50,15 +50,30 @@ func _process(delta):
 		
 	_limit_gravity()
 	
-	velocity.x = direction * currentMoveSpeed
+	##velocity.x = direction * currentMoveSpeed
 	
 	if direction == 0:
 		animatedSprite.play("idle")
+	elif direction < 0:
+		turn_right()
+	elif direction > 0:
+		turn_left()
+		
 		
 	var currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)
+	
+func turn_left():
+	animatedSprite.position.x = -8.2
+	animatedSprite.scale.x = 1
+	animatedSprite.flip_h = false
+	
+func turn_right():
+	animatedSprite.position.x = 8.2
+	animatedSprite.scale.x = 1
+	animatedSprite.flip_h = true
 	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -79,7 +94,6 @@ func _limit_gravity():
 	## Check if the velocity on the y-axis is not bigger than it should be
 	if velocity.y > 0.5*gravity:
 		velocity.y = 0.5*gravity
-
 
 func _on_walkTimer_timeout():
 	walkTimer.wait_time = random.randi_range(minWalkTime, maxWalkTime)

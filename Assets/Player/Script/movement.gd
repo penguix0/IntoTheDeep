@@ -77,6 +77,14 @@ func _ready():
 	JumpSpeed = gravity * TimeToJumpPeak
 	Global.gravity = gravity
 	
+	if gatherInput.controller == 0:
+		Global.player1_name = self.name
+	elif gatherInput.controller == 1:
+		Global.player2_name = self.name
+	elif gatherInput.controller == 2:
+		Global.player3_name = self.name
+	elif gatherInput.controller == 3:
+		Global.player4_name = self.name
 	
 	stateMachine = $AnimationTree.get("parameters/playback")
 	stateMachine.start("idle_normal")

@@ -19,5 +19,5 @@ func _ready():
 
 
 func _on_RespawnZone_body_entered(body):
-	if body.name == "Player":
+	if body.name == Global.player1_name or body.name == Global.player2_name or body.name == Global.player3_name or body.name == Global.player4_name:
 		body.position = respawnPoint
