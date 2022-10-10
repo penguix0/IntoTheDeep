@@ -1,9 +1,11 @@
-[gd_scene load_steps=9 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Enemy/1/Sprite/spriteframes_1.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Enemy/1/Script/isGrounded.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Enemy/1/Script/movement.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Enemy/1/Script/enemyDetectionZone.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Enemy/1/Sprite/noticed.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Enemy/1/animation/notice.tres" type="Animation" id=6]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 42, 12.5 )
@@ -14,6 +16,9 @@ extents = Vector2( 42, 12.5 )
 [sub_resource type="RectangleShape2D" id=5]
 extents = Vector2( 27, 12.5 )
 
+[sub_resource type="CircleShape2D" id=7]
+radius = 142.21
+
 [sub_resource type="CapsuleShape2D" id=4]
 
 [node name="enemy" type="KinematicBody2D"]
@@ -23,11 +28,12 @@ script = ExtResource( 3 )
 position = Vector2( 8.2, 0 )
 frames = ExtResource( 1 )
 animation = "idle"
-frame = 1
+speed_scale = 2.0
 playing = true
 flip_h = true
 
 [node name="raycasts" type="Node2D" parent="."]
+visible = false
 position = Vector2( 0, 18 )
 script = ExtResource( 2 )
 
@@ -45,12 +51,8 @@ position = Vector2( 18, 0 )
 enabled = true
 cast_to = Vector2( 0, 2 )
 
-[node name="walkTimer" type="Timer" parent="."]
-wait_time = 4.0
-one_shot = true
-autostart = true
-
 [node name="enemyDetectionZone" type="Node2D" parent="."]
+visible = false
 position = Vector2( 8.5, 1.5 )
 script = ExtResource( 4 )
 
@@ -72,10 +74,30 @@ shape = SubResource( 3 )
 position = Vector2( -8.5, -6 )
 shape = SubResource( 5 )
 
+[node name="notice" type="Area2D" parent="enemyDetectionZone"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="enemyDetectionZone/notice"]
+position = Vector2( -8, -2 )
+shape = SubResource( 7 )
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2( 0, -1.5 )
 shape = SubResource( 4 )
 
-[connection signal="timeout" from="walkTimer" to="." method="_on_walkTimer_timeout"]
+[node name="Sprite" type="Sprite" parent="."]
+position = Vector2( 0, -22.738 )
+texture = ExtResource( 5 )
+region_enabled = true
+region_rect = Rect2( 5, -10, 22, 11 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
+anims/notice = ExtResource( 6 )
+
+[connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="enemyDetectionZone/left" to="enemyDetectionZone" method="_on_left_body_entered"]
 [connection signal="body_entered" from="enemyDetectionZone/right" to="enemyDetectionZone" method="_on_right_body_entered"]
+[connection signal="body_entered" from="enemyDetectionZone/shank" to="enemyDetectionZone" method="_on_shank_body_entered"]
+[connection signal="body_exited" from="enemyDetectionZone/shank" to="enemyDetectionZone" method="_on_shank_body_exited"]
+[connection signal="body_entered" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_entered"]
+[connection signal="body_exited" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_exited"]
