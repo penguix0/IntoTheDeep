@@ -5,21 +5,14 @@
 [ext_resource path="res://Assets/Script/RespawnZone.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Camera/Camera.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Assets/Light/Player/default_env.png" type="Texture" id=5]
-[ext_resource path="res://Assets/Image/sky.jpeg" type="Texture" id=6]
-[ext_resource path="res://Assets/Sprite/Parallex/building 1.png" type="Texture" id=7]
+[ext_resource path="res://Assets/Tileset/background3.png" type="Texture" id=6]
+[ext_resource path="res://Assets/Tileset/background2.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
+[ext_resource path="res://Assets/Tileset/background4a.png" type="Texture" id=9]
+[ext_resource path="res://Assets/Tileset/background1.png" type="Texture" id=10]
 
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 10.3, 63.5 )
-
-[sub_resource type="Gradient" id=12]
-offsets = PoolRealArray( 0.407821, 0.988827 )
-colors = PoolColorArray( 0, 0, 0, 1, 0.243137, 0.270588, 0.345098, 0 )
-
-[sub_resource type="GradientTexture2D" id=13]
-gradient = SubResource( 12 )
-width = 84
-height = 2000
 
 [sub_resource type="ParticlesMaterial" id=14]
 emission_shape = 2
@@ -92,50 +85,33 @@ texture = ExtResource( 5 )
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
-[node name="sky" type="ParallaxLayer" parent="ParallaxBackground"]
-modulate = Color( 0.290196, 0.290196, 0.290196, 1 )
+[node name="ParallaxLayer1" type="ParallaxLayer" parent="ParallaxBackground"]
 motion_scale = Vector2( 0.1, 0.1 )
+motion_mirroring = Vector2( 960, 0 )
 
-[node name="Sky" type="Sprite" parent="ParallaxBackground/sky"]
-position = Vector2( -2, -48 )
-scale = Vector2( 1.5, 1.5 )
-z_index = -100
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer1"]
+texture = ExtResource( 10 )
+
+[node name="ParallaxLayer2" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.3, 0.3 )
+motion_mirroring = Vector2( 960, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer2"]
+texture = ExtResource( 7 )
+
+[node name="ParallaxLayer3" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.5, 0.5 )
+motion_mirroring = Vector2( 960, 0 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer3"]
 texture = ExtResource( 6 )
 
-[node name="building" type="ParallaxLayer" parent="ParallaxBackground"]
-motion_scale = Vector2( 0.2, 0.2 )
-motion_offset = Vector2( 0, -40 )
+[node name="ParallaxLayer4" type="ParallaxLayer" parent="ParallaxBackground"]
+motion_scale = Vector2( 0.7, 0.6 )
+motion_mirroring = Vector2( 960, 0 )
 
-[node name="Building1" type="Sprite" parent="ParallaxBackground/building"]
-visible = false
-modulate = Color( 0.458824, 0.458824, 0.458824, 1 )
-position = Vector2( 37, -28.5 )
-texture = ExtResource( 7 )
-
-[node name="1" type="Sprite" parent="ParallaxBackground/building/Building1"]
-show_behind_parent = true
-position = Vector2( 0, 113.5 )
-texture = ExtResource( 7 )
-
-[node name="2" type="Sprite" parent="ParallaxBackground/building/Building1/1"]
-show_behind_parent = true
-position = Vector2( 0, 59 )
-texture = ExtResource( 7 )
-
-[node name="Building2" type="Sprite" parent="ParallaxBackground/building"]
-visible = false
-modulate = Color( 0.458824, 0.458824, 0.458824, 1 )
-position = Vector2( -80, 73 )
-scale = Vector2( 1, 1.23438 )
-texture = ExtResource( 7 )
-
-[node name="TextureRect" type="TextureRect" parent="ParallaxBackground/building"]
-margin_left = -1105.0
-margin_top = 155.0
-margin_right = -917.0
-margin_bottom = 2155.0
-rect_rotation = 270.0
-texture = SubResource( 13 )
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer4"]
+texture = ExtResource( 9 )
 
 [node name="rainGPU" type="Particles2D" parent="."]
 visible = false
