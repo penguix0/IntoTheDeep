@@ -113,7 +113,7 @@ func _process(delta):
 	
 	_limit_gravity()
 	
-	var currVel = move_and_slide(velocity, UP, slope_stop)
+	var _currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)

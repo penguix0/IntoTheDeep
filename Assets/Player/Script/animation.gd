@@ -38,7 +38,7 @@ func _ready():
 	ghost = preload("res://Assets/Player/ghost.tscn")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	_update_vars()
 	_rotate_player(gatherInput.move_direction)
 	_play_animations(gatherInput.move_direction)

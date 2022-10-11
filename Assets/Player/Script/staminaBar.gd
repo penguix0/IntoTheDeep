@@ -4,7 +4,7 @@ var active = false
 
 export(float) var stamina = 100.0
 export(float) var staminaDrainRunning = 25.0
-export(float) var staminaDrainAttack = 50
+export(float) var staminaDrainAttack = 50.0
 export(float) var staminaRegenerationFactor = 10.0
 export(float) var staminaRegenerationFactorWithTimeOut = 5.0
 var currentStamina = stamina

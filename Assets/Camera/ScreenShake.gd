@@ -4,8 +4,8 @@ extends Node
 const TRANS = Tween.TRANS_SINE
 const EASE = Tween.EASE_IN_OUT
 
-var amplitude = 0
-var priority = 0
+var amplitude : float
+var priority : float
 
 onready var camera = get_parent()
 

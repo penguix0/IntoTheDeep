@@ -4,7 +4,7 @@ var is_grounded : bool = false
 var landing : bool
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _physics_process(_delta):
 	is_grounded = _check_is_grounded()
 	_check_if_landed()
 	

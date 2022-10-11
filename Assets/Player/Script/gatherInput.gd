@@ -15,7 +15,7 @@ var sword_out : bool
 
 onready var swordOutTimer = $"../swordOutTimer"
 
-func _process(delta):
+func _physics_process(_delta):
 	_get_input()
 
 func _get_input():

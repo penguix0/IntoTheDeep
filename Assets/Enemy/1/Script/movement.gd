@@ -53,7 +53,7 @@ func _process(delta):
 		turn_left()
 		
 		
-	var currVel = move_and_slide(velocity, UP, slope_stop)
+	var _currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)
