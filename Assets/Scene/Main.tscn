@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=16 format=2]
 
 [ext_resource path="res://Assets/Tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Assets/Player/Player.tscn" type="PackedScene" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Tileset/background4a.png" type="Texture" id=9]
 [ext_resource path="res://Assets/Tileset/background1.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Light/fog.tres" type="Material" id=11]
+[ext_resource path="res://Assets/Light/fog.png" type="Texture" id=12]
 
 [sub_resource type="ParticlesMaterial" id=16]
 flag_disable_z = true
@@ -161,6 +163,12 @@ gravity = Vector2( -25, 98 )
 scale_amount = 2.0
 scale_amount_random = 0.17
 color = Color( 0.356863, 0.658824, 0.890196, 1 )
+
+[node name="fog" type="Sprite" parent="."]
+material = ExtResource( 11 )
+position = Vector2( 500, -29 )
+scale = Vector2( 314.5, 177.1 )
+texture = ExtResource( 12 )
 
 [connection signal="body_entered" from="RespawnZone" to="RespawnZone" method="_on_RespawnZone_body_entered"]
 [connection signal="body_entered" from="RespawnZone2" to="RespawnZone2" method="_on_RespawnZone_body_entered"]
