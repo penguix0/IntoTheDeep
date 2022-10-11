@@ -4,7 +4,6 @@
 [ext_resource path="res://Assets/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Script/RespawnZone.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Camera/Camera.tscn" type="PackedScene" id=4]
-[ext_resource path="res://Assets/Light/Player/default_env.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Tileset/background3.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Tileset/background2.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
@@ -12,6 +11,7 @@
 [ext_resource path="res://Assets/Tileset/background1.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Light/fog.tres" type="Material" id=11]
 [ext_resource path="res://Assets/Light/fog.png" type="Texture" id=12]
+[ext_resource path="res://Assets/Sprite/respawn/respawnFrames.tres" type="SpriteFrames" id=13]
 
 [sub_resource type="ParticlesMaterial" id=16]
 flag_disable_z = true
@@ -88,10 +88,12 @@ position = Vector2( -56, 70 )
 scale = Vector2( 200, 1 )
 shape = SubResource( 15 )
 
-[node name="RespawnPoint" type="Sprite" parent="RespawnZone"]
+[node name="RespawnPoint" type="AnimatedSprite" parent="RespawnZone"]
 position = Vector2( 660, -340 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 5 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 13 )
+frame = 7
+playing = true
 
 [node name="RespawnZone2" type="Area2D" parent="."]
 position = Vector2( 1600, 60 )
@@ -107,10 +109,12 @@ position = Vector2( -81, 70 )
 scale = Vector2( 100, 1 )
 shape = SubResource( 15 )
 
-[node name="RespawnPoint" type="Sprite" parent="RespawnZone2"]
-position = Vector2( -1576, -356 )
-scale = Vector2( 0.3, 0.3 )
-texture = ExtResource( 5 )
+[node name="RespawnPoint" type="AnimatedSprite" parent="RespawnZone2"]
+position = Vector2( -1600, -350 )
+scale = Vector2( 2, 2 )
+frames = ExtResource( 13 )
+frame = 7
+playing = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 
@@ -166,7 +170,7 @@ color = Color( 0.356863, 0.658824, 0.890196, 1 )
 
 [node name="fog" type="Sprite" parent="."]
 material = ExtResource( 11 )
-position = Vector2( 500, -29 )
+position = Vector2( 407, -34 )
 scale = Vector2( 314.5, 177.1 )
 texture = ExtResource( 12 )
 
