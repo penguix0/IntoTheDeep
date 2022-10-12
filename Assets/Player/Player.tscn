@@ -27,12 +27,12 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Audio/Player/sword_swing_3.wav" type="AudioStream" id=28]
+[ext_resource path="res://Assets/Audio/Player/sword_impact.wav" type="AudioStream" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
 [ext_resource path="res://Assets/Player/Script/onCeiling.gd" type="Script" id=32]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-attack3-05.png" type="Texture" id=33]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-air-attack3-rdy-00.png" type="Texture" id=33]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"

@@ -40,6 +40,9 @@ func _reset():
 	$ShakeTween.start()
 
 	priority = 0
+	
+	camera.offset.x = 0
+	camera.offset.y = 0
 
 
 func _on_Frequency_timeout():

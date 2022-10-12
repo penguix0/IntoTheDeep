@@ -251,3 +251,6 @@ func _walk(moveDirection):
 		else:
 			velocity.x = lerp(velocity.x, 0, decceleration)
 
+func _shake(duration = 0.2, frequency = 15, amplitude = 16, priority = 0, delay = 0):
+	$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
+	
