@@ -4,7 +4,7 @@ var is_grounded : bool = false
 var landing : bool
 
 onready var jumpTimeOut = $"../jumpTimeOut"
-export var jump_time_out = 0.3
+export var jump_time_out = 0.2
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(_delta):

@@ -5,6 +5,7 @@ export(int) var slope_stop = 45
 
 var velocity = Vector2()
 export(int) var moveSpeed = 200
+export(float) var moveSpeedAir = 0.8
 var currentMoveSpeed = moveSpeed
 export(float) var runMultiplier = 2.0
 export(float) var acceleration = 0.5
@@ -239,7 +240,10 @@ func _limit_gravity():
 func _walk(moveDirection):
 	## The Lerp function smooths out the velocity, this prevents instand acceleration
 	if moveDirection != 0:
-		velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
+		if is_grounded:
+			velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed, acceleration)
+		else:
+			velocity.x = lerp(velocity.x, moveDirection * currentMoveSpeed * moveSpeedAir, acceleration)
 	else:
 		## Deccelerate
 		if not is_grounded:
