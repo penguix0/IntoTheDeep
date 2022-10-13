@@ -1,9 +1,10 @@
-[gd_scene load_steps=16 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Tileset/tileset.tres" type="TileSet" id=1]
 [ext_resource path="res://Assets/Player/Player.tscn" type="PackedScene" id=2]
 [ext_resource path="res://Assets/Script/RespawnZone.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Camera/Camera.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Assets/Light/default_env.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Tileset/background3.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Tileset/background2.png" type="Texture" id=7]
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=8]
@@ -92,8 +93,14 @@ shape = SubResource( 15 )
 position = Vector2( 660, -340 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 13 )
-frame = 6
+frame = 4
 playing = true
+
+[node name="Light2D" type="Light2D" parent="RespawnZone/RespawnPoint"]
+texture = ExtResource( 5 )
+texture_scale = 0.3
+color = Color( 1, 1, 0.0627451, 1 )
+energy = 0.4
 
 [node name="RespawnZone2" type="Area2D" parent="."]
 position = Vector2( 1600, 60 )
@@ -113,8 +120,14 @@ shape = SubResource( 15 )
 position = Vector2( -1600, -350 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 13 )
-frame = 6
+frame = 4
 playing = true
+
+[node name="Light2D" type="Light2D" parent="RespawnZone2/RespawnPoint"]
+texture = ExtResource( 5 )
+texture_scale = 0.3
+color = Color( 1, 1, 0.0627451, 1 )
+energy = 0.4
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
 

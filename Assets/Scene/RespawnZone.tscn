@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Assets/Script/RespawnZone.gd" type="Script" id=1]
-[ext_resource path="res://Assets/Light/Player/default_env.png" type="Texture" id=2]
+[ext_resource path="res://Assets/Light/default_env.png" type="Texture" id=2]
 
 [sub_resource type="RectangleShape2D" id=15]
 extents = Vector2( 13.655, 48 )
