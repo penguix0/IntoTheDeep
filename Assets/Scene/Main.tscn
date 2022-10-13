@@ -92,7 +92,7 @@ shape = SubResource( 15 )
 position = Vector2( 660, -340 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 13 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="RespawnZone2" type="Area2D" parent="."]
@@ -113,7 +113,7 @@ shape = SubResource( 15 )
 position = Vector2( -1600, -350 )
 scale = Vector2( 2, 2 )
 frames = ExtResource( 13 )
-frame = 7
+frame = 6
 playing = true
 
 [node name="ParallaxBackground" type="ParallaxBackground" parent="."]
