@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=2]
+[gd_scene load_steps=14 format=2]
 
 [ext_resource path="res://Assets/Enemy/1/Sprite/spriteframes_1.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Enemy/1/Script/isGrounded.gd" type="Script" id=2]
@@ -6,6 +6,7 @@
 [ext_resource path="res://Assets/Enemy/1/Script/enemyDetectionZone.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Enemy/1/Sprite/noticed.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Enemy/1/animation/notice.tres" type="Animation" id=6]
+[ext_resource path="res://Assets/Enemy/1/Script/hurtbox.gd" type="Script" id=7]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 42, 12.5 )
@@ -21,16 +22,18 @@ radius = 142.21
 
 [sub_resource type="CapsuleShape2D" id=4]
 
+[sub_resource type="RectangleShape2D" id=8]
+extents = Vector2( 18, 17.5 )
+
 [node name="enemy" type="KinematicBody2D"]
-collision_layer = 4
+collision_layer = 12
 collision_mask = 3
 script = ExtResource( 3 )
 
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 8.2, 0 )
 frames = ExtResource( 1 )
-animation = "idle"
-frame = 1
+animation = "melee"
 speed_scale = 2.0
 playing = true
 flip_h = true
@@ -88,6 +91,20 @@ visible = false
 position = Vector2( 0, -1.5 )
 shape = SubResource( 4 )
 
+[node name="sword_hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="sword_hitbox"]
+polygon = PoolVector2Array( 9, 1, 25, 0, 27, -5, 9, -7, 4, -4 )
+
+[node name="hurtbox" type="Area2D" parent="."]
+script = ExtResource( 7 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2( 0, 0.5 )
+shape = SubResource( 8 )
+
 [node name="Sprite" type="Sprite" parent="."]
 position = Vector2( 0, -22.738 )
 texture = ExtResource( 5 )
@@ -97,6 +114,10 @@ region_rect = Rect2( 5, -10, 22, 11 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite"]
 anims/notice = ExtResource( 6 )
 
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+margin_right = 40.0
+margin_bottom = 40.0
+
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="enemyDetectionZone/left" to="enemyDetectionZone" method="_on_left_body_entered"]
 [connection signal="body_entered" from="enemyDetectionZone/right" to="enemyDetectionZone" method="_on_right_body_entered"]
@@ -104,3 +125,5 @@ anims/notice = ExtResource( 6 )
 [connection signal="body_exited" from="enemyDetectionZone/shank" to="enemyDetectionZone" method="_on_shank_body_exited"]
 [connection signal="body_entered" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_entered"]
 [connection signal="body_exited" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_exited"]
+[connection signal="area_entered" from="sword_hitbox" to="." method="_on_sword_hitbox_area_entered"]
+[connection signal="area_exited" from="sword_hitbox" to="." method="_on_sword_hitbox_area_exited"]

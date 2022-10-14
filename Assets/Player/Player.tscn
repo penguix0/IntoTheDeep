@@ -1,4 +1,4 @@
-[gd_scene load_steps=93 format=2]
+[gd_scene load_steps=96 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/jump_end.tres" type="Animation" id=9]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-run-01.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-attack3-05.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Player/Script/SpriteCollision.gd" type="Script" id=11]
 [ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
 [ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
@@ -27,11 +27,12 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Audio/Player/walking_concrete_1.wav" type="AudioStream" id=28]
+[ext_resource path="res://Assets/Audio/Player/sword_swing_3.wav" type="AudioStream" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
 [ext_resource path="res://Assets/Player/Script/onCeiling.gd" type="Script" id=32]
+[ext_resource path="res://Assets/Player/Script/hurtbox.gd" type="Script" id=33]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"
@@ -263,8 +264,14 @@ angle_random = 1.0
 scale = 0.1
 scale_random = 0.1
 
+[sub_resource type="RectangleShape2D" id=117]
+extents = Vector2( 14.5, 14 )
+
+[sub_resource type="CapsuleShape2D" id=118]
+height = 30.0
+
 [node name="Player" type="KinematicBody2D"]
-collision_layer = 2
+collision_layer = 10
 script = ExtResource( 1 )
 moveSpeed = 100
 runMultiplier = 1.75
@@ -427,6 +434,22 @@ one_shot = true
 
 [node name="gatherInput" type="Node" parent="."]
 script = ExtResource( 30 )
+
+[node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 33 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
+position = Vector2( 1.5, 3 )
+shape = SubResource( 117 )
+
+[node name="sword_hitbox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="sword_hitbox"]
+position = Vector2( 0, 7 )
+rotation = 1.5708
+shape = SubResource( 118 )
 
 [connection signal="timeout" from="ghostTimer" to="AnimationTree" method="_on_ghostTimer_timeout"]
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]

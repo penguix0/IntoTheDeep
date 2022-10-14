@@ -18,9 +18,15 @@ var jumping : bool
 
 onready var animatedSprite = $AnimatedSprite
 onready var collider = $CollisionShape2D
+onready var sword_hitbox = $sword_hitbox/CollisionPolygon2D
 var direction : int = 0
 
 var shank : bool
+
+var area_entered
+var damage_deal : bool
+
+var health = 100
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -44,29 +50,38 @@ func _process(delta):
 	
 	if shank:
 		animatedSprite.play("melee")
+		enable_hitbox()
+		## Use damage deal to prevent the enemy from dealing damage multiple times on the second frame
+		if not animatedSprite.frame == 2:
+			damage_deal = false
+		if not area_entered == null and animatedSprite.frame == 2 and damage_deal == false:
+			area_entered.take_damage("enemy1")
+			damage_deal = true
 	else:
 		animatedSprite.play("idle")
-
 	if direction < 0:
 		turn_right()
 	elif direction > 0:
 		turn_left()
-		
 		
 	var _currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)
 	
+	$RichTextLabel.text = str(health)
+	
 func turn_left():
 	animatedSprite.position.x = -8.2
 	animatedSprite.scale.x = 1
 	animatedSprite.flip_h = false
+	sword_hitbox.scale.x = -1
 	
 func turn_right():
 	animatedSprite.position.x = 8.2
 	animatedSprite.scale.x = 1
 	animatedSprite.flip_h = true
+	sword_hitbox.scale.x = 1
 	
 func _apply_gravity(delta):
 	velocity.y += gravity * delta
@@ -90,3 +105,17 @@ func _limit_gravity():
 
 func _on_AnimatedSprite_animation_finished():
 	pass
+	
+func enable_hitbox():
+	sword_hitbox.disabled = false
+	
+func disable_hitbox():
+	sword_hitbox.disabled = true
+
+## Save and delete the current entered hitbox
+func _on_sword_hitbox_area_entered(area):
+	area_entered = area
+	
+func _on_sword_hitbox_area_exited(area):
+	if area_entered == area:
+		area_entered = null

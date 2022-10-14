@@ -82,6 +82,7 @@ common/drop_mouse_on_gui_input_disabled=true
 2d_physics/layer_1="ground"
 2d_physics/layer_2="player"
 2d_physics/layer_3="enemy"
+2d_physics/layer_4="hurtbox"
 
 [physics]
 

@@ -69,6 +69,8 @@ onready var gatherInput = $gatherInput
 var emitGhost : bool = false
 var ghost
 
+export(int) var health = 100
+
 var stateMachine
 
 # Called when the node enters the scene tree for the first time.
@@ -118,6 +120,8 @@ func _process(delta):
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)
+		
+	print ("Health: " + str(health))
 
 func slope(slides: int):
 	## See: https://www.youtube.com/watch?v=pyMAakSPUk0
@@ -254,3 +258,6 @@ func _walk(moveDirection):
 func _shake(duration = 0.2, frequency = 15, amplitude = 16, priority = 0, delay = 0):
 	$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
 	
+func take_damage(name):
+	if name == "enemy1":
+		print ("damage")
