@@ -18,7 +18,7 @@ var jumping : bool
 
 onready var animatedSprite = $AnimatedSprite
 onready var collider = $CollisionShape2D
-onready var sword_hitbox = $sword_hitbox/CollisionPolygon2D
+onready var sword_hitbox = $sword_hitbox
 var direction : int = 0
 
 var shank : bool
@@ -37,6 +37,10 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if health <= 0:
+		animatedSprite.play("death")
+		return
+	
 	is_grounded = raycasts.is_grounded
 	
 	_apply_gravity(delta) 
@@ -50,15 +54,16 @@ func _process(delta):
 	
 	if shank:
 		animatedSprite.play("melee")
-		enable_hitbox()
+		sword_hitbox.enable_hitbox()
 		## Use damage deal to prevent the enemy from dealing damage multiple times on the second frame
 		if not animatedSprite.frame == 2:
 			damage_deal = false
-		if not area_entered == null and animatedSprite.frame == 2 and damage_deal == false:
-			area_entered.take_damage("enemy1")
+		if not sword_hitbox.area_entered == null and animatedSprite.frame == 2 and damage_deal == false:
+			sword_hitbox.area_entered.take_damage("enemy1")
 			damage_deal = true
 	else:
 		animatedSprite.play("idle")
+		sword_hitbox.disable_hitbox()
 	if direction < 0:
 		turn_right()
 	elif direction > 0:
@@ -104,18 +109,6 @@ func _limit_gravity():
 		velocity.y = 0.5*gravity
 
 func _on_AnimatedSprite_animation_finished():
-	pass
-	
-func enable_hitbox():
-	sword_hitbox.disabled = false
-	
-func disable_hitbox():
-	sword_hitbox.disabled = true
-
-## Save and delete the current entered hitbox
-func _on_sword_hitbox_area_entered(area):
-	area_entered = area
-	
-func _on_sword_hitbox_area_exited(area):
-	if area_entered == area:
-		area_entered = null
+	## If the death animation finished and health is sub zero: die
+	if health <= 0:
+		queue_free()

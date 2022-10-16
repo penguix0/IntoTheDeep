@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=2]
+[gd_scene load_steps=15 format=2]
 
 [ext_resource path="res://Assets/Enemy/1/Sprite/spriteframes_1.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Enemy/1/Script/isGrounded.gd" type="Script" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Enemy/1/Sprite/noticed.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Enemy/1/animation/notice.tres" type="Animation" id=6]
 [ext_resource path="res://Assets/Enemy/1/Script/hurtbox.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Enemy/1/Script/sword_hitbox.gd" type="Script" id=8]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 42, 12.5 )
@@ -33,7 +34,8 @@ script = ExtResource( 3 )
 [node name="AnimatedSprite" type="AnimatedSprite" parent="."]
 position = Vector2( 8.2, 0 )
 frames = ExtResource( 1 )
-animation = "melee"
+animation = "death"
+frame = 3
 speed_scale = 2.0
 playing = true
 flip_h = true
@@ -94,11 +96,14 @@ shape = SubResource( 4 )
 [node name="sword_hitbox" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 8
+script = ExtResource( 8 )
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="sword_hitbox"]
 polygon = PoolVector2Array( 9, 1, 25, 0, 27, -5, 9, -7, 4, -4 )
 
 [node name="hurtbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
 script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtbox"]
@@ -125,5 +130,5 @@ margin_bottom = 40.0
 [connection signal="body_exited" from="enemyDetectionZone/shank" to="enemyDetectionZone" method="_on_shank_body_exited"]
 [connection signal="body_entered" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_entered"]
 [connection signal="body_exited" from="enemyDetectionZone/notice" to="enemyDetectionZone" method="_on_notice_body_exited"]
-[connection signal="area_entered" from="sword_hitbox" to="." method="_on_sword_hitbox_area_entered"]
-[connection signal="area_exited" from="sword_hitbox" to="." method="_on_sword_hitbox_area_exited"]
+[connection signal="area_entered" from="sword_hitbox" to="sword_hitbox" method="_on_sword_hitbox_area_entered"]
+[connection signal="area_exited" from="sword_hitbox" to="sword_hitbox" method="_on_sword_hitbox_area_exited"]

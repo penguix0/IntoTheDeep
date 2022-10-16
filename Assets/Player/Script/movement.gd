@@ -33,6 +33,8 @@ var walking : bool
 var crouching : bool
 
 var attacking : bool = false
+var already_damage_dealt : bool = false
+
 var attack_1_dur : float = 0.4
 var attack_2_dur : float = 0.6
 var attack_3_dur : float = 0.6
@@ -65,11 +67,13 @@ onready var camera = $Camera2D
 onready var jumpTimeOut = $jumpTimeOut
 onready var ghostTimer = $ghostTimer
 onready var gatherInput = $gatherInput
+onready var sword_hitbox = $sword_hitbox
 
 var emitGhost : bool = false
 var ghost
 
 export(int) var health = 100
+
 
 var stateMachine
 
@@ -120,8 +124,6 @@ func _process(delta):
 	var slides = get_slide_count()
 	if slides:
 		slope(slides)
-		
-	print ("Health: " + str(health))
 
 func slope(slides: int):
 	## See: https://www.youtube.com/watch?v=pyMAakSPUk0
@@ -165,8 +167,13 @@ func _apply_input(moveDirection, delta):
 	
 	if attackTimer.started:
 		attacking = true
+		## deal damage if attacking
+		if not sword_hitbox.area_entered == null and not already_damage_dealt:
+			sword_hitbox.area_entered.take_damage(self.name)
+			already_damage_dealt = true
 	else:
 		attacking = false
+		already_damage_dealt = false
 	
 	_jump_after_leaving_platform()
 	
@@ -258,6 +265,3 @@ func _walk(moveDirection):
 func _shake(duration = 0.2, frequency = 15, amplitude = 16, priority = 0, delay = 0):
 	$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
 	
-func take_damage(name):
-	if name == "enemy1":
-		print ("damage")

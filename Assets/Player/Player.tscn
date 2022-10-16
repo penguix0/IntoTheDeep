@@ -1,4 +1,4 @@
-[gd_scene load_steps=96 format=2]
+[gd_scene load_steps=99 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -33,6 +33,9 @@
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
 [ext_resource path="res://Assets/Player/Script/onCeiling.gd" type="Script" id=32]
 [ext_resource path="res://Assets/Player/Script/hurtbox.gd" type="Script" id=33]
+[ext_resource path="res://Assets/Player/Script/health_manager.gd" type="Script" id=34]
+[ext_resource path="res://Assets/Player/Script/sword_hitbox.gd" type="Script" id=35]
+[ext_resource path="res://Assets/Player/Script/heart_animation.gd" type="Script" id=36]
 
 [sub_resource type="AnimationNodeAnimation" id=91]
 animation = "air_sword_1"
@@ -445,13 +448,47 @@ position = Vector2( 1.5, 3 )
 shape = SubResource( 117 )
 
 [node name="sword_hitbox" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+script = ExtResource( 35 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sword_hitbox"]
 position = Vector2( 0, 7 )
 rotation = 1.5708
 shape = SubResource( 118 )
 
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="health" type="Panel" parent="CanvasLayer"]
+anchor_bottom = 1.0
+margin_right = 17.0
+script = ExtResource( 34 )
+
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/health"]
+margin_top = 7.0
+margin_right = 17.0
+margin_bottom = 47.0
+
+[node name="list" type="VBoxContainer" parent="CanvasLayer/health/CenterContainer"]
+margin_left = 8.0
+margin_top = 20.0
+margin_right = 8.0
+margin_bottom = 20.0
+script = ExtResource( 36 )
+
+[node name="animationTimer" type="Timer" parent="CanvasLayer/health/CenterContainer/list"]
+wait_time = 0.1
+
+[node name="animationTimeOut" type="Timer" parent="CanvasLayer/health/CenterContainer/list"]
+wait_time = 15.0
+one_shot = true
+autostart = true
+
 [connection signal="timeout" from="ghostTimer" to="AnimationTree" method="_on_ghostTimer_timeout"]
 [connection signal="value_changed" from="staminaBar" to="staminaBar" method="_on_staminaBar_value_changed"]
 [connection signal="timeout" from="attackTimer" to="attackTimer" method="_on_attackTimer_timeout"]
 [connection signal="timeout" from="attackTimer/timeOut" to="attackTimer" method="_on_timeOut_timeout"]
+[connection signal="area_entered" from="sword_hitbox" to="sword_hitbox" method="_on_sword_hitbox_area_entered"]
+[connection signal="area_exited" from="sword_hitbox" to="sword_hitbox" method="_on_sword_hitbox_area_exited"]
+[connection signal="timeout" from="CanvasLayer/health/CenterContainer/list/animationTimer" to="CanvasLayer/health/CenterContainer/list" method="_on_animationTimer_timeout"]
+[connection signal="timeout" from="CanvasLayer/health/CenterContainer/list/animationTimeOut" to="CanvasLayer/health/CenterContainer/list" method="_on_animationTimeOut_timeout"]
