@@ -19,7 +19,7 @@ var jumping : bool
 onready var animatedSprite = $AnimatedSprite
 onready var collider = $CollisionShape2D
 onready var sword_hitbox = $sword_hitbox
-var direction : int = 0
+onready var notice = $Sprite
 
 var shank : bool
 
@@ -27,18 +27,45 @@ var area_entered
 var damage_deal : bool
 
 var health = 100
+var alive : bool = true
 
+onready var audioPlayer = $AudioStreamPlayer2D
+var dyingDirectoryPath = "res://Assets/Audio/FX/dying/"
+var dyingFileBaseName = "dying"
+var dyingFileExtension = ".wav"
+var dyingFileName = ""
+
+var random = RandomNumberGenerator.new()
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	while gravity == 0:
 		gravity = Global.gravity
 		
 	JumpSpeed = gravity * TimeToJumpPeak
+	
+	## Chooses a random dying sounds
+	random.randomize()
+	var random_number = random.randi_range(1,8)
+	dyingFileName = dyingFileBaseName+str(random_number)+dyingFileExtension
+	if File.new().file_exists(dyingDirectoryPath+dyingFileName):
+		var sfx = load(dyingDirectoryPath+dyingFileName) 
+		audioPlayer.stream = sfx
+	else:
+		print (dyingDirectoryPath+dyingFileName + " not found")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	## Only emit blood once
+	if health <= 0 and alive:
+		$blood.emitting = true
+		audioPlayer.play()
 	if health <= 0:
+		alive = false
 		animatedSprite.play("death")
+		collider.disabled = true
+		notice.visible = false
+		
+		
 		return
 	
 	is_grounded = raycasts.is_grounded
@@ -64,10 +91,6 @@ func _process(delta):
 	else:
 		animatedSprite.play("idle")
 		sword_hitbox.disable_hitbox()
-	if direction < 0:
-		turn_right()
-	elif direction > 0:
-		turn_left()
 		
 	var _currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
@@ -77,12 +100,16 @@ func _process(delta):
 	$RichTextLabel.text = str(health)
 	
 func turn_left():
+	if not alive:
+		return
 	animatedSprite.position.x = -8.2
 	animatedSprite.scale.x = 1
 	animatedSprite.flip_h = false
 	sword_hitbox.scale.x = -1
 	
 func turn_right():
+	if not alive:
+		return
 	animatedSprite.position.x = 8.2
 	animatedSprite.scale.x = 1
 	animatedSprite.flip_h = true
@@ -111,4 +138,7 @@ func _limit_gravity():
 func _on_AnimatedSprite_animation_finished():
 	## If the death animation finished and health is sub zero: die
 	if health <= 0:
-		queue_free()
+		#queue_free()
+		animatedSprite.play("death")
+		animatedSprite.frame = 7
+		animatedSprite.stop()

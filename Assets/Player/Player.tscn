@@ -1,4 +1,4 @@
-[gd_scene load_steps=99 format=2]
+[gd_scene load_steps=100 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -273,6 +273,9 @@ extents = Vector2( 14.5, 14 )
 [sub_resource type="CapsuleShape2D" id=118]
 height = 30.0
 
+[sub_resource type="StyleBoxFlat" id=119]
+bg_color = Color( 0, 0, 0, 0.196078 )
+
 [node name="Player" type="KinematicBody2D"]
 collision_layer = 10
 script = ExtResource( 1 )
@@ -462,18 +465,20 @@ shape = SubResource( 118 )
 [node name="health" type="Panel" parent="CanvasLayer"]
 anchor_bottom = 1.0
 margin_right = 17.0
+custom_styles/panel = SubResource( 119 )
 script = ExtResource( 34 )
 
 [node name="CenterContainer" type="CenterContainer" parent="CanvasLayer/health"]
 margin_top = 7.0
 margin_right = 17.0
-margin_bottom = 47.0
+margin_bottom = 180.0
 
 [node name="list" type="VBoxContainer" parent="CanvasLayer/health/CenterContainer"]
 margin_left = 8.0
-margin_top = 20.0
+margin_top = 86.0
 margin_right = 8.0
-margin_bottom = 20.0
+margin_bottom = 86.0
+alignment = 1
 script = ExtResource( 36 )
 
 [node name="animationTimer" type="Timer" parent="CanvasLayer/health/CenterContainer/list"]
@@ -481,7 +486,6 @@ wait_time = 0.1
 
 [node name="animationTimeOut" type="Timer" parent="CanvasLayer/health/CenterContainer/list"]
 wait_time = 15.0
-one_shot = true
 autostart = true
 
 [connection signal="timeout" from="ghostTimer" to="AnimationTree" method="_on_ghostTimer_timeout"]

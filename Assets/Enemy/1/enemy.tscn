@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=2]
+[gd_scene load_steps=17 format=2]
 
 [ext_resource path="res://Assets/Enemy/1/Sprite/spriteframes_1.tres" type="SpriteFrames" id=1]
 [ext_resource path="res://Assets/Enemy/1/Script/isGrounded.gd" type="Script" id=2]
@@ -8,6 +8,7 @@
 [ext_resource path="res://Assets/Enemy/1/animation/notice.tres" type="Animation" id=6]
 [ext_resource path="res://Assets/Enemy/1/Script/hurtbox.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Enemy/1/Script/sword_hitbox.gd" type="Script" id=8]
+[ext_resource path="res://Assets/Enemy/1/animation/hurt.tres" type="Animation" id=9]
 
 [sub_resource type="RectangleShape2D" id=2]
 extents = Vector2( 42, 12.5 )
@@ -24,7 +25,23 @@ radius = 142.21
 [sub_resource type="CapsuleShape2D" id=4]
 
 [sub_resource type="RectangleShape2D" id=8]
-extents = Vector2( 18, 17.5 )
+extents = Vector2( 12, 17.5 )
+
+[sub_resource type="ParticlesMaterial" id=9]
+emission_shape = 1
+emission_sphere_radius = 1.0
+flag_disable_z = true
+direction = Vector3( 0, -1, 0 )
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 50.0
+angular_velocity = 262.28
+angular_velocity_random = 1.0
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+damping = 1.0
+scale = 2.0
+scale_random = 1.0
+color = Color( 0.686275, 0, 0, 1 )
 
 [node name="enemy" type="KinematicBody2D"]
 collision_layer = 12
@@ -35,7 +52,6 @@ script = ExtResource( 3 )
 position = Vector2( 8.2, 0 )
 frames = ExtResource( 1 )
 animation = "death"
-frame = 3
 speed_scale = 2.0
 playing = true
 flip_h = true
@@ -120,8 +136,24 @@ region_rect = Rect2( 5, -10, 22, 11 )
 anims/notice = ExtResource( 6 )
 
 [node name="RichTextLabel" type="RichTextLabel" parent="."]
+visible = false
 margin_right = 40.0
 margin_bottom = 40.0
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+volume_db = 6.0
+
+[node name="blood" type="Particles2D" parent="."]
+position = Vector2( 0, 16 )
+emitting = false
+amount = 10
+lifetime = 4.0
+one_shot = true
+local_coords = false
+process_material = SubResource( 9 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/hurt = ExtResource( 9 )
 
 [connection signal="animation_finished" from="AnimatedSprite" to="." method="_on_AnimatedSprite_animation_finished"]
 [connection signal="body_entered" from="enemyDetectionZone/left" to="enemyDetectionZone" method="_on_left_body_entered"]

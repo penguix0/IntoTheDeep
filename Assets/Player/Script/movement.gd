@@ -170,6 +170,9 @@ func _apply_input(moveDirection, delta):
 		## deal damage if attacking
 		if not sword_hitbox.area_entered == null and not already_damage_dealt:
 			sword_hitbox.area_entered.take_damage(self.name)
+			
+			## Duratioin, frequency, amplitude, priority, delay
+			_shake(0.1, 5, 6, 0, 0)
 			already_damage_dealt = true
 	else:
 		attacking = false

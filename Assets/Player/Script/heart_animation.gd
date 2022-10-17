@@ -25,4 +25,5 @@ func _on_animationTimer_timeout():
 	## Reset the counter and time out
 	if current_heart >= len(hearts):
 		current_heart = 0
+		hearts[-1].rect_position.x = default_pos.x
 		timer.stop()
