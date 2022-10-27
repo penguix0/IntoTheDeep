@@ -8,6 +8,16 @@
 
 config_version=4
 
+_global_script_classes=[ {
+"base": "Node2D",
+"class": "MapMaster",
+"language": "GDScript",
+"path": "res://Assets/Maps/map_baseclass.gd"
+} ]
+_global_script_class_icons={
+"MapMaster": ""
+}
+
 [application]
 
 config/name="Game"
@@ -22,7 +32,7 @@ Global="*res://Assets/Script/global.gd"
 
 window/size/width=320
 window/size/height=180
-window/stretch/mode="viewport"
+window/stretch/mode="2d"
 window/stretch/aspect="keep"
 
 [gui]

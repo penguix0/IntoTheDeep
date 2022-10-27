@@ -38,15 +38,9 @@ var already_damage_dealt : bool = false
 var attack_1_dur : float = 0.4
 var attack_2_dur : float = 0.6
 var attack_3_dur : float = 0.6
+
 var attack_1_air_dur : float = 0.4
-var attack_2_air_dur : float = 0.3
-var attack_3_air_stop : bool = false
-
-var attack_1_dash_speed : float = 300
-
-var attack_1_stamina : float = 10
-var attack_2_stamina : float = 20
-var attack_3_stamina : float = 30
+export(float) var curr_anim_is_air_sword_3_end = false
 
 var currentAttack = ""
 
@@ -63,7 +57,7 @@ onready var raycastUp = $raycastUp
 onready var body = $body
 onready var attackTimer = $attackTimer
 onready var comboTimer = $comboTimer
-onready var camera = $Camera2D
+##onready var camera = $"../Camera2D"
 onready var jumpTimeOut = $jumpTimeOut
 onready var ghostTimer = $ghostTimer
 onready var gatherInput = $gatherInput
@@ -73,7 +67,6 @@ var emitGhost : bool = false
 var ghost
 
 export(int) var health = 100
-
 
 var stateMachine
 
@@ -119,6 +112,11 @@ func _process(delta):
 	_walk(gatherInput.move_direction)
 	
 	_limit_gravity()
+	
+	## If it's the end of the downwards air attack stop all movement
+	if curr_anim_is_air_sword_3_end:
+		velocity.x = 0
+		velocity.y = 0
 	
 	var _currVel = move_and_slide(velocity, UP, slope_stop)
 	var slides = get_slide_count()
@@ -226,8 +224,6 @@ func _attack(delta, moveDirection):
 			if not attackTimer.started:
 				attackTimer.start_timer(60)
 			
-			attack_3_air_stop = false
-			
 			# If the player is doing a downwards attack he can't go up:
 			if velocity.y < 0:
 				velocity.y = 0
@@ -266,5 +262,6 @@ func _walk(moveDirection):
 			velocity.x = lerp(velocity.x, 0, decceleration)
 
 func _shake(duration = 0.2, frequency = 15, amplitude = 16, priority = 0, delay = 0):
-	$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
+	pass
+	#$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
 	

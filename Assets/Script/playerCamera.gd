@@ -8,4 +8,5 @@ func _ready():
 	
 func _exit_tree():
 	Global.camera = null
+	
 
