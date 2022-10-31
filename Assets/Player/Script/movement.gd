@@ -169,6 +169,22 @@ func _apply_input(moveDirection, delta):
 		if not sword_hitbox.area_entered == null and not already_damage_dealt:
 			sword_hitbox.area_entered.take_damage(self.name)
 			
+			if $swordBlood/timeOut.time_left > 0:
+				$swordBlood.emitting = false
+				return
+			else:
+				$swordBlood/timeOut.start()
+				
+			$swordBlood.global_position = sword_hitbox.area_entered.global_position
+				
+			if $gatherInput.last_move_direction > 0:
+				$swordBlood.scale.x = -1
+			elif $gatherInput.last_move_direction < 0:
+				$swordBlood.scale.x = 1
+				
+			$swordBlood.emitting = true
+			
+			
 			## Duratioin, frequency, amplitude, priority, delay
 			_shake(0.1, 5, 6, 0, 0)
 			already_damage_dealt = true

@@ -122,3 +122,6 @@ func _exit_tree():
 
 func _on_navigationTimeOut_timeout():
 	transition_time_out = false
+
+func _on_RoomNavigation_body_exited(body):
+	pass # Replace with function body.

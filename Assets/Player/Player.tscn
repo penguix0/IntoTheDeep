@@ -1,4 +1,4 @@
-[gd_scene load_steps=100 format=2]
+[gd_scene load_steps=103 format=2]
 
 [ext_resource path="res://Assets/Player/Script/movement.gd" type="Script" id=1]
 [ext_resource path="res://Assets/Player/Sprite/dust.png" type="Texture" id=2]
@@ -228,6 +228,26 @@ tracks/0/keys = {
 "values": [ PoolVector2Array(  ) ]
 }
 
+[sub_resource type="Gradient" id=123]
+interpolation_mode = 2
+offsets = PoolRealArray( 0.245161, 0.574194 )
+colors = PoolColorArray( 1, 1, 1, 1, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture" id=124]
+gradient = SubResource( 123 )
+
+[sub_resource type="ParticlesMaterial" id=122]
+flag_disable_z = true
+direction = Vector3( -1, 0, 0 )
+spread = 64.6
+gravity = Vector3( 0, 98, 0 )
+initial_velocity = 138.62
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+linear_accel = -100.0
+color = Color( 0.443137, 0, 0, 1 )
+color_ramp = SubResource( 124 )
+
 [sub_resource type="ParticlesMaterial" id=5]
 emission_shape = 1
 emission_sphere_radius = 1.0
@@ -398,6 +418,19 @@ script = ExtResource( 8 )
 [node name="AnimationPlayer" type="AnimationPlayer" parent="staminaBar"]
 anims/staminaBar_appear = ExtResource( 6 )
 anims/staminaBar_disappear = ExtResource( 7 )
+
+[node name="swordBlood" type="Particles2D" parent="."]
+position = Vector2( 10, 2 )
+emitting = false
+amount = 50
+one_shot = true
+preprocess = 0.5
+local_coords = false
+process_material = SubResource( 122 )
+
+[node name="timeOut" type="Timer" parent="swordBlood"]
+wait_time = 0.3
+one_shot = true
 
 [node name="walkingParticles" type="Particles2D" parent="."]
 modulate = Color( 0.501961, 0.501961, 0.501961, 1 )

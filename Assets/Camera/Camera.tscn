@@ -68,7 +68,7 @@ shape = SubResource( 4 )
 [node name="ScreenShake" parent="." instance=ExtResource( 2 )]
 
 [node name="navigationTimeOut" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.2
 one_shot = true
 
 [connection signal="body_exited" from="RoomNavigation" to="." method="_on_RoomNavigation_body_exited"]

@@ -9,6 +9,7 @@ var just_jumped : bool
 var down : bool
 var running : bool
 var move_direction : float
+var last_move_direction : float
 
 var attack_request : bool
 var sword_out : bool
@@ -23,6 +24,9 @@ func _get_input():
 	var right = int(Input.is_action_pressed(str(controller)+"_right"))
 	
 	move_direction = -(left-right)
+	
+	if not move_direction == 0:
+		last_move_direction = move_direction
 	
 	if Input.is_action_pressed(str(controller)+"_sword"):
 		if not swordOutTimer.time_left > 0:

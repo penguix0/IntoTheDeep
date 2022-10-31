@@ -12,6 +12,7 @@
 script = ExtResource( 6 )
 
 [node name="RoomManager" parent="." instance=ExtResource( 14 )]
+default_transition = 1
 
 [node name="Player" parent="." instance=ExtResource( 2 )]
 position = Vector2( 500, 60 )
