@@ -20,6 +20,8 @@ onready var _camera_scrolling:Camera2D=$Cameras/Camera2DScroller
 onready var _map_controller:Node2D=$Map
 onready var _room_manager:Node2D=$RoomManager
 
+var game_over : bool = false
+
 func _ready() -> void:
 	#if using HUD then configure_game needs to be called
 	#in game_with_hud ready function, otherwise incorrect sizes will be set
@@ -76,3 +78,6 @@ func _on_Map_scroll_start(tl:Vector2, br:Vector2) -> void:
 func _on_Map_scroll_end(position:Vector2) -> void:
 	_room_manager.set_camera_flip(position,true)
 
+func _process(delta):
+	if self.game_over:
+		$GameOverScreen.visible = true

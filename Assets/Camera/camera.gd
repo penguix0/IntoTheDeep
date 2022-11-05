@@ -7,8 +7,6 @@ var block_exits=false			#stop player leaving room. For debugging mainly unless i
 #signalling new room
 export(int) var room_navigation_pixel_offset:=16
 
-var transition_time_out : bool
-
 onready var ScreenShake = $ScreenShake
 
 onready var blockers=[$RoomBlocker/CollisionTop, $RoomBlocker/CollisionBottom, $RoomBlocker/CollisionLeft, $RoomBlocker/CollisionRight]
@@ -53,14 +51,17 @@ func _on_RoomNavigation_body_shape_entered(_body_id: RID, _body: Node, _body_sha
 	if local_shape<0 || local_shape>3:
 		return
 		
+	if $roomTimeOut.time_left > 0:
+		return
+		
+	$roomTimeOut.wait_time = 0.3
+	$roomTimeOut.start()
+		
 	var directions=[Vector2.UP,Vector2.DOWN,Vector2.LEFT,Vector2.RIGHT]
 	var change_direction=directions[local_shape]
 	
 	## Prevents the camera from skipping rooms instead of transitioning to the next room
-	if not transition_time_out:
-		emit_signal("room_change",change_direction)
-		$navigationTimeOut.start()
-		transition_time_out = true
+	emit_signal("room_change",change_direction)
 	
 	print("Camera changing direction room to direction %s as vector %s" % [local_shape,change_direction])
 	
@@ -120,8 +121,9 @@ func set_navigation_system(viewport_size:Vector2,offscreen_gap:int):
 func _exit_tree():
 	Global.camera = null
 
-func _on_navigationTimeOut_timeout():
-	transition_time_out = false
-
 func _on_RoomNavigation_body_exited(body):
+	pass
+
+
+func _on_roomTimeOut_timeout():
 	pass # Replace with function body.

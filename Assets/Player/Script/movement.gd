@@ -93,6 +93,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	if self.health <= 0:
+		get_tree().get_current_scene().game_over = true
+	
 	## If the player was on the ground and is not anymore
 	if is_grounded and not raycasts.is_grounded:
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
