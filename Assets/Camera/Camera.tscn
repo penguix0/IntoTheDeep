@@ -71,6 +71,11 @@ shape = SubResource( 4 )
 wait_time = 0.3
 one_shot = true
 
+[node name="lockRoomTimer" type="Timer" parent="."]
+wait_time = 0.1
+one_shot = true
+
 [connection signal="body_exited" from="RoomNavigation" to="." method="_on_RoomNavigation_body_exited"]
 [connection signal="body_shape_entered" from="RoomNavigation" to="." method="_on_RoomNavigation_body_shape_entered"]
 [connection signal="timeout" from="roomTimeOut" to="." method="_on_roomTimeOut_timeout"]
+[connection signal="timeout" from="lockRoomTimer" to="." method="_on_lockRoomTimer_timeout"]

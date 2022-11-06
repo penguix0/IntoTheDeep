@@ -8,6 +8,8 @@ var block_exits=false			#stop player leaving room. For debugging mainly unless i
 export(int) var room_navigation_pixel_offset:=16
 
 onready var ScreenShake = $ScreenShake
+var exits
+var lockRoomTimerWaitTime : float = 0.1 # seconds
 
 onready var blockers=[$RoomBlocker/CollisionTop, $RoomBlocker/CollisionBottom, $RoomBlocker/CollisionLeft, $RoomBlocker/CollisionRight]
 onready var navi=[$RoomNavigation/NavigateUp, $RoomNavigation/NavigateDown, $RoomNavigation/NavigateLeft, $RoomNavigation/NavigateRight]
@@ -35,11 +37,10 @@ func set_exits(block_up:bool,block_down:bool,block_left:bool,block_right:bool):
 	#disabled true means does not check so allows player
 	#disabled false means does check so disallows player
 	#only works for flip
-	blockers[0].set_deferred("disabled",block_up)
-	blockers[1].set_deferred("disabled",block_down)
-	blockers[2].set_deferred("disabled",block_left)
-	blockers[3].set_deferred("disabled",block_right)
-	print("Setting exits as follows (u,d,l,r) %s,%s,%s,%s" % [block_up,block_down,block_left,block_right])
+	exits = [block_up, block_down, block_left, block_right]
+	$lockRoomTimer.wait_time = lockRoomTimerWaitTime
+	$lockRoomTimer.start()
+	## Continues on time out
 	
 func lock_room(is_locked:=true):
 	#force all exits to be enabled, thus blocking player
@@ -127,3 +128,11 @@ func _on_RoomNavigation_body_exited(body):
 
 func _on_roomTimeOut_timeout():
 	pass # Replace with function body.
+
+
+func _on_lockRoomTimer_timeout():
+	blockers[0].set_deferred("disabled",exits[0])
+	blockers[1].set_deferred("disabled",exits[1])
+	blockers[2].set_deferred("disabled",exits[2])
+	blockers[3].set_deferred("disabled",exits[3])
+	print("Setting exits as follows (u,d,l,r) %s,%s,%s,%s" % [exits[0],exits[1],exits[2],exits[3]])

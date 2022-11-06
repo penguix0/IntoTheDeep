@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/jump_end.tres" type="Animation" id=9]
-[ext_resource path="res://Assets/Audio/Player/sword_impact.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Audio/Player/landing.wav" type="AudioStream" id=10]
 [ext_resource path="res://Assets/Player/Script/SpriteCollision.gd" type="Script" id=11]
 [ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
 [ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-air-attack-3-end-02.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-04.png" type="Texture" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
@@ -201,17 +201,9 @@ states/sword_out/position = Vector2( -1786.35, 289.115 )
 states/walk/node = SubResource( 60 )
 states/walk/position = Vector2( -567.35, 289.115 )
 transitions = [ "idle_normal", "sword_out", SubResource( 55 ), "sword_in", "idle_normal", SubResource( 57 ), "sword_out", "idle_sword", SubResource( 61 ), "idle_sword", "sword_in", SubResource( 62 ), "idle_normal", "walk", SubResource( 63 ), "walk", "idle_normal", SubResource( 66 ), "idle_sword", "crouch", SubResource( 72 ), "crouch", "idle_sword", SubResource( 73 ), "crouch", "idle_normal", SubResource( 74 ), "idle_normal", "crouch", SubResource( 75 ), "idle_sword", "jump", SubResource( 76 ), "idle_normal", "jump", SubResource( 77 ), "idle_sword", "sword_1", SubResource( 83 ), "idle_sword", "sword_2", SubResource( 84 ), "idle_sword", "sword_3", SubResource( 85 ), "jump", "jump_mid_air", SubResource( 86 ), "sword_1", "idle_sword", SubResource( 87 ), "sword_2", "idle_sword", SubResource( 88 ), "sword_3", "idle_sword", SubResource( 89 ), "air_sword_3_loop", "air_sword_3_end", SubResource( 95 ), "jump_mid_air", "air_sword_1", SubResource( 98 ), "air_sword_3_end", "idle_sword", SubResource( 99 ), "air_sword_2", "idle_sword", SubResource( 100 ), "air_sword_1", "idle_sword", SubResource( 101 ), "jump_mid_air", "air_sword_3_loop", SubResource( 102 ), "idle_sword", "walk", SubResource( 103 ), "walk", "idle_sword", SubResource( 104 ), "walk", "run", SubResource( 105 ), "run", "walk", SubResource( 106 ), "jump_mid_air", "jump_end", SubResource( 113 ), "jump_end", "air_sword_2", SubResource( 114 ), "jump_end", "idle_sword", SubResource( 115 ), "jump_end", "idle_normal", SubResource( 116 ) ]
-graph_offset = Vector2( -1307.06, -152.215 )
+graph_offset = Vector2( -1591.06, 7.785 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=7]
-
-[sub_resource type="CircleShape2D" id=107]
-
-[sub_resource type="RectangleShape2D" id=109]
-extents = Vector2( 10, 5 )
-
-[sub_resource type="CircleShape2D" id=110]
-radius = 5.0
 
 [sub_resource type="Animation" id=111]
 length = 0.001
@@ -227,6 +219,14 @@ tracks/0/keys = {
 "update": 0,
 "values": [ PoolVector2Array(  ) ]
 }
+
+[sub_resource type="CircleShape2D" id=107]
+
+[sub_resource type="RectangleShape2D" id=109]
+extents = Vector2( 10, 5 )
+
+[sub_resource type="CircleShape2D" id=110]
+radius = 5.0
 
 [sub_resource type="Gradient" id=123]
 interpolation_mode = 2
@@ -313,10 +313,33 @@ active = true
 parameters/playback = SubResource( 7 )
 script = ExtResource( 31 )
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+reset_on_save = false
+anims/RESET = SubResource( 111 )
+anims/air_sword_1 = ExtResource( 25 )
+anims/air_sword_2 = ExtResource( 27 )
+anims/air_sword_3_end = ExtResource( 20 )
+anims/air_sword_3_loop = ExtResource( 26 )
+anims/crouch = ExtResource( 15 )
+anims/idle_normal = ExtResource( 4 )
+anims/idle_sword = ExtResource( 12 )
+anims/jump = ExtResource( 3 )
+anims/jump_end = ExtResource( 9 )
+anims/jump_fall = ExtResource( 19 )
+anims/jump_mid_air = ExtResource( 18 )
+anims/run = ExtResource( 14 )
+anims/sword_1 = ExtResource( 21 )
+anims/sword_2 = ExtResource( 23 )
+anims/sword_3 = ExtResource( 24 )
+anims/sword_in = ExtResource( 16 )
+anims/sword_out = ExtResource( 17 )
+anims/walk = ExtResource( 13 )
+
 [node name="CollisionWidth" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 5 )
 rotation = 1.5708
 shape = SubResource( 107 )
+disabled = true
 
 [node name="CollisionLength2" type="CollisionShape2D" parent="."]
 position = Vector2( 0, 2 )
@@ -334,6 +357,7 @@ one_way_collision = true
 position = Vector2( 0, -8 )
 rotation = -1.5708
 shape = SubResource( 110 )
+disabled = true
 one_way_collision = true
 
 [node name="ghostTimer" type="Timer" parent="."]
@@ -373,29 +397,6 @@ script = ExtResource( 32 )
 position = Vector2( 0, -13 )
 enabled = true
 cast_to = Vector2( 0, -1 )
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-reset_on_save = false
-playback_speed = 0.9
-anims/RESET = SubResource( 111 )
-anims/air_sword_1 = ExtResource( 25 )
-anims/air_sword_2 = ExtResource( 27 )
-anims/air_sword_3_end = ExtResource( 20 )
-anims/air_sword_3_loop = ExtResource( 26 )
-anims/crouch = ExtResource( 15 )
-anims/idle_normal = ExtResource( 4 )
-anims/idle_sword = ExtResource( 12 )
-anims/jump = ExtResource( 3 )
-anims/jump_end = ExtResource( 9 )
-anims/jump_fall = ExtResource( 19 )
-anims/jump_mid_air = ExtResource( 18 )
-anims/run = ExtResource( 14 )
-anims/sword_1 = ExtResource( 21 )
-anims/sword_2 = ExtResource( 23 )
-anims/sword_3 = ExtResource( 24 )
-anims/sword_in = ExtResource( 16 )
-anims/sword_out = ExtResource( 17 )
-anims/walk = ExtResource( 13 )
 
 [node name="swordOutTimer" type="Timer" parent="."]
 wait_time = 0.5
@@ -489,8 +490,8 @@ collision_mask = 8
 script = ExtResource( 35 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="sword_hitbox"]
+position = Vector2( 15, 0 )
 shape = SubResource( 118 )
-disabled = true
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
