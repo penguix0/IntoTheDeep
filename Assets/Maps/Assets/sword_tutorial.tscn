@@ -4,7 +4,7 @@
 [ext_resource path="res://Assets/Gerald's Keys/Keys/E-Key.png" type="Texture" id=2]
 [ext_resource path="res://Assets/Maps/Assets/fade_out.tres" type="Animation" id=3]
 [ext_resource path="res://Assets/Maps/Assets/fade_in.tres" type="Animation" id=4]
-[ext_resource path="res://Assets/Gerald's Keys/Keys/Blank-Lg-Key.png" type="Texture" id=5]
+[ext_resource path="res://Assets/Gerald's Keys/Keys/Enter-Key.png" type="Texture" id=5]
 
 [sub_resource type="AtlasTexture" id=21]
 atlas = ExtResource( 2 )
@@ -25,23 +25,23 @@ animations = [ {
 [sub_resource type="CircleShape2D" id=20]
 radius = 127.256
 
-[sub_resource type="AtlasTexture" id=23]
-atlas = ExtResource( 5 )
-region = Rect2( 0, 0, 64, 32 )
-
-[sub_resource type="AtlasTexture" id=24]
+[sub_resource type="AtlasTexture" id=27]
 atlas = ExtResource( 5 )
 region = Rect2( 64, 0, 64, 32 )
 
+[sub_resource type="AtlasTexture" id=26]
+atlas = ExtResource( 5 )
+region = Rect2( 0, 0, 64, 32 )
+
 [sub_resource type="SpriteFrames" id=25]
 animations = [ {
-"frames": [ SubResource( 23 ), SubResource( 24 ) ],
+"frames": [ SubResource( 27 ), SubResource( 26 ) ],
 "loop": true,
 "name": "default",
 "speed": 5.0
 } ]
 
-[node name="spacekey_tutorial" type="AnimatedSprite"]
+[node name="attack_tutorial" type="AnimatedSprite"]
 position = Vector2( 796.874, 55.2656 )
 scale = Vector2( 0.5, 0.5 )
 frames = SubResource( 19 )
