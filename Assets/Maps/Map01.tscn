@@ -25,7 +25,6 @@ color = Color( 0.278431, 0.329412, 0.698039, 1 )
 [sub_resource type="RectangleShape2D" id=17]
 extents = Vector2( 45, 10 )
 
-<<<<<<< Updated upstream
 [node name="Map01" type="Node"]
 
 [node name="fog" type="Sprite" parent="."]
@@ -34,13 +33,6 @@ material = ExtResource( 11 )
 position = Vector2( 407, -34 )
 scale = Vector2( 314.5, 177.1 )
 texture = ExtResource( 5 )
-=======
-[node name="spacekey_tutorial" parent="." instance=ExtResource( 2 )]
-
-[node name="attack_tutorial" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1145.3, 69.3975 )
-frame = 0
->>>>>>> Stashed changes
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 915.0
