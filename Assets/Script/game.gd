@@ -80,4 +80,4 @@ func _on_Map_scroll_end(position:Vector2) -> void:
 
 func _process(delta):
 	if self.game_over:
-		$GameOverScreen.visible = true
+		$GameOverScreen.appear()

@@ -10,6 +10,10 @@ export(int) var room_navigation_pixel_offset:=16
 onready var ScreenShake = $ScreenShake
 var exits
 var lockRoomTimerWaitTime : float = 0.1 # seconds
+var player_in_camera_view : bool
+
+var old_position
+var old_zoom
 
 onready var blockers=[$RoomBlocker/CollisionTop, $RoomBlocker/CollisionBottom, $RoomBlocker/CollisionLeft, $RoomBlocker/CollisionRight]
 onready var navi=[$RoomNavigation/NavigateUp, $RoomNavigation/NavigateDown, $RoomNavigation/NavigateLeft, $RoomNavigation/NavigateRight]
@@ -29,9 +33,14 @@ func set_position(location:Vector2,zoom:float=1.0) -> void:
 	#very simple method to set position
 	#it does not check map
 	#as that is responsibility of the map
+	old_position=position
+	old_zoom=self.zoom
 	position=location
 	if zoom!=1.0:
 		self.zoom=Vector2(zoom,zoom)
+		
+func travel_back():
+	set_position(old_position, old_zoom.x)
 	
 func set_exits(block_up:bool,block_down:bool,block_left:bool,block_right:bool):
 	#disabled true means does not check so allows player
@@ -52,6 +61,7 @@ func _on_RoomNavigation_body_shape_entered(_body_id: RID, _body: Node, _body_sha
 	if local_shape<0 || local_shape>3:
 		return
 		
+	## Prevents too fast switching of rooms
 	if $roomTimeOut.time_left > 0:
 		return
 		
@@ -127,7 +137,10 @@ func _on_RoomNavigation_body_exited(body):
 
 
 func _on_roomTimeOut_timeout():
-	pass # Replace with function body.
+	return
+	## If the room was changed but the player is not in the room, the camera needs to travel back
+	if not player_in_camera_view:
+		travel_back()
 
 
 func _on_lockRoomTimer_timeout():
@@ -136,3 +149,19 @@ func _on_lockRoomTimer_timeout():
 	blockers[2].set_deferred("disabled",exits[2])
 	blockers[3].set_deferred("disabled",exits[3])
 	print("Setting exits as follows (u,d,l,r) %s,%s,%s,%s" % [exits[0],exits[1],exits[2],exits[3]])
+
+func _on_playerValidator_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+	if is_player(area.name):
+		player_in_camera_view = true
+		
+func _on_playerValidator_area_shape_exited(area_rid, area, area_shape_index, local_shape_index):
+	if is_player(area.name):
+		player_in_camera_view = false
+			
+func is_player(name):	
+	if name == Global.player1_name or name == Global.player2_name or name == Global.player3_name or name == Global.player4_name:
+		return true
+	return false
+
+
+
