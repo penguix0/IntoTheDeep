@@ -26,10 +26,10 @@ extents = Vector2( 45, 10 )
 [node name="Map01" type="Node"]
 
 [node name="spacekey_tutorial" parent="." instance=ExtResource( 2 )]
+frame = 1
 
 [node name="attack_tutorial" parent="." instance=ExtResource( 3 )]
 position = Vector2( 1145.3, 69.3975 )
-frame = 0
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 915.0
@@ -107,7 +107,7 @@ tile_set = ExtResource( 4 )
 cell_size = Vector2( 16, 16 )
 cell_custom_transform = Transform2D( 16, 0, 0, 16, 0, 0 )
 format = 1
-tile_data = PoolIntArray( 1245247, 71, 1, 1245248, 71, 1, 1245249, 71, 1, 1245250, 71, 1, 1245251, 71, 1, 1245252, 71, 2 )
+tile_data = PoolIntArray( 589887, 71, 1, 589888, 71, 1, 589889, 71, 1, 589890, 71, 1, 589891, 71, 1, 589892, 71, 2, 1245247, 71, 1, 1245248, 71, 1, 1245249, 71, 1, 1245250, 71, 1, 1245251, 71, 1, 1245252, 71, 2 )
 
 [node name="Spikes" type="Area2D" parent="Spikes"]
 collision_layer = 0
@@ -116,7 +116,7 @@ monitorable = false
 script = ExtResource( 7 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/Spikes"]
-position = Vector2( 1052, 308 )
+position = Vector2( 1052, 140 )
 shape = SubResource( 17 )
 
 [connection signal="body_shape_entered" from="Spikes/Spikes" to="Spikes/Spikes" method="_on_Spikes_body_shape_entered"]
