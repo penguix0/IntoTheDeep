@@ -1764,3 +1764,24 @@ points = PoolVector2Array( 16, 48, 0, 48, 0, 16, 16, 16 )
 "shape_transform": Transform2D( 1, 0, 0, 1, 0, 0 )
 } ]
 70/z_index = 0
+71/name = "mainlev_build.png 71"
+71/texture = ExtResource( 1 )
+71/tex_offset = Vector2( 0, 0 )
+71/modulate = Color( 1, 1, 1, 1 )
+71/region = Rect2( 736, 288, 48, 16 )
+71/tile_mode = 2
+71/autotile/icon_coordinate = Vector2( 0, 0 )
+71/autotile/tile_size = Vector2( 16, 16 )
+71/autotile/spacing = 0
+71/autotile/occluder_map = [  ]
+71/autotile/navpoly_map = [  ]
+71/autotile/priority_map = [  ]
+71/autotile/z_index_map = [  ]
+71/occluder_offset = Vector2( 0, 0 )
+71/navigation_offset = Vector2( 0, 0 )
+71/shape_offset = Vector2( 0, 0 )
+71/shape_transform = Transform2D( 1, 0, 0, 1, 0, 0 )
+71/shape_one_way = false
+71/shape_one_way_margin = 0.0
+71/shapes = [  ]
+71/z_index = 0
