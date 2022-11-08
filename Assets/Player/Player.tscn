@@ -470,6 +470,7 @@ wait_time = 0.4
 one_shot = true
 
 [node name="jumpTimeOut" type="Timer" parent="."]
+wait_time = 0.1
 one_shot = true
 
 [node name="gatherInput" type="Node" parent="."]

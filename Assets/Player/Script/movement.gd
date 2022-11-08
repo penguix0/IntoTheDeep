@@ -101,6 +101,8 @@ func _process(delta):
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform
 		wasGroundedTimer.start()
 	
+	var old_jumping = jumping
+	
 	is_grounded = raycasts.is_grounded
 	on_ceiling = raycastUp.on_ceiling
 	
@@ -109,6 +111,9 @@ func _process(delta):
 
 	if raycasts.landing or on_ceiling:
 		jumping = false
+		
+	if old_jumping and not jumping:
+		jumpTimeOut.start()
 	
 	_apply_input(gatherInput.move_direction, delta)
 	
@@ -203,6 +208,9 @@ func _attack(delta, moveDirection):
 		## Start combo
 		## If up and attack are pressed at the same time
 		if gatherInput.up:
+			if jumpTimeOut.time_left > 0:
+				return
+			
 			currentAttack = "air_sword_2"
 			
 			if not attackTimer.started:
@@ -258,7 +266,7 @@ func _jump_after_leaving_platform():
 		if (not is_grounded and wasGroundedTimer.time_left > 0 and not jumping) and jumpTimeOut.time_left == 0:
 			jump()
 		## If the player is on the ground
-		elif is_grounded:
+		elif is_grounded and jumpTimeOut.time_left <= 0:
 			jump()
 	
 func _limit_gravity():		
