@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Assets/Enemy/1/enemy.tscn" type="PackedScene" id=1]
 [ext_resource path="res://Assets/Maps/Assets/spacekey_tutorial.tscn" type="PackedScene" id=2]
@@ -7,6 +7,7 @@
 [ext_resource path="res://Assets/Light/fog.png" type="Texture" id=5]
 [ext_resource path="res://Assets/Light/default_env.png" type="Texture" id=6]
 [ext_resource path="res://Assets/Maps/Spikes.gd" type="Script" id=7]
+[ext_resource path="res://Assets/Maps/Assets/sword_up_tutorial.tscn" type="PackedScene" id=8]
 [ext_resource path="res://Assets/Light/fog.tres" type="Material" id=11]
 
 [sub_resource type="ParticlesMaterial" id=16]
@@ -24,12 +25,6 @@ color = Color( 0.278431, 0.329412, 0.698039, 1 )
 extents = Vector2( 45, 10 )
 
 [node name="Map01" type="Node"]
-
-[node name="spacekey_tutorial" parent="." instance=ExtResource( 2 )]
-frame = 1
-
-[node name="attack_tutorial" parent="." instance=ExtResource( 3 )]
-position = Vector2( 1145.3, 69.3975 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
 margin_left = 915.0
@@ -98,7 +93,7 @@ position = Vector2( 1201.07, 102.052 )
 position = Vector2( 1478.51, 127.164 )
 
 [node name="enemy3" parent="enemy" instance=ExtResource( 1 )]
-position = Vector2( 2042.38, 54.494 )
+position = Vector2( 2022, 65 )
 
 [node name="Spikes" type="Node" parent="."]
 
@@ -118,5 +113,16 @@ script = ExtResource( 7 )
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Spikes/Spikes"]
 position = Vector2( 1052, 140 )
 shape = SubResource( 17 )
+
+[node name="Tutorial" type="Node" parent="."]
+
+[node name="spacekey_tutorial" parent="Tutorial" instance=ExtResource( 2 )]
+frame = 1
+
+[node name="attack_tutorial" parent="Tutorial" instance=ExtResource( 3 )]
+position = Vector2( 1145.3, 69.3975 )
+
+[node name="attack_up_tutorial" parent="Tutorial" instance=ExtResource( 8 )]
+position = Vector2( 1963.96, 26.316 )
 
 [connection signal="body_shape_entered" from="Spikes/Spikes" to="Spikes/Spikes" method="_on_Spikes_body_shape_entered"]

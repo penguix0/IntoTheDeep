@@ -25,6 +25,7 @@ JumpHeight = 35
 remote_path = NodePath("../../Cameras/Camera2DScroller")
 
 [node name="Map" parent="." instance=ExtResource( 1 )]
+position = Vector2( -1, 0 )
 map_width_screens = 20
 start_room = 1
 
@@ -47,8 +48,10 @@ drag_margin_bottom = 0.4
 script = ExtResource( 5 )
 
 [node name="WinScreen" parent="." instance=ExtResource( 8 )]
+pause_mode = 2
 
 [node name="GameOverScreen" parent="." instance=ExtResource( 7 )]
+pause_mode = 2
 visible = false
 
 [connection signal="map_reposition_player" from="RoomManager" to="." method="_on_RoomManager_map_reposition_player"]
