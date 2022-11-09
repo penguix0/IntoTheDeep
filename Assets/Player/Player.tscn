@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/jump_end.tres" type="Animation" id=9]
-[ext_resource path="res://Assets/Audio/Player/landing.wav" type="AudioStream" id=10]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-2-00.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Player/Script/SpriteCollision.gd" type="Script" id=11]
 [ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
 [ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
@@ -27,7 +27,7 @@
 [ext_resource path="res://Assets/Player/Animations/air_sword_1.tres" type="Animation" id=25]
 [ext_resource path="res://Assets/Player/Animations/air_sword_3_loop.tres" type="Animation" id=26]
 [ext_resource path="res://Assets/Player/Animations/air_sword_2.tres" type="Animation" id=27]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-jump-04.png" type="Texture" id=28]
+[ext_resource path="res://Assets/Audio/Player/walking_concrete_5.wav" type="AudioStream" id=28]
 [ext_resource path="res://Assets/Player/Script/isGrounded.gd" type="Script" id=29]
 [ext_resource path="res://Assets/Player/Script/gatherInput.gd" type="Script" id=30]
 [ext_resource path="res://Assets/Player/Script/animation.gd" type="Script" id=31]
@@ -303,7 +303,7 @@ moveSpeed = 100
 runMultiplier = 1.75
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 10 )
+stream = ExtResource( 28 )
 volume_db = 6.0
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
@@ -315,6 +315,7 @@ script = ExtResource( 31 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 reset_on_save = false
+playback_speed = 0.3
 anims/RESET = SubResource( 111 )
 anims/air_sword_1 = ExtResource( 25 )
 anims/air_sword_2 = ExtResource( 27 )
@@ -367,7 +368,7 @@ one_shot = true
 [node name="body" type="Node2D" parent="."]
 
 [node name="Sprite" type="Sprite" parent="body"]
-texture = ExtResource( 28 )
+texture = ExtResource( 10 )
 script = ExtResource( 11 )
 
 [node name="raycasts" type="Node2D" parent="."]
