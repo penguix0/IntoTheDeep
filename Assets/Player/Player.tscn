@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/jump_end.tres" type="Animation" id=9]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-attack3-04.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-2-03.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
 [ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
 [ext_resource path="res://Assets/Player/Animations/run.tres" type="Animation" id=14]
@@ -347,16 +347,15 @@ wait_time = 0.015
 one_shot = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, -1 )
+position = Vector2( 0, 2 )
 shape = SubResource( 1 )
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 10 )
-offset = Vector2( 4, 0 )
 
 [node name="raycasts" type="Node2D" parent="."]
-position = Vector2( -2, -3 )
-scale = Vector2( 0.75, 1 )
+position = Vector2( 0, -3 )
+scale = Vector2( 0.5, 1 )
 script = ExtResource( 29 )
 
 [node name="left" type="RayCast2D" parent="raycasts"]
@@ -373,6 +372,16 @@ cast_to = Vector2( 0, 1 )
 position = Vector2( 10, 20 )
 enabled = true
 cast_to = Vector2( 0, 2 )
+
+[node name="RayCast2D" type="RayCast2D" parent="raycasts"]
+position = Vector2( 12.5, 17.5 )
+enabled = true
+cast_to = Vector2( 1, 1 )
+
+[node name="RayCast2D2" type="RayCast2D" parent="raycasts"]
+position = Vector2( -12.5, 17.5 )
+enabled = true
+cast_to = Vector2( -1, 1 )
 
 [node name="raycastUp" type="Node2D" parent="."]
 visible = false
