@@ -145,12 +145,13 @@ shape = SubResource( 18 )
 [node name="Tutorial" type="Node" parent="."]
 
 [node name="spacekey_tutorial" parent="Tutorial" instance=ExtResource( 2 )]
-frame = 1
 
 [node name="attack_tutorial" parent="Tutorial" instance=ExtResource( 3 )]
 position = Vector2( 1145.3, 69.3975 )
+frame = 0
 
 [node name="attack_up_tutorial" parent="Tutorial" instance=ExtResource( 8 )]
 position = Vector2( 1963.96, 26.316 )
+frame = 1
 
 [connection signal="body_shape_entered" from="Spikes/Spikes" to="Spikes/Spikes" method="_on_Spikes_body_shape_entered"]

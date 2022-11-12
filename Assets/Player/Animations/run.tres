@@ -15,7 +15,7 @@ resource_name = "run"
 length = 0.6
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("body/Sprite:texture")
+tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -39,19 +39,19 @@ tracks/1/keys = {
 "values": [ 0.9 ]
 }
 tracks/2/type = "value"
-tracks/2/path = NodePath("CollisionWidth:disabled")
+tracks/2/path = NodePath("AudioStreamPlayer2D:stream")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/imported = false
 tracks/2/enabled = true
 tracks/2/keys = {
-"times": PoolRealArray( 0 ),
-"transitions": PoolRealArray( 1 ),
+"times": PoolRealArray( 0.1, 0.4 ),
+"transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ false ]
+"values": [ ExtResource( 12 ), ExtResource( 9 ) ]
 }
 tracks/3/type = "value"
-tracks/3/path = NodePath("AudioStreamPlayer2D:stream")
+tracks/3/path = NodePath("AudioStreamPlayer2D:playing")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/imported = false
@@ -60,17 +60,29 @@ tracks/3/keys = {
 "times": PoolRealArray( 0.1, 0.4 ),
 "transitions": PoolRealArray( 1, 1 ),
 "update": 1,
-"values": [ ExtResource( 12 ), ExtResource( 9 ) ]
+"values": [ true, true ]
 }
 tracks/4/type = "value"
-tracks/4/path = NodePath("AudioStreamPlayer2D:playing")
+tracks/4/path = NodePath("raycasts:position")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/imported = false
 tracks/4/enabled = true
 tracks/4/keys = {
-"times": PoolRealArray( 0.1, 0.4 ),
-"transitions": PoolRealArray( 1, 1 ),
-"update": 1,
-"values": [ true, true ]
+"times": PoolRealArray( 0, 0.1, 0.4, 0.6 ),
+"transitions": PoolRealArray( 1, 1, 1, 1 ),
+"update": 0,
+"values": [ Vector2( 0, -3 ), Vector2( 3, -3 ), Vector2( 4, -3 ), Vector2( 2, -3 ) ]
+}
+tracks/5/type = "value"
+tracks/5/path = NodePath("raycasts:scale")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 1 ) ]
 }

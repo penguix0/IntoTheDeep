@@ -18,11 +18,6 @@ func _check_if_landed():
 	else:
 		if !landing:
 			landing = true
-				
-			## Prevents the player from jumping every 0 seconds
-			jumpTimeOut.wait_time = jump_time_out
-			jumpTimeOut.start()
-	
 
 func _check_is_grounded():
 	for raycast in get_children():

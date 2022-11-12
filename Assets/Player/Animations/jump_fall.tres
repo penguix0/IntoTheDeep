@@ -8,7 +8,7 @@ resource_name = "jump_fall"
 length = 0.2
 loop = true
 tracks/0/type = "value"
-tracks/0/path = NodePath("body/Sprite:texture")
+tracks/0/path = NodePath("Sprite:texture")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/imported = false
@@ -30,4 +30,28 @@ tracks/1/keys = {
 "transitions": PoolRealArray( 1 ),
 "update": 0,
 "values": [ 0.6 ]
+}
+tracks/2/type = "value"
+tracks/2/path = NodePath("raycasts:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 4, -7 ) ]
+}
+tracks/3/type = "value"
+tracks/3/path = NodePath("raycasts:scale")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 0,
+"values": [ Vector2( 0.5, 1 ) ]
 }

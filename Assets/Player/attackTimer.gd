@@ -3,7 +3,6 @@ extends Timer
 var started = false
 export(float) var attackTimeOut = 0.2
 onready var timeOutTimer = $timeOut
-onready var comboTimer = $"../comboTimer"
 var timeOutTimerStarted = false
 
 func start_timer(time):
@@ -23,8 +22,6 @@ func _on_attackTimer_timeout():
 	started = false
 	timeOutTimer.start()
 	timeOutTimerStarted = true
-	
-	comboTimer.start()
 
 func _on_timeOut_timeout():
 	timeOutTimerStarted = false

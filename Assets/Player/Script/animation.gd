@@ -4,10 +4,12 @@ onready var player = get_parent()
 onready var gatherInput = $"../gatherInput"
 onready var raycasts = $"../raycasts"
 onready var walkingDust = $"../walkingParticles"
-onready var body = $"../body"
-onready var attackTimer = $"../attackTimer"
-onready var jumpTimeOut = $"../jumpTimeOut"
+onready var body = $"../Sprite"
 onready var ghostTimer = $"../ghostTimer"
+
+onready var swordBlood_timeOut = $"../swordBlood/timeOut"
+onready var swordBlood = $"../swordBlood"
+onready var sword_hitbox = $"../sword_hitbox"
 
 var emitGhost : bool
 var ghost
@@ -22,7 +24,7 @@ var walking : bool
 var crouching : bool
 
 var attacking : bool
-var current_attack
+var currentAttack = ""
 
 var jumping : bool
 var is_grounded : bool
@@ -42,7 +44,8 @@ func _process(_delta):
 	_update_vars()
 	_rotate_player(gatherInput.move_direction)
 	_play_animations(gatherInput.move_direction)
-
+	##_rotate_hitbox(gatherInput.move_direction)
+	_play_attack_animations(gatherInput.last_move_direction)
 	was_sword_out = sword_out
 	
 func _update_vars():
@@ -53,13 +56,35 @@ func _update_vars():
 	crouching = gatherInput.crouching
 	
 	attacking = player.attacking
-	current_attack = player.currentAttack
+	currentAttack = player.currentAttack
 	
 	jumping = player.jumping
 
 	is_grounded = raycasts.is_grounded
+	
+func _play_attack_animations(last_move_direction):
+	if not player.attacking:
+		return
+	
+	if sword_hitbox.area_entered == null:
+		return
+	
+	if swordBlood_timeOut.time_left > 0:
+		swordBlood.emitting = false
+		return
+	else:
+		swordBlood_timeOut.start()
 
-func _play_animations(move_direction):
+	swordBlood.global_position = sword_hitbox.area_entered.global_position
+
+	if last_move_direction > 0:
+		swordBlood.scale.x = -1
+	elif last_move_direction < 0:
+		swordBlood.scale.x = 1
+
+	swordBlood.emitting = true
+
+func _play_animations(move_direction : float):
 	## Switch of by default
 	walkingDust.emitting = false
 	if not move_direction == 0 and is_grounded: 
@@ -89,30 +114,22 @@ func _play_animations(move_direction):
 			state_machine.travel("jump_mid_air")
 		
 	if attacking:
-		if current_attack == "air_sword_3":
+		if currentAttack == "air_sword_3":
 			state_machine.travel("air_sword_3_loop")
 
 			## Start to emit ghosts
 			emitGhost = true
 			ghostTimer.start()
+		elif currentAttack == "air_sword_3_end":
+			emitGhost = false
 
-			## When hitting the ground
-			if is_grounded:
-				emitGhost = false
-
-				attackTimer.stop_timer()
-				state_machine.travel("air_sword_3_end")
+			state_machine.travel("air_sword_3_end")
 
 				## add impact by shaking the screen
 				## Duration, frequency, amplitude, priority
 				#camera.ScreenShake.start(0.3, 15, 10, 1)
-
-				## Prevents the player from jumping while the end animation is still playing
-				jumpTimeOut.wait_time = jump_time_out
-				jumpTimeOut.start()
-
 		else:
-			state_machine.travel(current_attack)
+			state_machine.travel(currentAttack)
 	
 func _rotate_player(move_direction : float):
 	## Flip the sprite if going left
@@ -121,14 +138,15 @@ func _rotate_player(move_direction : float):
 	elif move_direction < 0:
 		body.scale.x = -abs(body.scale.x)
 
-
 func _on_ghostTimer_timeout():
 	if emitGhost:
 		ghostTimer.start()
 	
 	var instance = ghost.instance()
 	instance.scale.x = body.scale.x
-	instance.texture = $"../body/Sprite".texture
+	instance.texture = $"../Sprite".texture
 	instance.position = player.position
 	
 	player.get_parent().add_child(instance)
+
+		

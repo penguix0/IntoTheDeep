@@ -15,6 +15,7 @@ var attack_request : bool
 var sword_out : bool
 
 onready var swordOutTimer = $"../swordOutTimer"
+onready var attackPressedTimeOut = $"../attackPressedTimeOut"
 
 func _physics_process(_delta):
 	_get_input()
@@ -43,8 +44,9 @@ func _get_input():
 
 	## Get input for attacking
 	attack_request = false
-	if Input.is_action_pressed(str(controller)+"_attack"):
+	if Input.is_action_pressed(str(controller)+"_attack") and attackPressedTimeOut.time_left <= 0:
 		attack_request = true
+		attackPressedTimeOut.start()
 
 	up = false
 	if Input.is_action_pressed(str(controller)+"_up"):
