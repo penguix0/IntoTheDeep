@@ -401,6 +401,7 @@ wait_time = 0.1
 one_shot = true
 
 [node name="staminaBar" type="TextureProgress" parent="."]
+visible = false
 margin_left = -17.5
 margin_top = -26.773
 margin_right = 82.5
