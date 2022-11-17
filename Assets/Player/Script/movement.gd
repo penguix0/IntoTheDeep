@@ -152,6 +152,11 @@ func _apply_input(input, delta):
 		attacking = _attack(input)
 	elif not attacking:
 		currentAttack = ""
+		attacking = false
+	
+	if currentAttack == "":
+		attacking = false
+	
 	_deal_damage()
 		
 	if input.jump:
@@ -239,13 +244,13 @@ func _ground_attack(input):
 	return
 	
 func _air_attack(input):
-	if input.down:
-		currentAttack = "air_sword_3"
-
-		# If the player is doing a downwards attack he can't go up:
-		if velocity.y < 0:
-			velocity.y = 0
-		return
+#	if input.down:
+#		currentAttack = "air_sword_3"
+#
+#		# If the player is doing a downwards attack he can't go up:
+#		if velocity.y < 0:
+#			velocity.y = 0
+#		return
 	
 	currentAttack = "air_sword_1"
 	

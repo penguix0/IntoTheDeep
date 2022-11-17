@@ -9,7 +9,7 @@
 [ext_resource path="res://Assets/Player/Animations/staminaBar_disappear.tres" type="Animation" id=7]
 [ext_resource path="res://Assets/Player/Script/staminaBar.gd" type="Script" id=8]
 [ext_resource path="res://Assets/Player/Animations/jump_end.tres" type="Animation" id=9]
-[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-idle-2-03.png" type="Texture" id=10]
+[ext_resource path="res://Assets/Player/Sprite/Individual Sprites/adventurer-attack3-05.png" type="Texture" id=10]
 [ext_resource path="res://Assets/Player/Script/Label.gd" type="Script" id=11]
 [ext_resource path="res://Assets/Player/Animations/idle_sword.tres" type="Animation" id=12]
 [ext_resource path="res://Assets/Player/Animations/walk.tres" type="Animation" id=13]
@@ -311,7 +311,6 @@ collision_layer = 10
 script = ExtResource( 1 )
 moveSpeed = 100
 runMultiplier = 1.75
-currentAttack = "air_sword_3_end"
 
 [node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource( 28 )
@@ -359,8 +358,8 @@ shape = SubResource( 1 )
 texture = ExtResource( 10 )
 
 [node name="raycasts" type="Node2D" parent="."]
-position = Vector2( 0, -3 )
-scale = Vector2( 0.5, 1 )
+position = Vector2( -2, -3 )
+scale = Vector2( 1e-05, 1 )
 script = ExtResource( 29 )
 
 [node name="left" type="RayCast2D" parent="raycasts"]

@@ -63,7 +63,7 @@ func _update_vars():
 	is_grounded = raycasts.is_grounded
 	
 func _play_attack_animations(last_move_direction):
-	if not player.attacking:
+	if not player.attacking or player.currentAttack == "":
 		return
 	
 	if sword_hitbox.area_entered == null:
