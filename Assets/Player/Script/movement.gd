@@ -56,6 +56,8 @@ export(int) var health = 100
 
 var stateMachine
 
+var end : bool = false
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	##AnimPlayer.play("idle")
@@ -79,6 +81,9 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _physics_process(delta):
+	if end:
+		gatherInput.blockInput = true
+	
 	## If the player was on the ground and is not anymore
 	if is_grounded and not raycasts.is_grounded:
 		wasGroundedTimer.wait_time = jumpTimeOffPlatform

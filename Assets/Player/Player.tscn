@@ -512,6 +512,7 @@ script = ExtResource( 36 )
 [node name="Label" type="Label" parent="CanvasLayer/health/CenterContainer/list"]
 margin_bottom = 13.0
 custom_fonts/font = SubResource( 125 )
+align = 3
 script = ExtResource( 11 )
 
 [node name="Timer" type="Timer" parent="CanvasLayer/health/CenterContainer/list/Label"]

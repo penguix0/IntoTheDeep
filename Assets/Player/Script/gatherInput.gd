@@ -10,6 +10,7 @@ var down : bool
 var running : bool
 var move_direction : float
 var last_move_direction : float
+var blockInput : bool = false
 
 var attack_request : bool
 var sword_out : bool
@@ -18,7 +19,18 @@ onready var swordOutTimer = $"../swordOutTimer"
 onready var attackPressedTimeOut = $"../attackPressedTimeOut"
 
 func _physics_process(_delta):
-	_get_input()
+	if not blockInput:
+		_get_input()
+	else:
+		crouching = false
+		up = false
+		jump = false
+		just_jumped = false
+		down = false
+		running = false
+		move_direction = 0
+		last_move_direction = 0
+		attack_request = false
 
 func _get_input():
 	var left = int(Input.is_action_pressed(str(controller)+"_left"))
