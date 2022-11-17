@@ -8,7 +8,7 @@ var jump : bool
 var just_jumped : bool
 var down : bool
 var running : bool
-var move_direction : float
+export(float) var move_direction
 var last_move_direction : float
 var blockInput : bool = false
 

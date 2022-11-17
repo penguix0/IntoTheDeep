@@ -55,7 +55,6 @@ var ghost
 export(int) var health = 100
 
 var stateMachine
-
 var end : bool = false
 
 # Called when the node enters the scene tree for the first time.
@@ -83,6 +82,9 @@ func _ready():
 func _physics_process(delta):
 	if end:
 		gatherInput.blockInput = true
+		get_tree().get_current_scene().win = true
+
+		$CanvasLayer/health/CenterContainer/list/Label.stop = true
 	
 	## If the player was on the ground and is not anymore
 	if is_grounded and not raycasts.is_grounded:

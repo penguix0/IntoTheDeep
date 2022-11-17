@@ -1,3 +1,95 @@
-[gd_scene format=2]
+[gd_scene load_steps=12 format=2]
+
+[ext_resource path="res://Assets/Font/m5x7/m5x7_dynamicfontdata.tres" type="DynamicFontData" id=1]
+[ext_resource path="res://Assets/Font/m5x7/m5x7_dynamicfont.tres" type="DynamicFont" id=2]
+[ext_resource path="res://Assets/Script/WinScreen.gd" type="Script" id=3]
+[ext_resource path="res://Assets/Scene/appear_win_screen.tres" type="Animation" id=4]
+[ext_resource path="res://Assets/Scene/start_win_screen.tres" type="Animation" id=5]
+
+[sub_resource type="DynamicFont" id=1]
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=2]
+bg_color = Color( 1, 0, 0, 1 )
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=3]
+bg_color = Color( 1, 1, 1, 1 )
+border_color = Color( 1, 0, 0, 1 )
+anti_aliasing = false
+
+[sub_resource type="StyleBoxFlat" id=4]
+anti_aliasing = false
+
+[sub_resource type="DynamicFont" id=5]
+font_data = ExtResource( 1 )
+
+[sub_resource type="StyleBoxFlat" id=6]
+bg_color = Color( 1, 1, 1, 1 )
 
 [node name="WinScreen" type="CanvasLayer"]
+script = ExtResource( 3 )
+
+[node name="Node2D" type="Node2D" parent="."]
+modulate = Color( 1, 1, 1, 0 )
+
+[node name="ColorRect" type="ColorRect" parent="Node2D"]
+margin_right = 320.0
+margin_bottom = 180.0
+color = Color( 0, 0, 0, 1 )
+
+[node name="MarginContainer" type="MarginContainer" parent="Node2D"]
+margin_left = 7.0
+margin_top = -13.0
+margin_right = 313.0
+margin_bottom = 173.0
+custom_constants/margin_right = 0
+custom_constants/margin_top = 0
+custom_constants/margin_left = 0
+custom_constants/margin_bottom = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="Node2D/MarginContainer"]
+margin_right = 306.0
+margin_bottom = 186.0
+
+[node name="Rows" type="VBoxContainer" parent="Node2D/MarginContainer/CenterContainer"]
+margin_left = 96.0
+margin_top = 57.0
+margin_right = 209.0
+margin_bottom = 129.0
+
+[node name="Label" type="Label" parent="Node2D/MarginContainer/CenterContainer/Rows"]
+margin_right = 113.0
+margin_bottom = 32.0
+custom_fonts/font = ExtResource( 2 )
+text = "YOU WIN!"
+align = 1
+uppercase = true
+
+[node name="Start_over" type="Button" parent="Node2D/MarginContainer/CenterContainer/Rows"]
+margin_top = 36.0
+margin_right = 113.0
+margin_bottom = 49.0
+custom_fonts/font = SubResource( 1 )
+custom_styles/hover = SubResource( 2 )
+custom_styles/focus = SubResource( 3 )
+custom_styles/normal = SubResource( 4 )
+text = "Start over"
+flat = true
+
+[node name="Quit" type="Button" parent="Node2D/MarginContainer/CenterContainer/Rows"]
+margin_top = 53.0
+margin_right = 113.0
+margin_bottom = 72.0
+custom_fonts/font = SubResource( 5 )
+custom_styles/focus = SubResource( 6 )
+text = "Quit"
+flat = true
+icon_align = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/appear = ExtResource( 4 )
+anims/start = ExtResource( 5 )
+
+[connection signal="pressed" from="Node2D/MarginContainer/CenterContainer/Rows/Start_over" to="." method="_on_Start_over_pressed"]
+[connection signal="pressed" from="Node2D/MarginContainer/CenterContainer/Rows/Quit" to="." method="_on_Quit_pressed"]

@@ -21,6 +21,7 @@ onready var _map_controller:Node2D=$Map
 onready var _room_manager:Node2D=$RoomManager
 
 var game_over : bool = false
+var win : bool = false
 
 func _ready() -> void:
 	#if using HUD then configure_game needs to be called
@@ -81,3 +82,5 @@ func _on_Map_scroll_end(position:Vector2) -> void:
 func _process(delta):
 	if self.game_over:
 		$GameOverScreen.appear()
+	if self.win:
+		$WinScreen.appear()
