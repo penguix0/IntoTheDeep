@@ -132,16 +132,12 @@ func set_navigation_system(viewport_size:Vector2,offscreen_gap:int):
 func _exit_tree():
 	Global.camera = null
 
-func _on_RoomNavigation_body_exited(body):
+func _on_RoomNavigation_body_exited(_body):
 	pass
 
 
 func _on_roomTimeOut_timeout():
 	return
-	## If the room was changed but the player is not in the room, the camera needs to travel back
-	if not player_in_camera_view:
-		travel_back()
-
 
 func _on_lockRoomTimer_timeout():
 	blockers[0].set_deferred("disabled",exits[0])
@@ -150,11 +146,11 @@ func _on_lockRoomTimer_timeout():
 	blockers[3].set_deferred("disabled",exits[3])
 	print("Setting exits as follows (u,d,l,r) %s,%s,%s,%s" % [exits[0],exits[1],exits[2],exits[3]])
 
-func _on_playerValidator_area_shape_entered(area_rid, area, area_shape_index, local_shape_index):
+func _on_playerValidator_area_shape_entered(_area_rid, area, _area_shape_index, _local_shape_index):
 	if is_player(area.name):
 		player_in_camera_view = true
 		
-func _on_playerValidator_area_shape_exited(area_rid, area, area_shape_index, local_shape_index):
+func _on_playerValidator_area_shape_exited(_area_rid, area, _area_shape_index, _local_shape_index):
 	if is_player(area.name):
 		player_in_camera_view = false
 			

@@ -349,4 +349,4 @@ func set_camera_scrolling(tl:Vector2,br:Vector2,force_transition):
 	if force_transition:
 		var speed=0.5 if force_transition else 0.0
 		#if game jumps then area for map is set wrong
-		change_room(_current_room,ROOM_TRANSITION.SLIDE,0.5,force_transition)
+		change_room(_current_room,ROOM_TRANSITION.SLIDE,speed,force_transition)

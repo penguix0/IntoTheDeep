@@ -99,7 +99,7 @@ func _physics_process(delta):
 	
 	_apply_gravity(delta) 
 	
-	_apply_input(gatherInput, delta)
+	_apply_input(gatherInput)
 	
 	_move(gatherInput.move_direction)
 	
@@ -153,7 +153,7 @@ func _check_if_jumping_possible():
 		
 	return false
 
-func _apply_input(input, delta):
+func _apply_input(input):
 	## Attacking
 	if input.attack_request and not attacking:
 		attacking = _attack(input)
@@ -250,7 +250,7 @@ func _ground_attack(input):
 	## In case none of these executed
 	return
 	
-func _air_attack(input):
+func _air_attack(_input):
 #	if input.down:
 #		currentAttack = "air_sword_3"
 #
@@ -279,7 +279,6 @@ func _move(moveDirection):
 	if running:
 		var speed = moveDirection * moveSpeed * runMultiplier
 		if is_grounded:
-			moveSpeed * runMultiplier
 			velocity.x = lerp(velocity.x, speed, acceleration)
 		else:
 			velocity.x = lerp(velocity.x, speed * moveSpeedAir, acceleration)
@@ -291,7 +290,7 @@ func _move(moveDirection):
 			velocity.x = lerp(velocity.x, speed * moveSpeedAir, acceleration)
 	
 
-func _shake(duration = 0.2, frequency = 15, amplitude = 16, priority = 0, delay = 0):
+func _shake(_duration = 0.2, _frequency = 15, _amplitude = 16, _priority = 0, _delay = 0):
 	pass
 	#$Camera2D/ScreenShake.start(duration, frequency, amplitude, priority, delay)
 	

@@ -17,8 +17,6 @@ var ghost
 var sword_out : bool
 var was_sword_out : bool
 
-var last_move_direction : bool
-
 var running : bool
 var walking : bool
 var crouching : bool

@@ -20,4 +20,5 @@ func _on_Quit_pressed():
 
 func _on_Start_over_pressed():
 	if self.appeared:
+		# warning-ignore:return_value_discarded
 		get_tree().change_scene("res://Assets/Scene/Main.tscn")

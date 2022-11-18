@@ -36,7 +36,7 @@ func _ready():
 		hearts_array.append(instance)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	## Update hearts
 	if not player.health == health:
 		## calculate health hearts left

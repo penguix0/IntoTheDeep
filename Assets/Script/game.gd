@@ -79,7 +79,7 @@ func _on_Map_scroll_start(tl:Vector2, br:Vector2) -> void:
 func _on_Map_scroll_end(position:Vector2) -> void:
 	_room_manager.set_camera_flip(position,true)
 
-func _process(delta):
+func _process(_delta):
 	if self.game_over:
 		$GameOverScreen.appear()
 	if self.win:
