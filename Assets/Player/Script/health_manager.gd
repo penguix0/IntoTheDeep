@@ -65,3 +65,6 @@ func _process(_delta):
 	
 	## Update player health
 	health = player.health
+	
+	if player.health <= 0:
+		Global.player_dead = true

@@ -24,10 +24,12 @@ func _on_notice_body_entered(body):
 		if not notice_played:
 			sprite_animPlayer.play("notice")
 			notice_played = true
+			Global.play_exciting = true
 
 func _on_notice_body_exited(body):
 	if if_player(body.name):
 		notice_played = false
+		Global.play_exciting = false
 
 func if_player(name):	
 	if name == Global.player1_name or name == Global.player2_name or name == Global.player3_name or name == Global.player4_name:

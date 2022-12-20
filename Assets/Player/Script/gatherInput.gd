@@ -56,9 +56,11 @@ func _get_input():
 
 	## Get input for attacking
 	attack_request = false
+	Global.play_beat_at_higher_volume = false
 	if Input.is_action_pressed(str(controller)+"_attack") and attackPressedTimeOut.time_left <= 0:
 		attack_request = true
 		attackPressedTimeOut.start()
+		Global.play_beat_at_higher_volume = true
 
 	up = false
 	if Input.is_action_pressed(str(controller)+"_up"):

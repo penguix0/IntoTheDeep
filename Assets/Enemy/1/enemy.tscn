@@ -52,7 +52,7 @@ script = ExtResource( 3 )
 position = Vector2( 8.2, 0 )
 frames = ExtResource( 1 )
 animation = "death"
-frame = 4
+frame = 1
 speed_scale = 2.0
 playing = true
 flip_h = true
@@ -77,7 +77,6 @@ enabled = true
 cast_to = Vector2( 0, 2 )
 
 [node name="enemyDetectionZone" type="Node2D" parent="."]
-visible = false
 position = Vector2( 8.5, 1.5 )
 script = ExtResource( 4 )
 
